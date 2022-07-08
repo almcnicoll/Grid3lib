@@ -11,6 +11,11 @@ namespace Grid3lib
         private List<PageRow> Rows = new List<PageRow>();
         public Guid? PageId = null;
 
+        /// <summary>
+        /// Creates a new Page in the specified parent GridSet
+        /// </summary>
+        /// <param name="parent">The GridSet to which the page should be attached</param>
+        /// <param name="isHomePage">Whether this grid is the home page of the parent</param>
         public Page(GridSet parent, bool isHomePage = false)
         {
             this.PageId = Guid.NewGuid();
@@ -19,7 +24,10 @@ namespace Grid3lib
             if (isHomePage) { this.Parent.Homepage = this; }
         }
 
-        public void Populate()
+        /// <summary>
+        /// Populates the Page with the right number of blank cells
+        /// </summary>
+        void Populate()
         {
             for (int c = 0; c < this.Parent.ColumnCount; c++)
             {
@@ -34,11 +42,21 @@ namespace Grid3lib
             }
         }
 
+        /// <summary>
+        /// Returns a single cell from the page
+        /// </summary>
+        /// <param name="Column">The column from which to retrieve</param>
+        /// <param name="Row">The row from which to retrieve</param>
+        /// <returns></returns>
         public Cell GetCell(int Column, int Row)
         {
             return Columns[Column].Cells[Row];
         }
 
+        /// <summary>
+        /// Returns the XML for this page, ready for compression into the GridSet file
+        /// </summary>
+        /// <returns></returns>
         public string GetXml()
         {
             string colDefs = "\n" + "<ColumnDefinition />\n".Repeat(Parent.ColumnCount);

@@ -4,9 +4,11 @@ using System.Text;
 
 namespace Grid3lib
 {
+    /// <summary>
+    /// Holds a row of <see cref="Cell"/>
+    /// </summary>
     public class PageRow
     {
-        // TODO - Constructor?
         public List<Cell> Cells;
     }
 }

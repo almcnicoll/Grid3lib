@@ -22,6 +22,14 @@ namespace Grid3lib
         public int Column = 0;
         public int Row = 0;
 
+        /// <summary>
+        /// Creates a new cell with the specified attributes
+        /// </summary>
+        /// <param name="parent">The page to which the cell belongs</param>
+        /// <param name="column">The column on which the cell is located</param>
+        /// <param name="row">The row on which the cell is located</param>
+        /// <param name="label">The cell's label</param>
+        /// <param name="icon">The cell's icon</param>
         public Cell(Page parent, int column, int row, string label, string? icon = null)
         {
             this.Parent = parent;
@@ -32,7 +40,11 @@ namespace Grid3lib
             }
         }
 
-        public function getXml(): string
+        /// <summary>
+        /// Returns the XML for this cell, ready for compression into the GridSet file
+        /// </summary>
+        /// <returns></returns>
+        public string getXml()
         {
             // Commands
             $commands = '';

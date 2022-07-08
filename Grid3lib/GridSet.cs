@@ -13,9 +13,21 @@ namespace Grid3lib
         public Guid? GridSetId = null;
         public Page? Homepage = null;
 
+        /// <summary>
+        /// Creates a new GridSet
+        /// </summary>
         public GridSet()
         {
             this.GridSetId = Guid.NewGuid();
+        }
+        /// <summary>
+        /// Creates a new GridSet with the specified name
+        /// <paramref name="name">The name of the GridSet</paramref>
+        /// </summary>
+        public GridSet(string name)
+        {
+            this.GridSetId = Guid.NewGuid();
+            this.Name = name;
         }
     }
 
