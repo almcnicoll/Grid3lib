@@ -22,5 +22,84 @@ namespace Grid3lib
         public int Column = 0;
         public int Row = 0;
 
+        public Cell(Page parent, int column, int row, string label, string? icon = null)
+        {
+            this.Parent = parent;
+            this.Label = label;
+            if (icon != null)
+            {
+                this.Icon = icon;
+            }
+        }
+
+        public function getXml(): string
+        {
+            // Commands
+            $commands = '';
+            if (!empty($this->commands)) {
+                $commands.= "<Commands>\n";
+                foreach ($this->commands as $command) {
+                    if (empty($command->parameters)) {
+                        $commands.= "<Command ID=\"{$command->action}\" />\n";
+                    } else {
+                        $commands.= "<Command ID=\"{$command->action}\">\n";
+                        foreach ($command->parameters as $parameter) {
+                            $commands.= "<Parameter Key=\"{$parameter->key}\">{$parameter->value}</Parameter>\n";
+                        }
+                    }
+                }
+                $commands.= "</Commands>\n";
+            }
+
+            // Image
+            $image = '';
+if (empty($this->image))
+{
+    if (!empty($this->icon))
+    {
+                    $image = "<Image>{$this->icon}</Image>";
+    }
+}
+else
+{
+                $image = "<Image>{$this->image}</Image>";
+}
+
+            // Style
+            $style = '';
+if (empty($this->baseStyle))
+{
+$style = "<BasedOnStyle>Default</BasedOnStyle>";
+}
+else
+{
+                $style = "<BasedOnStyle>{$this->baseStyle}</BasedOnStyle>";
+}
+
+            $xml = <<< END_XML
+            < Cell X = "{$this->col}" Y = "{$this->row}" >
+
+
+               < Content >
+              {$commands}
+              < CaptionAndImage >
+                < Caption >{$this->label}</ Caption >
+                {$image}
+              </ CaptionAndImage >
+              < Style >
+                < BasedOnStyle > Default </ BasedOnStyle >
+                < TileColour >{$this->backColor}</ TileColour >
+
+
+                </ Style >
+
+
+              </ Content >
+
+
+            </ Cell >
+  END_XML;
+return $xml;
+        }
     }
 }
