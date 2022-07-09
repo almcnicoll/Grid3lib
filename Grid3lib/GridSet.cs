@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Grid3lib
 {
+    /// <summary>
+    /// Represents a GridSet
+    /// </summary>
     public class GridSet
     {
         public string? Name = null;

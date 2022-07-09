@@ -16,7 +16,7 @@ namespace Grid3lib
         public Color TextColor = Color.FromArgb(255, Color.Black); //'#FF000000'; // #AARRGGBB
         public Color BorderColor = Color.FromArgb(255, Color.Black); //'#FF000000'; // #AARRGGBB
         public String BaseStyle = "";
-        public string Action = "";
+        public List<Command> Commands = new List<Command>(); //string Action = "";
         public string SpeakText = "";
         public string WriteText = "";
         public int Column = 0;
@@ -47,71 +47,68 @@ namespace Grid3lib
         public string getXml()
         {
             // Commands
-            $commands = '';
-            if (!empty($this->commands)) {
-                $commands.= "<Commands>\n";
-                foreach ($this->commands as $command) {
-                    if (empty($command->parameters)) {
-                        $commands.= "<Command ID=\"{$command->action}\" />\n";
-                    } else {
-                        $commands.= "<Command ID=\"{$command->action}\">\n";
-                        foreach ($command->parameters as $parameter) {
-                            $commands.= "<Parameter Key=\"{$parameter->key}\">{$parameter->value}</Parameter>\n";
+            String commandsXml = "";
+            if (Commands.Count > 0)
+            {
+                commandsXml+= "<Commands>\n";
+                foreach (Command command in Commands)
+                {
+                    if (command.Parameters.Count==0)
+                    {
+                        commandsXml+= $"<Command ID=\"{command.Action}\" />\n";
+                    }
+                    else
+                    {
+                        commandsXml+= $"<Command ID=\"{command.Action}\">\n";
+                        foreach (KeyValuePair<string,string> parameter in command.Parameters)
+                        {
+                            commandsXml+= $"<Parameter Key=\"{parameter.Key}\">{parameter.Value}</Parameter>\n";
                         }
                     }
                 }
-                $commands.= "</Commands>\n";
+                commandsXml+= "</Commands>\n";
             }
 
             // Image
-            $image = '';
-if (empty($this->image))
-{
-    if (!empty($this->icon))
-    {
-                    $image = "<Image>{$this->icon}</Image>";
-    }
-}
-else
-{
-                $image = "<Image>{$this->image}</Image>";
-}
+            string imageXml = "";
+            if (String.IsNullOrEmpty(Picture))
+            {
+                if (String.IsNullOrEmpty(Icon))
+                {
+                    imageXml = $"<Image>{Icon}</Image>";
+                }
+            }
+            else
+            {
+                imageXml = $"<Image>{Picture}</Image>";
+            }
 
             // Style
-            $style = '';
-if (empty($this->baseStyle))
-{
-$style = "<BasedOnStyle>Default</BasedOnStyle>";
-}
-else
-{
-                $style = "<BasedOnStyle>{$this->baseStyle}</BasedOnStyle>";
-}
+            String styleXml = "";
+            if (String.IsNullOrEmpty(BaseStyle))
+            {
+                styleXml = "<BasedOnStyle>Default</BasedOnStyle>";
+            }
+            else
+            {
+                styleXml = $"<BasedOnStyle>{BaseStyle}</BasedOnStyle>";
+            }
 
-            $xml = <<< END_XML
-            < Cell X = "{$this->col}" Y = "{$this->row}" >
-
-
-               < Content >
-              {$commands}
-              < CaptionAndImage >
-                < Caption >{$this->label}</ Caption >
-                {$image}
-              </ CaptionAndImage >
-              < Style >
-                < BasedOnStyle > Default </ BasedOnStyle >
-                < TileColour >{$this->backColor}</ TileColour >
-
-
-                </ Style >
-
-
-              </ Content >
-
-
-            </ Cell >
-  END_XML;
-return $xml;
+            String xml = $@"            <Cell X=""{Column}"" Y=""{Row}"">
+            <Content>
+              {commandsXml}
+              <CaptionAndImage>
+                <Caption>{Label}</Caption>
+                {imageXml}
+              </CaptionAndImage>
+              <Style>
+                <BasedOnStyle>Default</BasedOnStyle>
+                <TileColour>{BackColor.ToHexRGBA()}</TileColour>
+              </Style>
+            </Content>
+          </Cell>
+";
+            return xml;
         }
     }
 }

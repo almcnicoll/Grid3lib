@@ -4,12 +4,16 @@ using System.Text;
 
 namespace Grid3lib
 {
+    /// <summary>
+    /// Represents a page of a GridSet
+    /// </summary>
     public class Page
     {
-        public GridSet Parent;
+        public GridSet Parent { get; set; }
         private List<PageColumn> Columns = new List<PageColumn>();
         private List<PageRow> Rows = new List<PageRow>();
-        public Guid? PageId = null;
+        public Guid? PageId { get; set; } = null;
+        public List<Command> StartupCommands { get; set; } = new List<Command>();
 
         /// <summary>
         /// Creates a new Page in the specified parent GridSet
@@ -87,4 +91,4 @@ namespace Grid3lib
         }
     }
 }
-}
+
