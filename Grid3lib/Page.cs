@@ -71,7 +71,7 @@ namespace Grid3lib
                 for (int r = 0; r < this.Parent.RowCount; r++)
                 {
                     Cell cell = this.GetCell(c, r);
-                    cellDefs += "\n" + cell.getXml();
+                    cellDefs += "\n" + cell.GetXml();
                 }
             }
             string xml = $@"

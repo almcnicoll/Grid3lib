@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using System.IO;
 
 namespace Grid3lib
 {
@@ -19,6 +20,11 @@ namespace Grid3lib
             for (var i = 0; i < count; i++) builder.Append(input);
 
             return builder.ToString();
+        }
+
+        public static string[] ToPathParts(this string input)
+        {
+            return input.Split(new [] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar });
         }
 
         /// <summary>
