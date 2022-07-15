@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -44,29 +45,29 @@ namespace Grid3lib
         /// Returns the XML for this cell, ready for compression into the GridSet file
         /// </summary>
         /// <returns></returns>
-        public string getXml()
+        public string GetXml()
         {
             // Commands
             String commandsXml = "";
             if (Commands.Count > 0)
             {
-                commandsXml+= "<Commands>\n";
+                commandsXml += "<Commands>\n";
                 foreach (Command command in Commands)
                 {
-                    if (command.Parameters.Count==0)
+                    if (command.Parameters.Count == 0)
                     {
-                        commandsXml+= $"<Command ID=\"{command.Action}\" />\n";
+                        commandsXml += $"<Command ID=\"{command.Action}\" />\n";
                     }
                     else
                     {
-                        commandsXml+= $"<Command ID=\"{command.Action}\">\n";
-                        foreach (KeyValuePair<string,string> parameter in command.Parameters)
+                        commandsXml += $"<Command ID=\"{command.Action}\">\n";
+                        foreach (KeyValuePair<string, string> parameter in command.Parameters)
                         {
-                            commandsXml+= $"<Parameter Key=\"{parameter.Key}\">{parameter.Value}</Parameter>\n";
+                            commandsXml += $"<Parameter Key=\"{parameter.Key}\">{parameter.Value}</Parameter>\n";
                         }
                     }
                 }
-                commandsXml+= "</Commands>\n";
+                commandsXml += "</Commands>\n";
             }
 
             // Image
@@ -84,7 +85,8 @@ namespace Grid3lib
             }
 
             // Style
-            String styleXml = "";
+            String styleXml;
+            // TODO - see where Style info is used and output it in XML
             if (String.IsNullOrEmpty(BaseStyle))
             {
                 styleXml = "<BasedOnStyle>Default</BasedOnStyle>";
