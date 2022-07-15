@@ -17,10 +17,12 @@ namespace Grid3lib
         public string? Name { get; set; } = null;
         public int ColumnCount { get; set; } = 8;
         public int RowCount { get; set; } = 6;
-        public Guid? GridSetId {get;set;} = null;
-        public Page? Homepage {get;set;} = null;
+        public Guid? GridSetId { get; set; } = null;
+        public Page? Homepage { get; set; } = null;
         public ZipArchive? Archive { get; set; } = null;
+        public GridSetSettings? Settings { get; set; } = null;
         public FileMap? Map { get; set; } = null;
+        public HashSet<Page> Pages { get; set; } = new HashSet<Page>();
 
         /// <summary>
         /// Creates a new GridSet
@@ -50,13 +52,30 @@ namespace Grid3lib
             debugInfo = new List<string>();
             ZipArchive gridFile = ZipFile.OpenRead(filePath);
             gridSet.Archive = gridFile;
+            XmlSerializer xmlSerializer;
 
-            // Retrieve and parse filemap
+            // Retrieve and parse settings.xml
+            ZipArchiveEntry? settingsFile = (from ZipArchiveEntry e in gridFile.Entries
+                                             where e.Name == "settings.xml"
+                                             select e).First();
+            if (settingsFile == null) { debugInfo.Add("No settings.xml found"); return null; }
+            xmlSerializer = new XmlSerializer(typeof(GridSetSettings));
+            using (Stream fsSettingsFile = settingsFile.Open())
+            {
+                gridSet.Settings = (xmlSerializer.Deserialize(fsSettingsFile) as GridSetSettings);
+                if (gridSet.Settings == null)
+                {
+                    debugInfo.Add("Could not deserialize settings.xml");
+                    return null;
+                }
+            }
+
+            // Retrieve and parse filemap.xml
             ZipArchiveEntry? fileMapFile = (from ZipArchiveEntry e in gridFile.Entries
                                             where e.FullName == "FileMap.xml"
                                             select e).First();
             if (fileMapFile == null) { debugInfo.Add("No FileMap.xml found"); return null; }
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(FileMap));
+            xmlSerializer = new XmlSerializer(typeof(FileMap));
             using (Stream fsMapFile = fileMapFile.Open())
             {
                 gridSet.Map = (xmlSerializer.Deserialize(fsMapFile) as FileMap);
@@ -66,16 +85,26 @@ namespace Grid3lib
                     return null;
                 }
             }
-            // TODO - get homepage
+
             // Use FileMap to populate Pages
             foreach (FileMapEntry fme in gridSet.Map.Entries)
             {
-                debugInfo.Add(String.Format("File map entry: {0}",fme.StaticFile));
-                if(fme.StaticFile.ToPathParts().Last() == "grid.xml")
+                debugInfo.Add(String.Format("File map entry: {0}", fme.StaticFile));
+                if (fme.StaticFile.ToPathParts().Last() == "grid.xml")
                 {
-                    Page p = new Page(gridSet);
-
+                    String pageName = fme.StaticFile.ToPathParts().SkipLast(1).Last();
+                    Page p = new Page(gridSet, pageName, (pageName == gridSet.Settings.StartGrid));
+                    p.RelativePath = fme.StaticFile;
                 }
+            }
+
+            // Loop through grid pages, reading grid.xml files as we go
+            foreach (Page p in gridSet.Pages)
+            {
+                ZipArchiveEntry? pageGridFile = (from ZipArchiveEntry e in gridFile.Entries
+                                                 where e.FullName == p.RelativePath
+                                                 select e).First();
+                // TODO - Parse grid.xml file
             }
 
             // Loop through all entries

@@ -10,20 +10,37 @@ namespace Grid3lib
     public class Page
     {
         public GridSet Parent { get; set; }
-        private List<PageColumn> Columns = new List<PageColumn>();
-        private List<PageRow> Rows = new List<PageRow>();
+        public String Name { get; set; }
         public Guid? PageId { get; set; } = null;
+        public string RelativePath { get; set; } = null;
         public List<Command> StartupCommands { get; set; } = new List<Command>();
+        private readonly List<PageColumn> Columns = new List<PageColumn>();
+        private readonly List<PageRow> Rows = new List<PageRow>();
 
         /// <summary>
         /// Creates a new Page in the specified parent GridSet
         /// </summary>
         /// <param name="parent">The GridSet to which the page should be attached</param>
         /// <param name="isHomePage">Whether this grid is the home page of the parent</param>
-        public Page(GridSet parent, bool isHomePage = false)
+        public Page(GridSet parent, bool isHomePage = false, bool generateGuid = false)
         {
-            this.PageId = Guid.NewGuid();
-            this.Parent = parent;
+            if (generateGuid) { this.PageId = Guid.NewGuid(); }
+            this.Parent = parent; parent.Pages.Add(this);
+            this.Populate();
+            if (isHomePage) { this.Parent.Homepage = this; }
+        }
+
+        /// <summary>
+        /// Creates a new Page in the specified parent GridSet
+        /// </summary>
+        /// <param name="parent">The GridSet to which the page should be attached</param>
+        /// <param name="name">The name of the Page</param>
+        /// <param name="isHomePage">Whether this grid is the home page of the parent</param>
+        public Page(GridSet parent, String name, bool isHomePage = false, bool generateGuid = false)
+        {
+            if (generateGuid) { this.PageId = Guid.NewGuid(); }
+            this.Parent = parent; parent.Pages.Add(this);
+            this.Name = name;
             this.Populate();
             if (isHomePage) { this.Parent.Homepage = this; }
         }
