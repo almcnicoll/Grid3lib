@@ -15,8 +15,6 @@ namespace Grid3lib
     public class GridSet
     {
         public string? Name { get; set; } = null;
-        public int ColumnCount { get; set; } = 8;
-        public int RowCount { get; set; } = 6;
         public Guid? GridSetId { get; set; } = null;
         public Page? Homepage { get; set; } = null;
         public ZipArchive? Archive { get; set; } = null;
@@ -105,6 +103,10 @@ namespace Grid3lib
                                                  where e.FullName == p.RelativePath
                                                  select e).First();
                 // TODO - Parse grid.xml file
+                using (Stream fsGridFile = pageGridFile.Open())
+                {
+                    p.Load(fsGridFile);
+                }
             }
 
             // Loop through all entries

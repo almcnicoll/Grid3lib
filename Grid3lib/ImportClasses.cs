@@ -16,15 +16,19 @@ namespace Grid3lib.ImportClasses
 
         private string gridGuidField;
 
+        private string predictionSourceField;
+
         private object[] columnDefinitionsField;
 
         private object[] rowDefinitionsField;
 
-        private object autoContentCommandsField;
+        private GridCommands commandsField;
+
+        private GridCommands[] autoContentCommandsField;
 
         private GridCell[] cellsField;
 
-        private object scanBlockAudioDescriptionsField;
+        private GridScanBlockAudioDescription[] scanBlockAudioDescriptionsField;
 
         private GridWordList wordListField;
 
@@ -38,6 +42,19 @@ namespace Grid3lib.ImportClasses
             set
             {
                 this.gridGuidField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string PredictionSource
+        {
+            get
+            {
+                return this.predictionSourceField;
+            }
+            set
+            {
+                this.predictionSourceField = value;
             }
         }
 
@@ -70,7 +87,20 @@ namespace Grid3lib.ImportClasses
         }
 
         /// <remarks/>
-        public object AutoContentCommands
+        public GridCommands Commands
+        {
+            get
+            {
+                return this.commandsField;
+            }
+            set
+            {
+                this.commandsField = value;
+            }
+        }
+
+        /// <remarks/>
+        public GridCommands[] AutoContentCommands
         {
             get
             {
@@ -97,7 +127,8 @@ namespace Grid3lib.ImportClasses
         }
 
         /// <remarks/>
-        public object ScanBlockAudioDescriptions
+        [System.Xml.Serialization.XmlArrayItemAttribute("ScanBlockAudioDescription", IsNullable = false)]
+        public GridScanBlockAudioDescription[] ScanBlockAudioDescriptions
         {
             get
             {
@@ -127,26 +158,144 @@ namespace Grid3lib.ImportClasses
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    public partial class GridCommands
+    {
+
+        private GridCommandsCommand commandField;
+
+        /// <remarks/>
+        public GridCommandsCommand Command
+        {
+            get
+            {
+                return this.commandField;
+            }
+            set
+            {
+                this.commandField = value;
+            }
+        }
+    }
+
+    /// <remarks/>
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    public partial class GridCommandsCommand
+    {
+
+        private GridCommandsCommandParameter[] parameterField;
+
+        private string idField;
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("Parameter")]
+        public GridCommandsCommandParameter[] Parameter
+        {
+            get
+            {
+                return this.parameterField;
+            }
+            set
+            {
+                this.parameterField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string ID
+        {
+            get
+            {
+                return this.idField;
+            }
+            set
+            {
+                this.idField = value;
+            }
+        }
+    }
+
+    /// <remarks/>
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    public partial class GridCommandsCommandParameter
+    {
+
+        private string keyField;
+
+        private string valueField;
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Key
+        {
+            get
+            {
+                return this.keyField;
+            }
+            set
+            {
+                this.keyField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlTextAttribute()]
+        public string Value
+        {
+            get
+            {
+                return this.valueField;
+            }
+            set
+            {
+                this.valueField = value;
+            }
+        }
+    }
+
+    /// <remarks/>
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class GridCell
     {
 
+        private string visibilityField;
+
         private GridCellContent contentField;
 
-        private byte columnSpanField;
+        private byte xField;
 
-        private bool columnSpanFieldSpecified;
-
-        private byte rowSpanField;
-
-        private bool rowSpanFieldSpecified;
+        private bool xFieldSpecified;
 
         private byte yField;
 
         private bool yFieldSpecified;
 
-        private byte xField;
+        private byte scanBlockField;
 
-        private bool xFieldSpecified;
+        private bool scanBlockFieldSpecified;
+
+        private byte columnSpanField;
+
+        private bool columnSpanFieldSpecified;
+
+        /// <remarks/>
+        public string Visibility
+        {
+            get
+            {
+                return this.visibilityField;
+            }
+            set
+            {
+                this.visibilityField = value;
+            }
+        }
 
         /// <remarks/>
         public GridCellContent Content
@@ -163,57 +312,29 @@ namespace Grid3lib.ImportClasses
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public byte ColumnSpan
+        public byte X
         {
             get
             {
-                return this.columnSpanField;
+                return this.xField;
             }
             set
             {
-                this.columnSpanField = value;
+                this.xField = value;
             }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool ColumnSpanSpecified
+        public bool XSpecified
         {
             get
             {
-                return this.columnSpanFieldSpecified;
+                return this.xFieldSpecified;
             }
             set
             {
-                this.columnSpanFieldSpecified = value;
-            }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public byte RowSpan
-        {
-            get
-            {
-                return this.rowSpanField;
-            }
-            set
-            {
-                this.rowSpanField = value;
-            }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool RowSpanSpecified
-        {
-            get
-            {
-                return this.rowSpanFieldSpecified;
-            }
-            set
-            {
-                this.rowSpanFieldSpecified = value;
+                this.xFieldSpecified = value;
             }
         }
 
@@ -247,29 +368,57 @@ namespace Grid3lib.ImportClasses
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public byte X
+        public byte ScanBlock
         {
             get
             {
-                return this.xField;
+                return this.scanBlockField;
             }
             set
             {
-                this.xField = value;
+                this.scanBlockField = value;
             }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool XSpecified
+        public bool ScanBlockSpecified
         {
             get
             {
-                return this.xFieldSpecified;
+                return this.scanBlockFieldSpecified;
             }
             set
             {
-                this.xFieldSpecified = value;
+                this.scanBlockFieldSpecified = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public byte ColumnSpan
+        {
+            get
+            {
+                return this.columnSpanField;
+            }
+            set
+            {
+                this.columnSpanField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool ColumnSpanSpecified
+        {
+            get
+            {
+                return this.columnSpanFieldSpecified;
+            }
+            set
+            {
+                this.columnSpanFieldSpecified = value;
             }
         }
     }
@@ -281,14 +430,45 @@ namespace Grid3lib.ImportClasses
     public partial class GridCellContent
     {
 
-        private GridCellContentCommands commandsField;
+        private string contentTypeField;
+
+        private string contentSubTypeField;
+
+        private GridCellContentCommand[] commandsField;
 
         private GridCellContentCaptionAndImage captionAndImageField;
 
         private GridCellContentStyle styleField;
 
         /// <remarks/>
-        public GridCellContentCommands Commands
+        public string ContentType
+        {
+            get
+            {
+                return this.contentTypeField;
+            }
+            set
+            {
+                this.contentTypeField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string ContentSubType
+        {
+            get
+            {
+                return this.contentSubTypeField;
+            }
+            set
+            {
+                this.contentSubTypeField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("Command", IsNullable = false)]
+        public GridCellContentCommand[] Commands
         {
             get
             {
@@ -331,38 +511,16 @@ namespace Grid3lib.ImportClasses
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class GridCellContentCommands
+    public partial class GridCellContentCommand
     {
 
-        private GridCellContentCommandsCommand commandField;
-
-        /// <remarks/>
-        public GridCellContentCommandsCommand Command
-        {
-            get
-            {
-                return this.commandField;
-            }
-            set
-            {
-                this.commandField = value;
-            }
-        }
-    }
-
-    /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class GridCellContentCommandsCommand
-    {
-
-        private GridCellContentCommandsCommandParameter parameterField;
+        private GridCellContentCommandParameter[] parameterField;
 
         private string idField;
 
         /// <remarks/>
-        public GridCellContentCommandsCommandParameter Parameter
+        [System.Xml.Serialization.XmlElementAttribute("Parameter")]
+        public GridCellContentCommandParameter[] Parameter
         {
             get
             {
@@ -393,12 +551,42 @@ namespace Grid3lib.ImportClasses
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class GridCellContentCommandsCommandParameter
+    public partial class GridCellContentCommandParameter
     {
+
+        private GridCellContentCommandParameterS[] pField;
+
+        private string[] textField;
 
         private string keyField;
 
-        private string valueField;
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("s", IsNullable = false)]
+        public GridCellContentCommandParameterS[] p
+        {
+            get
+            {
+                return this.pField;
+            }
+            set
+            {
+                this.pField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlTextAttribute()]
+        public string[] Text
+        {
+            get
+            {
+                return this.textField;
+            }
+            set
+            {
+                this.textField = value;
+            }
+        }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -413,18 +601,27 @@ namespace Grid3lib.ImportClasses
                 this.keyField = value;
             }
         }
+    }
+
+    /// <remarks/>
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    public partial class GridCellContentCommandParameterS
+    {
+
+        private string rField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlTextAttribute()]
-        public string Value
+        public string r
         {
             get
             {
-                return this.valueField;
+                return this.rField;
             }
             set
             {
-                this.valueField = value;
+                this.rField = value;
             }
         }
     }
@@ -436,35 +633,57 @@ namespace Grid3lib.ImportClasses
     public partial class GridCellContentCaptionAndImage
     {
 
-        private string captionField;
+        private string[] itemsField;
 
-        private string imageField;
+        private ItemsChoiceType[] itemsElementNameField;
 
         /// <remarks/>
-        public string Caption
+        [System.Xml.Serialization.XmlElementAttribute("AudioDescription", typeof(string))]
+        [System.Xml.Serialization.XmlElementAttribute("Caption", typeof(string))]
+        [System.Xml.Serialization.XmlElementAttribute("Image", typeof(string))]
+        [System.Xml.Serialization.XmlChoiceIdentifierAttribute("ItemsElementName")]
+        public string[] Items
         {
             get
             {
-                return this.captionField;
+                return this.itemsField;
             }
             set
             {
-                this.captionField = value;
+                this.itemsField = value;
             }
         }
 
         /// <remarks/>
-        public string Image
+        [System.Xml.Serialization.XmlElementAttribute("ItemsElementName")]
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public ItemsChoiceType[] ItemsElementName
         {
             get
             {
-                return this.imageField;
+                return this.itemsElementNameField;
             }
             set
             {
-                this.imageField = value;
+                this.itemsElementNameField = value;
             }
         }
+    }
+
+    /// <remarks/>
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(IncludeInSchema = false)]
+    public enum ItemsChoiceType
+    {
+
+        /// <remarks/>
+        AudioDescription,
+
+        /// <remarks/>
+        Caption,
+
+        /// <remarks/>
+        Image,
     }
 
     /// <remarks/>
@@ -479,6 +698,8 @@ namespace Grid3lib.ImportClasses
         private string backColourField;
 
         private string borderColourField;
+
+        private string fontNameField;
 
         private string fontColourField;
 
@@ -509,6 +730,65 @@ namespace Grid3lib.ImportClasses
             set
             {
                 this.backColourField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string FontName
+        {
+            get
+            {
+                return this.fontNameField;
+            }
+            set
+            {
+                this.fontNameField = value;
+            }
+        }
+    }
+
+    /// <remarks/>
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    public partial class GridScanBlockAudioDescription
+    {
+
+        private byte scanBlockField;
+
+        private string audioDescriptionField;
+
+        private string borderColourField;
+
+        private string fontColourField;
+
+        private byte fontSizeField;
+
+        private bool fontSizeFieldSpecified;
+
+        /// <remarks/>
+        public byte ScanBlock
+        {
+            get
+            {
+                return this.scanBlockField;
+            }
+            set
+            {
+                this.scanBlockField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string AudioDescription
+        {
+            get
+            {
+                return this.audioDescriptionField;
+            }
+            set
+            {
+                this.audioDescriptionField = value;
             }
         }
 
@@ -588,6 +868,5 @@ namespace Grid3lib.ImportClasses
             }
         }
     }
-
 
 }
