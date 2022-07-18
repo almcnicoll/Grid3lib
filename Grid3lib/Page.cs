@@ -85,12 +85,18 @@ namespace Grid3lib
             this.PageId = new Guid(importGrid.GridGuid);
             this.__ColumnCount = importGrid.ColumnDefinitions.Length;
             this.__RowCount = importGrid.RowDefinitions.Length;
-            if (importGrid.AutoContentCommands != null)
+
+            // TODO - import other sub-objects from importclasses too (as with commands below)
+            if (importGrid.Commands != null)
             {
-                // TODO - port import sub-objects too (e.g. commands)
-                this.StartupCommands = new List<object>(importGrid.AutoContentCommands);
+                this.StartupCommands = new List<Command>();
+                foreach (ImportClasses.GridCommand gridCommand in importGrid.Commands)
+                {
+                    this.StartupCommands.Add(new Command(gridCommand));
+                }
+
             }
-            
+
         }
 
         /// <summary>

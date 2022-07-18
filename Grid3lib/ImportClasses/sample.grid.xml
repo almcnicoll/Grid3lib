@@ -1,0 +1,113 @@
+<Grid xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <GridGuid>ca7b339b-07a1-45a4-8287-4a70dc80e236</GridGuid>
+  <ColumnDefinitions>
+    <ColumnDefinition />
+    <ColumnDefinition />
+    <ColumnDefinition />
+    <ColumnDefinition />
+    <ColumnDefinition />
+    <ColumnDefinition />
+    <ColumnDefinition />
+    <ColumnDefinition />
+    <ColumnDefinition />
+    <ColumnDefinition />
+    <ColumnDefinition />
+    <ColumnDefinition />
+  </ColumnDefinitions>
+  <RowDefinitions>
+    <RowDefinition />
+    <RowDefinition />
+    <RowDefinition />
+    <RowDefinition />
+    <RowDefinition />
+    <RowDefinition />
+    <RowDefinition />
+    <RowDefinition />
+  </RowDefinitions>
+  <AutoContentCommands />
+  <Commands>
+    <Command ID="Jump.ToggleSelfClosing">
+      <Parameter Key="indicatorenabled">1</Parameter>
+      <Parameter Key="action">On</Parameter>
+    </Command>
+    <Command ID="Jump2.ToggleSelfClosing">
+      <Parameter Key="indicatorenabled">2</Parameter>
+      <Parameter Key="action">Off</Parameter>
+    </Command>
+  </Commands>
+  <Cells>
+    <Cell ColumnSpan="2" RowSpan="8">
+      <Content>
+        <Commands>
+          <Command ID="Jump.Home" />
+        </Commands>
+        <CaptionAndImage>
+          <Image>[grid3x]jump_back.wmf</Image>
+        </CaptionAndImage>
+        <Style>
+          <BasedOnStyle>Navigation category style</BasedOnStyle>
+        </Style>
+      </Content>
+    </Cell>
+    <Cell X="10" ColumnSpan="2" RowSpan="8">
+      <Content>
+        <Commands>
+          <Command ID="Jump.To">
+            <Parameter Key="grid">Dev Story 2</Parameter>
+          </Command>
+        </Commands>
+        <CaptionAndImage>
+          <Image>[GRID3X]jump_forwards.wmf</Image>
+        </CaptionAndImage>
+        <Style>
+          <BasedOnStyle>Navigation category style</BasedOnStyle>
+        </Style>
+      </Content>
+    </Cell>
+    <Cell X="2" ColumnSpan="8" RowSpan="6">
+      <Content>
+        <Commands>
+          <Command ID="SpeechPlaySound">
+            <Parameter Key="filedata">
+              <data>.mp3</data>
+            </Parameter>
+            <Parameter Key="wait">2</Parameter>
+          </Command>
+        </Commands>
+        <CaptionAndImage>
+          <Image>.png</Image>
+        </CaptionAndImage>
+        <Style>
+          <BasedOnStyle>Recordings category style</BasedOnStyle>
+          <BackColour>#FFFFFF00</BackColour>
+          <BorderColour>#FFFFFF00</BorderColour>
+        </Style>
+      </Content>
+    </Cell>
+    <Cell X="2" Y="6" ColumnSpan="8" RowSpan="2">
+      <Content>
+        <Commands>
+          <Command ID="SpeechPlaySound">
+            <Parameter Key="filedata">
+              <data>.mp3</data>
+            </Parameter>
+            <Parameter Key="wait">2</Parameter>
+          </Command>
+        </Commands>
+        <CaptionAndImage>
+          <Caption>This is the text of the first page of my story. Sic transit gloria mundi.</Caption>
+        </CaptionAndImage>
+        <Style>
+          <BasedOnStyle>Recordings category style</BasedOnStyle>
+          <BackColour>#FFFFFF00</BackColour>
+          <BorderColour>#FFFFFF00</BorderColour>
+          <FontColour>#000000FF</FontColour>
+        </Style>
+      </Content>
+    </Cell>
+  </Cells>
+  <ScanBlockAudioDescriptions />
+  <WordList>
+    <Items />
+  </WordList>
+</Grid>
