@@ -80,6 +80,21 @@ namespace Grid3lib
             CopyFromImportGrid(importGrid);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        private void AddCell(Cell cell, int x, int y)
+        {
+            // TODO - write code to populate rows and columns
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="importGrid"></param>
         private void CopyFromImportGrid(ImportClasses.Grid importGrid)
         {
             this.PageId = new Guid(importGrid.GridGuid);
@@ -89,12 +104,18 @@ namespace Grid3lib
             // TODO - import other sub-objects from importclasses too (as with commands below)
             if (importGrid.Commands != null)
             {
+                // Startup Commands
                 this.StartupCommands = new List<Command>();
                 foreach (ImportClasses.GridCommand gridCommand in importGrid.Commands)
                 {
                     this.StartupCommands.Add(new Command(gridCommand));
                 }
 
+                // Cells
+                foreach (ImportClasses.GridCell gridCell in importGrid.Cells)
+                {
+                    this.AddCell(new Cell(this, gridCell), gridCell.X, gridCell.Y);
+                }
             }
 
         }

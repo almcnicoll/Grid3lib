@@ -8,13 +8,23 @@ namespace Grid3lib.ImportClasses
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class GridCellContentCaptionAndImage : IImportClass
+    public partial class GridCellContentCaptionAndImage
     {
 
-        private string[] itemsField;
+        //private string[] itemsField;
 
-        private ItemsChoiceType[] itemsElementNameField;
+        //private ItemsChoiceType[] itemsElementNameField;
 
+        [System.Xml.Serialization.XmlElementAttribute("AudioDescription", typeof(string))]
+        public string AudioDescription { get; set; }
+
+        [System.Xml.Serialization.XmlElementAttribute("Caption", typeof(string))]
+        public string Caption { get; set; }
+
+        [System.Xml.Serialization.XmlElementAttribute("Image", typeof(string))]
+        public string Image { get; set; }
+
+        /*
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("AudioDescription", typeof(string))]
         [System.Xml.Serialization.XmlElementAttribute("Caption", typeof(string))]
@@ -31,7 +41,7 @@ namespace Grid3lib.ImportClasses
                 this.itemsField = value;
             }
         }
-
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("ItemsElementName")]
         [System.Xml.Serialization.XmlIgnoreAttribute()]
@@ -46,6 +56,7 @@ namespace Grid3lib.ImportClasses
                 this.itemsElementNameField = value;
             }
         }
+        */
     }
 
 
