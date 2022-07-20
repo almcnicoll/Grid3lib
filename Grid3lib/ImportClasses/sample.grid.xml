@@ -107,7 +107,53 @@
     </Cell>
   </Cells>
   <ScanBlockAudioDescriptions />
-  <WordList>
-    <Items />
-  </WordList>
+	<WordList>
+		<Items>
+			<WordListItem>
+				<Text>
+					<s Image="[mjpcs#]675.wmf">
+						<r>who</r>
+					</s>
+				</Text>
+				<Image>[mjpcs#]675.wmf</Image>
+				<PartOfSpeech>Question</PartOfSpeech>
+			</WordListItem>
+			<WordListItem>
+				<Text>
+					<s Image="[mjpcs#]670.wmf">
+						<r>what</r>
+					</s>
+				</Text>
+				<Image>[mjpcs#]670.wmf</Image>
+				<PartOfSpeech>Question</PartOfSpeech>
+			</WordListItem>
+			<WordListItem>
+				<Text>
+					<s Image="[mjpcs#]11291.wmf">
+						<r>why</r>
+					</s>
+				</Text>
+				<Image>[mjpcs#]11291.wmf</Image>
+				<PartOfSpeech>Question</PartOfSpeech>
+			</WordListItem>
+			<WordListItem>
+				<Text>
+					<s Image="[mjpcs#]672.wmf">
+						<r>where</r>
+					</s>
+				</Text>
+				<Image>[mjpcs#]672.wmf</Image>
+				<PartOfSpeech>Question</PartOfSpeech>
+			</WordListItem>
+			<WordListItem>
+				<Text>
+					<s Image="[mjpcs#]671.wmf">
+						<r>when</r>
+					</s>
+				</Text>
+				<Image>[mjpcs#]671.wmf</Image>
+				<PartOfSpeech>Question</PartOfSpeech>
+			</WordListItem>
+		</Items>
+	</WordList>
 </Grid>

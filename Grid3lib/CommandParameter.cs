@@ -7,6 +7,9 @@ namespace Grid3lib
 {
     public class CommandParameter
     {
+        // TODO - handle more complex parameters with <p><s><r></r></s></p> structure
+
+
         public string Key { get; set; }
 
         public string Value { get; set; }

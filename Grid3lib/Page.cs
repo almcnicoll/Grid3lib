@@ -16,6 +16,11 @@ namespace Grid3lib
         public Guid? PageId { get; set; } = null;
         public string RelativePath { get; set; } = null;
         private bool __XmlParsed = false;
+        public List<Command> StartupCommands { get; set; } = new List<Command>();
+        public List<ScanBlockAudioDescription> ScanBlockAudioDescriptions { get; set; } = new List<ScanBlockAudioDescription>();
+        private readonly List<PageColumn> Columns = new List<PageColumn>();
+        private readonly List<PageRow> Rows = new List<PageRow>();
+
         private int __ColumnCount;
         private int __RowCount;
         public int ColumnCount
@@ -42,9 +47,7 @@ namespace Grid3lib
                 __RowCount = value;
             }
         }
-        public List<Command> StartupCommands { get; set; } = new List<Command>();
-        private readonly List<PageColumn> Columns = new List<PageColumn>();
-        private readonly List<PageRow> Rows = new List<PageRow>();
+
 
         /// <summary>
         /// Creates a new Page in the specified parent GridSet
@@ -76,7 +79,6 @@ namespace Grid3lib
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(ImportClasses.Grid));
             ImportClasses.Grid importGrid = (xmlSerializer.Deserialize(fs) as ImportClasses.Grid);
-            // TODO - copy that import object to this Page object
             CopyFromImportGrid(importGrid);
         }
 
@@ -115,6 +117,13 @@ namespace Grid3lib
                 foreach (ImportClasses.GridCell gridCell in importGrid.Cells)
                 {
                     this.AddCell(new Cell(this, gridCell), gridCell.X, gridCell.Y);
+                }
+
+                // Ignore Autocommands (not sure what these are - currently unsupported!)
+
+                foreach (ImportClasses.GridScanBlockAudioDescription gridScanBlockAudioDescription in importGrid.ScanBlockAudioDescriptions)
+                {
+                    this.ScanBlockAudioDescriptions.Add(new ScanBlockAudioDescription(gridScanBlockAudioDescription));
                 }
             }
 

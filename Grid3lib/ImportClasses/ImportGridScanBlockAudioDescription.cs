@@ -4,27 +4,30 @@ using System.Text;
 
 namespace Grid3lib.ImportClasses
 {
-    /// <remarks/>
+    /// <summary>
+    /// Grids are divided into Scan Blocks. GridScanBlockAudioDescription entries contain the custom audio feedback given when a Scan Block is selected.
+    /// </summary>
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class GridScanBlockAudioDescription
     {
 
-        private byte scanBlockField;
+        private int scanBlockField;
 
         private string audioDescriptionField;
+        /*
+         * These fields were populated by Paste-as-XML at some point, but I can find no sample XML where they are present
+                private string borderColourField;
 
-        private string borderColourField;
+                private string fontColourField;
 
-        private string fontColourField;
+                private int fontSizeField;
 
-        private byte fontSizeField;
-
-        private bool fontSizeFieldSpecified;
-
+                private bool fontSizeFieldSpecified;
+        */
         /// <remarks/>
-        public byte ScanBlock
+        public int ScanBlock
         {
             get
             {
@@ -49,58 +52,61 @@ namespace Grid3lib.ImportClasses
             }
         }
 
-        /// <remarks/>
-        public string BorderColour
-        {
-            get
-            {
-                return this.borderColourField;
-            }
-            set
-            {
-                this.borderColourField = value;
-            }
-        }
+        /*
+                /// <remarks/>
+                public string BorderColour
+                {
+                    get
+                    {
+                        return this.borderColourField;
+                    }
+                    set
+                    {
+                        this.borderColourField = value;
+                    }
+                }
 
-        /// <remarks/>
-        public string FontColour
-        {
-            get
-            {
-                return this.fontColourField;
-            }
-            set
-            {
-                this.fontColourField = value;
-            }
-        }
+                /// <remarks/>
+                public string FontColour
+                {
+                    get
+                    {
+                        return this.fontColourField;
+                    }
+                    set
+                    {
+                        this.fontColourField = value;
+                    }
+                }
 
-        /// <remarks/>
-        public byte FontSize
-        {
-            get
-            {
-                return this.fontSizeField;
-            }
-            set
-            {
-                this.fontSizeField = value;
-            }
-        }
+                /// <remarks/>
+                public int FontSize
+                {
+                    get
+                    {
+                        return this.fontSizeField;
+                    }
+                    set
+                    {
+                        this.fontSizeField = value;
+                    }
+                }
 
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool FontSizeSpecified
-        {
-            get
-            {
-                return this.fontSizeFieldSpecified;
-            }
-            set
-            {
-                this.fontSizeFieldSpecified = value;
-            }
-        }
+                /// <remarks/>
+                [System.Xml.Serialization.XmlIgnoreAttribute()]
+                public bool FontSizeSpecified
+                {
+                    get
+                    {
+                        return this.fontSizeFieldSpecified;
+                    }
+                    set
+                    {
+                        this.fontSizeFieldSpecified = value;
+                    }
+                }
+        */
+
     }
 
 }

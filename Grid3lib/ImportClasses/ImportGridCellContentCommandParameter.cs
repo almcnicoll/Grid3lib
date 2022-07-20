@@ -10,6 +10,8 @@ namespace Grid3lib.ImportClasses
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class GridCellContentCommandsCommandParameter
     {
+        //TODO - Parameters can contain rich text elements (RichTextPSR etc.)
+        // so we can't simply have a value text field alone
 
         private string[] dataField;
 

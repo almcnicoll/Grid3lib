@@ -102,7 +102,6 @@ namespace Grid3lib
                 ZipArchiveEntry? pageGridFile = (from ZipArchiveEntry e in gridFile.Entries
                                                  where e.FullName == p.RelativePath
                                                  select e).First();
-                // TODO - Parse grid.xml file
                 using (Stream fsGridFile = pageGridFile.Open())
                 {
                     p.Load(fsGridFile);

@@ -43,22 +43,36 @@ namespace Grid3lib
 
         public Cell(Page parent, ImportClasses.GridCell importCell)
         {
-            // TODO - write importer here
             this.Parent = parent;
             this.Column = importCell.X;
             this.Row = importCell.Y;
             if (importCell.Content != null)
             {
                 ImportClasses.GridCellContent content = importCell.Content;
+
+                // Caption & image
                 if (content.CaptionAndImage != null)
                 {
                     ImportClasses.GridCellContentCaptionAndImage captionAndImage = content.CaptionAndImage;
                     if (captionAndImage.Caption != null) { this.Label = captionAndImage.Caption; }
                     if (captionAndImage.Image != null) { this.Icon = captionAndImage.Image; }
                 }
+
+                // Commands
+                if (content.Commands.Length > 0)
+                {
+                    foreach (ImportClasses.GridCellContentCommand command in content.Commands)
+                    {
+                        this.Commands.Add(new Command(command));
+                    }
+                }
+
+                if (content.Style != null)
+                {
+                    // TODO - import cell - styles
+
+                }
             }
-            // TODO - commands
-            // TODO - styles
         }
 
         /// <summary>
