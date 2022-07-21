@@ -100,7 +100,7 @@ namespace Grid3lib
             foreach (Page p in gridSet.Pages)
             {
                 ZipArchiveEntry? pageGridFile = (from ZipArchiveEntry e in gridFile.Entries
-                                                 where e.FullName == p.RelativePath
+                                                 where e.FullName == p.RelativePath.Replace("\\","/")
                                                  select e).First();
                 using (Stream fsGridFile = pageGridFile.Open())
                 {

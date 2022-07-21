@@ -53,7 +53,7 @@ namespace Grid3lib.ImportClasses
         /// <summary>
         /// Contains the value, including any rich text subitems
         /// </summary>
-        [XmlTextAttribute()]
+        // TODO - this is not yet pulling data correctly
         public RichText Text
         {
             get
