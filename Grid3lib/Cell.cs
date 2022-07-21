@@ -10,18 +10,21 @@ namespace Grid3lib
     {
         public Page Parent;
 
-        public String Label = "";
-        public String Icon = ""; // Format is [symbolset]filename.wmf
-        public String Picture = "";
-        public Color BackColor = Color.FromArgb(255, Color.White); //'#FFFFFFFF'; // #AARRGGBB
-        public Color TextColor = Color.FromArgb(255, Color.Black); //'#FF000000'; // #AARRGGBB
+        public String Label { get; set; } = "";
+        public String Icon { get; set; } = ""; // Format is [symbolset]filename.wmf
+        public String Picture { get; set; } = "";
+        public Color BackColor { get; set; } = Color.FromArgb(255, Color.White); //'#FFFFFFFF'; // #AARRGGBB
+        public Color TextColor { get; set; } = Color.FromArgb(255, Color.Black); //'#FF000000'; // #AARRGGBB
         public Color BorderColor = Color.FromArgb(255, Color.Black); //'#FF000000'; // #AARRGGBB
-        public String BaseStyle = "";
-        public List<Command> Commands = new List<Command>(); //string Action = "";
-        public string SpeakText = "";
-        public string WriteText = "";
-        public int Column = 0;
-        public int Row = 0;
+        public String BaseStyle { get; set; } = "";
+        public List<Command> Commands = new List<Command>();
+        public string SpeakText { get; set; } = ""; // TODO - consider whether to make this readonly, populated by commands
+        public string WriteText { get; set; } = ""; // TODO - consider whether to make this readonly, populated by commands
+        public int Column { get; set; } = 0;
+        public int Row { get; set; } = 0;
+        public int ColumnSpan { get; set; } = 1;
+        public int RowSpan { get; set; } = 1;
+        public int? ScanBlock { get; set; }
 
         /// <summary>
         /// Creates a new cell with the specified attributes
@@ -44,8 +47,13 @@ namespace Grid3lib
         public Cell(Page parent, ImportClasses.GridCell importCell)
         {
             this.Parent = parent;
+
+            // Size & position
             this.Column = importCell.X;
             this.Row = importCell.Y;
+            if (importCell.ColumnSpanSpecified) { this.ColumnSpan = importCell.ColumnSpan; }
+            if (importCell.RowSpanSpecified) { this.RowSpan = importCell.RowSpan; }
+
             if (importCell.Content != null)
             {
                 ImportClasses.GridCellContent content = importCell.Content;
@@ -56,6 +64,7 @@ namespace Grid3lib
                     ImportClasses.GridCellContentCaptionAndImage captionAndImage = content.CaptionAndImage;
                     if (captionAndImage.Caption != null) { this.Label = captionAndImage.Caption; }
                     if (captionAndImage.Image != null) { this.Icon = captionAndImage.Image; }
+                    // TODO - check if custom JPGs/PNGs are stored differently in XML (if not, it may be appropriate to lose the Picture property altogether)
                 }
 
                 // Commands

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace Grid3lib.ImportClasses
 {
     /// <remarks/>
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    [XmlTypeAttribute(AnonymousType = true)]
     public partial class GridCellContentCommandsCommandParameter
     {
         //TODO - Parameters can contain rich text elements (RichTextPSR etc.)
@@ -15,14 +16,14 @@ namespace Grid3lib.ImportClasses
 
         private string[] dataField;
 
-        //private string[] textField;
+        private RichText textField;
 
         private string keyField;
 
         private string valueField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlTextAttribute()]
+        [XmlTextAttribute()]
         public string Value
         {
             get
@@ -36,7 +37,7 @@ namespace Grid3lib.ImportClasses
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("data", IsNullable = false)]
+        [XmlArrayItemAttribute("data", IsNullable = false)]
         public string[] data
         {
             get
@@ -48,10 +49,12 @@ namespace Grid3lib.ImportClasses
                 this.dataField = value;
             }
         }
-        /*
-        /// <remarks/>
-        [System.Xml.Serialization.XmlTextAttribute()]
-        public string[] Text
+
+        /// <summary>
+        /// Contains the value, including any rich text subitems
+        /// </summary>
+        [XmlTextAttribute()]
+        public RichText Text
         {
             get
             {
@@ -62,19 +65,21 @@ namespace Grid3lib.ImportClasses
                 this.textField = value;
             }
         }
-        */
+
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        /*[XmlAttributeAttribute()]*/
+        [XmlIgnore]
         public string Key
         {
             get
             {
-                return this.keyField;
+                //return this.keyField;
+                return this.textField.ToString();
             }
-            set
+            /*set
             {
                 this.keyField = value;
-            }
+            }*/
         }
     }
 

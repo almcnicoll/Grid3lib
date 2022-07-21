@@ -8,7 +8,7 @@ namespace Grid3lib.ImportClasses
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class GridCellContent : IImportClass
+    public partial class GridCellContent
     {
 
         private string contentTypeField;

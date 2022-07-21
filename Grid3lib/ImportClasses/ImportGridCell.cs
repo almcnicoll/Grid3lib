@@ -8,28 +8,32 @@ namespace Grid3lib.ImportClasses
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class GridCell : IImportClass
+    public partial class GridCell
     {
 
         private string visibilityField;
 
         private GridCellContent contentField;
 
-        private byte xField;
+        private int xField;
 
         private bool xFieldSpecified;
 
-        private byte yField;
+        private int yField;
 
         private bool yFieldSpecified;
 
-        private byte scanBlockField;
+        private int scanBlockField;
 
         private bool scanBlockFieldSpecified;
 
-        private byte columnSpanField;
+        private int columnSpanField;
 
-        private bool columnSpanFieldSpecified;
+        private bool ColumnSpanFieldSpecified;
+
+        private int RowSpanField;
+
+        private bool rowSpanFieldSpecified;
 
         /// <remarks/>
         public string Visibility
@@ -59,7 +63,7 @@ namespace Grid3lib.ImportClasses
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public byte X
+        public int X
         {
             get
             {
@@ -87,7 +91,7 @@ namespace Grid3lib.ImportClasses
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public byte Y
+        public int Y
         {
             get
             {
@@ -115,7 +119,7 @@ namespace Grid3lib.ImportClasses
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public byte ScanBlock
+        public int ScanBlock
         {
             get
             {
@@ -143,7 +147,7 @@ namespace Grid3lib.ImportClasses
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public byte ColumnSpan
+        public int ColumnSpan
         {
             get
             {
@@ -161,11 +165,39 @@ namespace Grid3lib.ImportClasses
         {
             get
             {
-                return this.columnSpanFieldSpecified;
+                return this.ColumnSpanFieldSpecified;
             }
             set
             {
-                this.columnSpanFieldSpecified = value;
+                this.ColumnSpanFieldSpecified = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public int RowSpan
+        {
+            get
+            {
+                return this.RowSpanField;
+            }
+            set
+            {
+                this.RowSpanField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool RowSpanSpecified
+        {
+            get
+            {
+                return this.rowSpanFieldSpecified;
+            }
+            set
+            {
+                this.rowSpanFieldSpecified = value;
             }
         }
     }
