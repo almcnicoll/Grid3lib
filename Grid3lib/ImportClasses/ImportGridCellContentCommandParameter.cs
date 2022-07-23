@@ -22,6 +22,19 @@ namespace Grid3lib.ImportClasses
 
         private string valueField;
 
+        [XmlAttribute]
+        public string Key
+        {
+            get
+            {
+                return keyField;
+            }
+            set
+            {
+                keyField = value;
+            }
+        }
+
         /// <remarks/>
         [XmlTextAttribute()]
         public string Value
@@ -50,10 +63,12 @@ namespace Grid3lib.ImportClasses
             }
         }
 
+
         /// <summary>
         /// Contains the value, including any rich text subitems
         /// </summary>
-        // TODO - this is not yet pulling data correctly
+        // TODO - this is not yet pulling data correctly. Suggest we use XmlElement as in https://stackoverflow.com/a/38913372/356256
+        // and then parse and deserialize that on conversion to the main CommandParameter class
         public RichText Text
         {
             get
@@ -66,21 +81,6 @@ namespace Grid3lib.ImportClasses
             }
         }
 
-        /// <remarks/>
-        /*[XmlAttributeAttribute()]*/
-        [XmlIgnore]
-        public string Key
-        {
-            get
-            {
-                //return this.keyField;
-                return this.textField.ToString();
-            }
-            /*set
-            {
-                this.keyField = value;
-            }*/
-        }
     }
 
 }

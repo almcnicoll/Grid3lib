@@ -36,6 +36,7 @@ namespace Grid3lib
 
         public List<RichTextR> r { get; set; } = new List<RichTextR>();
 
+        public RichTextSR() { }
         public RichTextSR(ImportClasses.ImportRichTextSR importRichTextSR)
         {
             foreach (string str in importRichTextSR.r)
@@ -58,6 +59,7 @@ namespace Grid3lib
     {
         public List<RichTextSR> s { get; set; } = new List<RichTextSR>();
 
+        public RichTextPSR() { }
         public RichTextPSR(ImportClasses.ImportRichTextPSR importRichTextPSR)
         {
             foreach (ImportClasses.ImportRichTextSR importRichTextSR in importRichTextPSR.s)
