@@ -67,7 +67,7 @@ namespace Grid3lib.ImportClasses
         /// <summary>
         /// Contains the value, including any rich text subitems
         /// </summary>
-        // TODO - this is not yet pulling data correctly. Suggest we use XmlElement as in https://stackoverflow.com/a/38913372/356256
+        // TODO #1 - this is not yet pulling data correctly. Suggest we use XmlElement as in https://stackoverflow.com/a/38913372/356256
         // and then parse and deserialize that on conversion to the main CommandParameter class
         public RichText Text
         {
