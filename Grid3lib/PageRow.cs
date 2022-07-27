@@ -9,6 +9,6 @@ namespace Grid3lib
     /// </summary>
     public class PageRow
     {
-        public List<Cell> Cells = new List<Cell>();
+        public Dictionary<int,Cell> Cells = new Dictionary<int, Cell>();
     }
 }

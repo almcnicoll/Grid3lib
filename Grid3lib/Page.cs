@@ -18,35 +18,42 @@ namespace Grid3lib
         private bool __XmlParsed = false;
         public List<Command> StartupCommands { get; set; } = new List<Command>();
         public List<ScanBlockAudioDescription> ScanBlockAudioDescriptions { get; set; } = new List<ScanBlockAudioDescription>();
-        private readonly List<PageColumn> Columns = new List<PageColumn>();
-        private readonly List<PageRow> Rows = new List<PageRow>();
+        // NB In file and library, rows and columns are zero-based
+        private Dictionary<int, PageColumn> Columns = new Dictionary<int, PageColumn>();
+        private Dictionary<int, PageRow> Rows = new Dictionary<int, PageRow>();
 
-        private int __ColumnCount;
-        private int __RowCount;
+        private int? __ColumnCount;
+        private int? __RowCount;
         public int ColumnCount
         {
             get
             {
-                if (__XmlParsed) { return __ColumnCount; }
+                if (__XmlParsed) { return __ColumnCount.Value; }
                 throw new Exception("Cannot return column count without processing grid.xml");
             }
             set
             {
                 __ColumnCount = value;
+                // If we have RowCount and ColumnCount and we're not planning to load from XML, populate the grid
+                if (!__forLoading && __RowCount.HasValue) { SetUpGrid(true); }
             }
         }
         public int RowCount
         {
             get
             {
-                if (__XmlParsed) { return __RowCount; }
+                if (__XmlParsed) { return __RowCount.Value; }
                 throw new Exception("Cannot return row count without processing grid.xml");
             }
             set
             {
                 __RowCount = value;
+                // If we have RowCount and ColumnCount and we're not planning to load from XML, populate the grid
+                if (!__forLoading && __ColumnCount.HasValue) { SetUpGrid(true); }
             }
         }
+
+        private bool __forLoading = false;
 
 
         /// <summary>
@@ -54,11 +61,14 @@ namespace Grid3lib
         /// </summary>
         /// <param name="parent">The GridSet to which the page should be attached</param>
         /// <param name="isHomePage">Whether this grid is the home page of the parent</param>
-        public Page(GridSet parent, bool isHomePage = false, bool generateGuid = false)
+        /// <param name="generateGuid">Whether to auto-generate a new Guid for this <see cref="Page"/> (recommended if creating a page from scratch)</param>
+        /// <param name="forLoading">Whether this <see cref="Page"/> is expected to be populated from XML (true) or using code (false)</param>
+        public Page(GridSet parent, bool isHomePage = false, bool generateGuid = false, bool forLoading = true)
         {
             if (generateGuid) { this.PageId = Guid.NewGuid(); }
             this.Parent = parent; parent.Pages.Add(this);
             if (isHomePage) { this.Parent.Homepage = this; }
+            __forLoading = forLoading;
         }
 
         /// <summary>
@@ -67,14 +77,21 @@ namespace Grid3lib
         /// <param name="parent">The GridSet to which the page should be attached</param>
         /// <param name="name">The name of the Page</param>
         /// <param name="isHomePage">Whether this grid is the home page of the parent</param>
-        public Page(GridSet parent, String name, bool isHomePage = false, bool generateGuid = false)
+        /// <param name="generateGuid">Whether to auto-generate a new Guid for this <see cref="Page"/> (recommended if creating a page from scratch)</param>
+        /// <param name="forLoading">Whether this <see cref="Page"/> is expected to be populated from XML (true) or using code (false)</param>
+        public Page(GridSet parent, String name, bool isHomePage = false, bool generateGuid = false, bool forLoading = true)
         {
             if (generateGuid) { this.PageId = Guid.NewGuid(); }
             this.Parent = parent; parent.Pages.Add(this);
             this.Name = name;
             if (isHomePage) { this.Parent.Homepage = this; }
+            __forLoading = forLoading;
         }
 
+        /// <summary>
+        /// Populates a <see cref="Page"/> object from its XML definition
+        /// </summary>
+        /// <param name="fs">The <see cref="Stream"/> containing the XML definition</param>
         public void Load(Stream fs)
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(ImportClasses.Grid));
@@ -85,12 +102,23 @@ namespace Grid3lib
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cell"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        private void AddCell(Cell cell, int x, int y)
+        /// <param name="cell">The <see cref="Cell"/> to add</param>
+        /// <param name="Column">The column at which to add the cell</param>
+        /// <param name="Row">The row at which to add the cell</param>
+        public void AddCell(Cell cell, int Column, int Row)
         {
-            // TODO - write code to populate rows and columns
+            // Set up cell
+            cell.Parent = this;
+            cell.Column = Column;
+            cell.Row = Row;
+            // Ensure containers are ready
+            if (!Columns.ContainsKey(Column)) { Columns.Add(Column, new PageColumn()); }
+            if (Column >= __ColumnCount) { __ColumnCount = Column + 1; }
+            if (!Rows.ContainsKey(Row)) { Rows.Add(Row, new PageRow()); }
+            if (Row >= __RowCount) { __RowCount = Row + 1; }
+            // Add or insert to sub-containers
+            Columns[Column].Cells.AddOrEdit(Row, cell);
+            Rows[Row].Cells.AddOrEdit(Column, cell);
         }
 
         /// <summary>
@@ -131,8 +159,9 @@ namespace Grid3lib
 
         /// <summary>
         /// Populates the Page with the right number of blank cells
+        /// <param name="CountAsXmlParsed">Whether to count the Page as having been loaded from XML</param>
         /// </summary>
-        public void SetUpGrid(bool CountAsXmlParsed = true)
+        private void SetUpGrid(bool CountAsXmlParsed = true)
         {
             __XmlParsed = CountAsXmlParsed;
             if (!__XmlParsed)
@@ -144,10 +173,10 @@ namespace Grid3lib
                 for (int r = 0; r < this.RowCount; r++)
                 {
                     Cell cell = new Cell(this, c, r, "");
-                    if (Columns.Count <= c) { Columns.Add(new PageColumn()); }
-                    if (Rows.Count <= r) { Rows.Add(new PageRow()); }
-                    Columns[c].Cells.Add(cell);
-                    Rows[r].Cells.Add(cell);
+                    if (Columns.Count <= c) { Columns.Add(c, new PageColumn()); }
+                    if (Rows.Count <= r) { Rows.Add(r, new PageRow()); }
+                    Columns[c].Cells.Add(r, cell);
+                    Rows[r].Cells.Add(c, cell);
                 }
             }
         }
@@ -157,10 +186,15 @@ namespace Grid3lib
         /// </summary>
         /// <param name="Column">The column from which to retrieve</param>
         /// <param name="Row">The row from which to retrieve</param>
-        /// <returns></returns>
+        /// <returns>The matching <see cref="Cell"/> or null if there is no cell at the specified coordinates</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Returned if Column or Row is out of bounds</exception>
         public Cell GetCell(int Column, int Row)
         {
-            return Columns[Column].Cells[Row];
+            if (Column >= __ColumnCount) { throw new ArgumentOutOfRangeException("Column", String.Format("Requested column {0} but column count is only {1}", Column, __ColumnCount)); }
+            if (Row >= __RowCount) { throw new ArgumentOutOfRangeException("Row", String.Format("Requested row {0} but row count is only {1}", Row, __RowCount)); }
+            if (!Columns.ContainsKey(Column) || (Columns[Column] == null)) { return null; } // Not yet populated, therefore no cell
+            if (!Columns[Column].Cells.ContainsKey(Row) || (Columns[Column].Cells[Row] == null)) { return null; } // Not yet populated, therefore no cell
+            return Columns[Column].Cells[Row]; // Shouldn't fail now
         }
 
         /// <summary>

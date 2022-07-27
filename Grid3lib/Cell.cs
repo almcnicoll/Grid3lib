@@ -11,8 +11,7 @@ namespace Grid3lib
         public Page Parent;
 
         public String Label { get; set; } = "";
-        public String Icon { get; set; } = ""; // Format is [symbolset]filename.wmf
-        public String Picture { get; set; } = "";
+        public CellImage? Image { get; set; } = null;
         public Color BackColor { get; set; } = Color.FromArgb(255, Color.White); //'#FFFFFFFF'; // #AARRGGBB
         public Color TextColor { get; set; } = Color.FromArgb(255, Color.Black); //'#FF000000'; // #AARRGGBB
         public Color BorderColor = Color.FromArgb(255, Color.Black); //'#FF000000'; // #AARRGGBB
@@ -33,14 +32,14 @@ namespace Grid3lib
         /// <param name="column">The column on which the cell is located</param>
         /// <param name="row">The row on which the cell is located</param>
         /// <param name="label">The cell's label</param>
-        /// <param name="icon">The cell's icon</param>
-        public Cell(Page parent, int column, int row, string label, string? icon = null)
+        /// <param name="imageString">The cell's icon</param>
+        public Cell(Page parent, int column, int row, string label, string? imageString = null)
         {
             this.Parent = parent;
             this.Label = label;
-            if (icon != null)
+            if (imageString != null)
             {
-                this.Icon = icon;
+                this.Image = new CellImage(this, imageString);
             }
         }
 
@@ -63,8 +62,7 @@ namespace Grid3lib
                 {
                     ImportClasses.GridCellContentCaptionAndImage captionAndImage = content.CaptionAndImage;
                     if (captionAndImage.Caption != null) { this.Label = captionAndImage.Caption; }
-                    if (captionAndImage.Image != null) { this.Icon = captionAndImage.Image; }
-                    // TODO - check if custom JPGs/PNGs are stored differently in XML (if not, it may be appropriate to lose the Picture property altogether)
+                    if (captionAndImage.Image != null) { this.Image = new CellImage(this, captionAndImage.Image); }
                 }
 
                 // Commands
@@ -115,7 +113,11 @@ namespace Grid3lib
 
             // Image
             string imageXml = "";
-            if (String.IsNullOrEmpty(Picture))
+            if (Image != null)
+            {
+                imageXml = $"<Image>{Image.EntryString}</Image>";
+            }
+            /*if (String.IsNullOrEmpty(Picture))
             {
                 if (String.IsNullOrEmpty(Icon))
                 {
@@ -125,7 +127,7 @@ namespace Grid3lib
             else
             {
                 imageXml = $"<Image>{Picture}</Image>";
-            }
+            }*/
 
             // Style
             String styleXml;
