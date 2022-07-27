@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
+using System.Linq;
 
 namespace Grid3lib
 {
@@ -17,8 +18,30 @@ namespace Grid3lib
         public Color BorderColor = Color.FromArgb(255, Color.Black); //'#FF000000'; // #AARRGGBB
         public String BaseStyle { get; set; } = "";
         public List<Command> Commands = new List<Command>();
-        public string SpeakText { get; set; } = ""; // TODO - consider whether to make this readonly, populated by commands
-        public string WriteText { get; set; } = ""; // TODO - consider whether to make this readonly, populated by commands
+        public List<string> Speech
+        {
+            get
+            {
+                // Look through commands for "speak now" commands
+                return (from Command cmd in Commands
+                        from CommandParameter param in cmd.Parameters
+                        where cmd.Action == "Speech.SpeakNow" && param.Key == "text"
+                        select param.Value).ToList();
+
+            }
+        }
+        public List<string> Writing
+        {
+            get
+            {
+                // Look through commands for "insert text" commands
+                return (from Command cmd in Commands
+                        from CommandParameter param in cmd.Parameters
+                        where cmd.Action == "Action.InsertText" && param.Key == "text"
+                        select param.Value).ToList();
+
+            }
+        }
         public int Column { get; set; } = 0;
         public int Row { get; set; } = 0;
         public int ColumnSpan { get; set; } = 1;
