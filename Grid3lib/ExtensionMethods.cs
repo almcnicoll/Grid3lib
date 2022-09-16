@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.IO;
+using System.Runtime.CompilerServices;
+using System.Linq;
 
 namespace Grid3lib
 {
@@ -70,6 +72,61 @@ namespace Grid3lib
             {
                 dictionary.Add(key, value);
             }
+        }
+
+        public static IEnumerable<string> SplitBy(this string str, int chunkLength)
+        {
+            if (String.IsNullOrEmpty(str)) throw new ArgumentException();
+            if (chunkLength < 1) throw new ArgumentException();
+
+            for (int i = 0; i < str.Length; i += chunkLength)
+            {
+                if (chunkLength + i > str.Length)
+                    chunkLength = str.Length - i;
+
+                yield return str.Substring(i, chunkLength);
+            }
+        }
+
+        public static Color? ToColor(this string source)
+        {
+            if (string.IsNullOrEmpty(source)) { return null; }
+            if (source.Substring(0, 1) == "#") { source = source.Substring(1); } // Lop off any leading hash symbol
+
+            string[] pairs = source.SplitBy(2).ToArray();
+            switch (pairs.Length)
+            {
+                case 3: // RGB
+                    try
+                    {
+                        int r = int.Parse(pairs[0], System.Globalization.NumberStyles.HexNumber);
+                        int g = int.Parse(pairs[1], System.Globalization.NumberStyles.HexNumber);
+                        int b = int.Parse(pairs[2], System.Globalization.NumberStyles.HexNumber);
+                        return Color.FromArgb(r, g, b);
+                    }
+                    catch
+                    {
+                        return null;
+                    }
+                case 4: // ARGB
+                    try
+                    {
+                        int a = int.Parse(pairs[0], System.Globalization.NumberStyles.HexNumber);
+                        int r = int.Parse(pairs[1], System.Globalization.NumberStyles.HexNumber);
+                        int g = int.Parse(pairs[2], System.Globalization.NumberStyles.HexNumber);
+                        int b = int.Parse(pairs[3], System.Globalization.NumberStyles.HexNumber);
+                        return Color.FromArgb(a, r, g, b);
+                    }
+                    catch
+                    {
+                        return null;
+                    }
+                default: // Who knows?
+                    return null;
+            }
+
+            Color c = new Color();
+
         }
     }
 }

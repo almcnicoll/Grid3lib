@@ -99,7 +99,7 @@ namespace Grid3lib
 
                 if (content.Style != null)
                 {
-                    // TODO - import cell - styles
+                    // TODO - import cell - styles (classes now exist)
 
                 }
             }
