@@ -8,7 +8,7 @@ namespace Grid3lib.ImportClasses
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class GridCellContentStyle 
+    public partial class GridCellContentStyle
     {
 
         private string basedOnStyleField;
@@ -48,6 +48,32 @@ namespace Grid3lib.ImportClasses
             set
             {
                 this.backColourField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string BorderColour
+        {
+            get
+            {
+                return this.borderColourField;
+            }
+            set
+            {
+                this.borderColourField = value;
+            }
+        }
+
+        /// <remarks/>
+        public string FontColour
+        {
+            get
+            {
+                return this.fontColourField;
+            }
+            set
+            {
+                this.fontColourField = value;
             }
         }
 

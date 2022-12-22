@@ -13,9 +13,78 @@ namespace Grid3lib
 
         public String Label { get; set; } = "";
         public CellImage? Image { get; set; } = null;
-        public Color BackColor { get; set; } = Color.FromArgb(255, Color.White); //'#FFFFFFFF'; // #AARRGGBB
-        public Color TextColor { get; set; } = Color.FromArgb(255, Color.Black); //'#FF000000'; // #AARRGGBB
-        public Color BorderColor = Color.FromArgb(255, Color.Black); //'#FF000000'; // #AARRGGBB
+
+        public Style? CellStyle { get; set; } = null;
+
+        private Color? __BackColor = null;
+        private Color? __TextColor = null;
+        private Color? __BorderColor = null;
+        public Color BackColor
+        {
+            get
+            {
+                if (__BackColor.HasValue)
+                {
+                    return __BackColor.Value;
+                }
+                else
+                {
+                    if ((CellStyle != null) && (CellStyle.BackColour.HasValue))
+                    {
+                        return CellStyle.BackColour.Value;
+                    }
+                    else { return Color.FromArgb(255, Color.White); }
+                }
+            }
+            set
+            {
+                __BackColor = value;
+            }
+        }
+        public Color TextColor
+        {
+            get
+            {
+                if (__TextColor.HasValue)
+                {
+                    return __TextColor.Value;
+                }
+                else
+                {
+                    if ((CellStyle != null) && (CellStyle.FontColour.HasValue))
+                    {
+                        return CellStyle.FontColour.Value;
+                    }
+                    else { return Color.FromArgb(255, Color.Black); }
+                }
+            }
+            set
+            {
+                __TextColor = value;
+            }
+        }
+        public Color BorderColor
+        {
+            get
+            {
+                if (__BorderColor.HasValue)
+                {
+                    return __BorderColor.Value;
+                }
+                else
+                {
+                    if ((CellStyle != null) && (CellStyle.BorderColour.HasValue))
+                    {
+                        return CellStyle.BorderColour.Value;
+                    }
+                    else { return Color.FromArgb(255, Color.Black); }
+                }
+            }
+            set
+            {
+                __BorderColor = value;
+            }
+        }
         public String BaseStyle { get; set; } = "";
         public List<Command> Commands = new List<Command>();
         public List<string> Speech
@@ -100,7 +169,7 @@ namespace Grid3lib
                 if (content.Style != null)
                 {
                     // TODO - import cell - styles (classes now exist)
-
+                    this.CellStyle = new Style(content.Style);
                 }
             }
         }

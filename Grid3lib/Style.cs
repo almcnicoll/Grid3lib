@@ -34,6 +34,17 @@ namespace Grid3lib
             if (source.FontSizeSpecified) { this.FontSize = source.FontSize; }
             if (source.BackgroundShapeSpecified) { this.BackgroundShape = (Shape)source.BackgroundShape; }
         }
+        public Style(ImportClasses.GridCellContentStyle source)
+        {
+            //if (source.Name != null) { this.Name = source.Name; }
+            if (source.BackColour != null) { this.BackColour = source.BackColour.ToColor(); }
+            if (source.BorderColour != null) { this.BorderColour = source.BorderColour.ToColor(); }
+            //if (source.TileColour != null) { this.TileColour = source.TileColour.ToColor(); }
+            if (source.FontColour != null) { this.FontColour = source.FontColour.ToColor(); }
+            if (source.FontName != null) { this.FontName = source.FontName; }
+            //if (source.FontSizeSpecified) { this.FontSize = source.FontSize; }
+            //if (source.BackgroundShapeSpecified) { this.BackgroundShape = (Shape)source.BackgroundShape; }
+        }
     }
 
 }
