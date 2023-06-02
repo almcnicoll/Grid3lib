@@ -97,6 +97,7 @@ namespace Grid3lib
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(ImportClasses.Grid));
             ImportClasses.Grid importGrid = (xmlSerializer.Deserialize(fs) as ImportClasses.Grid);
             CopyFromImportGrid(importGrid);
+            __XmlParsed = true;
         }
 
         /// <summary>

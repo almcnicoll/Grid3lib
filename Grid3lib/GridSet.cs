@@ -116,7 +116,7 @@ namespace Grid3lib
                 debugInfo.Add(String.Join(" / ", folders));
             }
 
-            return null;
+            return gridSet;
         }
     }
 
