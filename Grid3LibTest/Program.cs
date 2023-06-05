@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Grid3lib;
+using XmlParsing;
+using System.IO;
 
 namespace Grid3LibTest
 {
@@ -8,6 +10,22 @@ namespace Grid3LibTest
     {
         static void Main(string[] args)
         {
+            string[] fileLines = File.ReadAllLines(@"C:\Users\GZYBK12\AppData\Local\Temp\test.xml");
+            string testXml = String.Join("",fileLines);
+
+            List<Exception> exceptions = new List<Exception>();
+            exceptions = XmlParseFunctions.ValidateXml(testXml);
+            if (exceptions == null)
+            {
+                Console.WriteLine("Test Xml validated OK");
+            } else { 
+                foreach (Exception ex in exceptions)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            //return;
+
             List<string> output = new List<string>();
             //GridSet gs = GridSet.Load(@"G:\My Drive\Florence\Grid3\backup\grids\Super Core PCS (Florence McNicoll's conflicted copy) (1).gridset", out output);
             GridSet gs = GridSet.Load(@"G:\My Drive\Florence\Grid3\backup\grids\Dear Zoo.gridset", out output);
