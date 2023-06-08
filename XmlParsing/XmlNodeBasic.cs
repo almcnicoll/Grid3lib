@@ -12,7 +12,7 @@ namespace XmlParsing
         private string? __TagName = null;
         private string? __TagString = null;
         private Dictionary<string, string> __Attributes = new Dictionary<string, string>();
-        private string? __InnerXml = null;
+        private List<string> __InnerXml = new List<string>();
         private IXmlNode? __Parent = null;
         private List<IXmlNode> __Children = new List<IXmlNode>();
 
@@ -37,6 +37,7 @@ namespace XmlParsing
             // TODO - TagString, TagClosure
 
             // Set attributes dictionary
+            Dictionary<string, string> AttributesDictionary = new Dictionary<string, string>();
             if (xpr.BaseTagAttributes.Length > 0)
             {
                 MatchCollection mc = XmlParseFunctions.rxAttributes.Matches(xpr.BaseTagAttributes);
@@ -44,12 +45,14 @@ namespace XmlParsing
                 {
                     foreach (Match m in mc)
                     {
-                        __Attributes.Add(m.Groups["Key"].Value, m.Groups["Value"].Value);
+                        AttributesDictionary.Add(m.Groups["Key"].Value, m.Groups["Value"].Value);
                     }
+                    if (AttributesDictionary.Count > 0) { SetAttributes(AttributesDictionary); } // TODO - check that this will call subclass function on subclass nodes
                 }
             }
 
-            __InnerXml = String.Join("", xpr.BaseTagContents); // It's a flat string
+            // Set contents
+            SetContents(xpr.BaseTagContents);
 
             // Now populate children if appropriate
             if (PopulateChildren)
@@ -101,7 +104,7 @@ namespace XmlParsing
             get { return __Attributes; }
         }
 
-        public string? InnerXml
+        public List<string> InnerXml
         {
             get
             {
@@ -109,7 +112,15 @@ namespace XmlParsing
             }
             set
             {
-                __InnerXml = value;
+                __InnerXml = value.ToList();
+            }
+        }
+
+        public string? InnerXmlString
+        {
+            get
+            {
+                return String.Join("", __InnerXml);
             }
         }
 
@@ -165,6 +176,26 @@ namespace XmlParsing
             node.PopulateFromXml(Xml, PopulateChildren);
 
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Sets the attributes of the node from the string KVPs, and runs any resulting processes
+        /// </summary>
+        /// <param name="Attributes">A dictionary of attribute keys and values</param>
+        public virtual void SetAttributes(Dictionary<string, string> Attributes)
+        {
+            // Clone the passed dictionary
+            __Attributes = Attributes.ToDictionary(entry => entry.Key, entry => entry.Value);
+        }
+
+        /// <summary>
+        /// Sets the content of the node from the list of XML strings, and runs any resulting processes
+        /// </summary>
+        /// <param name="Contents">A list of valid XML strings</param>
+        public virtual void SetContents(List<string> Contents)
+        {
+            // Create the InnerXml list
+            __InnerXml = Contents.ToList();
         }
 
         public string ToString()
