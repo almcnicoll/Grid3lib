@@ -61,6 +61,9 @@ namespace XmlParsing
                     __Children.Add(child);
                 }
             }
+
+            // Set node as parsed
+            __Parsed = true;
         }
 
         public bool Parsed
@@ -145,7 +148,7 @@ namespace XmlParsing
             }
 
             // Now check if we have a specific node class for this tag
-            Type tagNodeType = Type.GetType("Grid3Lib.ImportClasses.XmlNodeTag" + xpr.BaseTagName);
+            Type tagNodeType = Type.GetType("Grid3lib.XmlNodeTag." + xpr.BaseTagName);
 
             if (tagNodeType == null)
             {

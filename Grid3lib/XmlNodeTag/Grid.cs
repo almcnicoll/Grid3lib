@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using XmlParsing;
 
-namespace Grid3lib.ImportClasses
+namespace Grid3lib.XmlNodeTag
 {
-    public class XmlNodeTagGrid : XmlNodeBasic
+    /// <summary>
+    /// Represents a Grid within a <see cref="Gridset"/>
+    /// </summary>
+    public class Grid : XmlNodeBasic
     {
         /// <summary>
         /// Fills the XML node from the specified XML markup
