@@ -10,6 +10,7 @@ namespace Grid3LibTest
     {
         static void Main(string[] args)
         {
+            // Test XML parsing code
             string[] fileLines = File.ReadAllLines(@"C:\Users\GZYBK12\AppData\Local\Temp\test.xml");
             string testXml = String.Join("",fileLines);
 
@@ -26,6 +27,7 @@ namespace Grid3LibTest
             }
             //return;
 
+            // Test gridset load and read
             List<string> output = new List<string>();
             //GridSet gs = GridSet.Load(@"G:\My Drive\Florence\Grid3\backup\grids\Super Core PCS (Florence McNicoll's conflicted copy) (1).gridset", out output);
             GridSet gs = GridSet.Load(@"G:\My Drive\Florence\Grid3\backup\grids\Dear Zoo.gridset", out output);

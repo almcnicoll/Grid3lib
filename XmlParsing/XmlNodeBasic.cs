@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace XmlParsing
 {
@@ -21,11 +22,45 @@ namespace XmlParsing
         public XmlNodeBasic() { }
 
         /// <summary>
-        /// Creates an XML node from the specified XML markup
+        /// Fills the XML node from the specified XML markup
         /// </summary>
-        /// <param name="Xml"></param>
-        public XmlNodeBasic(string Xml, bool PopulateChildren = true) { 
+        /// <param name="Xml">The source XML</param>
+        /// <param name="PopulateChildren">Whether to populate the child nodes also</param>
+        public virtual void PopulateFromXml(string Xml, bool PopulateChildren = true)
+        {
+            // TODO - parse and process XML
 
+            // Parse the first XML layer
+            XmlParseResult xpr = XmlParseFunctions.ParseSingleXmlLevel(Xml);
+
+            __TagName = xpr.BaseTagName;
+            // TODO - TagString, TagClosure
+
+            // Set attributes dictionary
+            if (xpr.BaseTagAttributes.Length > 0)
+            {
+                MatchCollection mc = XmlParseFunctions.rxAttributes.Matches(xpr.BaseTagAttributes);
+                if (mc != null)
+                {
+                    foreach (Match m in mc)
+                    {
+                        __Attributes.Add(m.Groups["Key"].Value, m.Groups["Value"].Value);
+                    }
+                }
+            }
+
+            __InnerXml = String.Join("", xpr.BaseTagContents); // It's a flat string
+
+            // Now populate children if appropriate
+            if (PopulateChildren)
+            {
+                foreach (string childXml in xpr.BaseTagContents)
+                {
+                    IXmlNode child = XmlNodeBasic.CreateFromXml(childXml, PopulateChildren);
+                    child.Parent = this;
+                    __Children.Add(child);
+                }
+            }
         }
 
         public bool Parsed
@@ -96,8 +131,36 @@ namespace XmlParsing
         }
 
 
-        public IXmlNode Parse(string Xml)
+        public static IXmlNode CreateFromXml(string Xml, bool PopulateChildren = true)
         {
+            IXmlNode node;
+
+            // Parse the first XML layer and get the tag name
+            XmlParseResult xpr = XmlParseFunctions.ParseSingleXmlLevel(Xml);
+
+            if (xpr.IsCDATA)
+            {
+                // TODO - check if CDATA, and if so return a special type of IXmlNode perhaps?
+                // Certainly don't keep parsing
+            }
+
+            // Now check if we have a specific node class for this tag
+            Type tagNodeType = Type.GetType("Grid3Lib.ImportClasses.XmlNodeTag" + xpr.BaseTagName);
+
+            if (tagNodeType == null)
+            {
+                // No - create generic node
+                // Actual serious parsing of Xml will happen here
+                node = new XmlNodeBasic();
+            }
+            else
+            {
+                node = (IXmlNode)Activator.CreateInstance(tagNodeType);
+            }
+
+            // Actual serious parsing of Xml will happen here
+            node.PopulateFromXml(Xml, PopulateChildren);
+
             throw new NotImplementedException();
         }
 
