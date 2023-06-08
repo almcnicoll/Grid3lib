@@ -17,8 +17,7 @@ namespace XmlParsing
             RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.Singleline);
         public static Regex rxOpeningAndClosingTagsOnly = new Regex(@"^<(?<TagName>[A-Za-z][\w\d]*)\s*(?<TagAttributes>[^>]*)>(?<TagContents>.*?)</\k<TagName>>$",
             RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.Singleline);
-        //public static Regex rxOpeningAndClosingTagsMultiple = new Regex(@"(?<WholeString><(?<TagName>[A-Za-z][\w\d]*)\s*[^>]*>(?<TagContents>.*?)</\k<TagName>>\s*)",
-        public static Regex rxOpeningAndClosingTagsMultiple = new Regex(@"(?<WholeString><(?<TagName>[A-Za-z][\w\d]*)\s*[^>]*>(?<TagContents>.*?)</\k<TagName>>\s*)|(?<WholeString><!\[(?<TagName>CDATA)\[(?<CharacterData>.*)]]>\s*)"
+        public static Regex rxOpeningAndClosingTagsMultiple = new Regex(@"(?<WholeString><(?<TagName>[A-Za-z][\w\d]*)\s*[^>]*>(?<TagContents>.*?)</\k<TagName>>\s*)|(?<WholeString><!\[(?<TagName>CDATA)\[(?<CharacterData>.*)]]>\s*)",
             RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.Singleline);
         public static Regex rxCDATA = new Regex(@" ^<!\[CDATA\[(?<CharacterData>.*)]]>",
             RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.Singleline);
@@ -107,7 +106,8 @@ namespace XmlParsing
                 Xml = rxDocType.Replace(Xml, "");
             }
 
-            if (rxCDATA.IsMatch(Xml)) {
+            if (rxCDATA.IsMatch(Xml))
+            {
                 // CDATA node: simples
                 result = new XmlParseResult("");
                 result.IsCDATA = true;
