@@ -198,7 +198,29 @@ namespace XmlParsing
             __InnerXml = Contents.ToList();
         }
 
-        public string ToString()
+        /// <summary>
+        /// Returns a list of all child nodes of type <typeparamref name="T"/>
+        /// </summary>
+        /// <typeparam name="T">The type of node to look for</typeparam>
+        /// <param name="Depth">The number of levels below the immediate children in which to search. If Depth is negative, all levels will be evaluated.</param>
+        /// <returns>A list of <see cref="IXmlNode"/> child nodes of type <typeparamref name="T"/></returns>
+        public List<T> ChildrenOfType<T>(int Depth = 0) where T : IXmlNode
+        {
+            List<T> thisLevelAndBelow = Children.OfType<T>().ToList();
+            // If Depth is positive, recurse another level; if Depth is negative, recurse until there are no more child nodes
+            if (Depth != 0 && Children.Count > 0)
+            {
+                thisLevelAndBelow.AddRange(ChildrenOfType<T>(Depth - 1));
+            }
+
+            return thisLevelAndBelow;
+        }
+
+        /// <summary>
+        /// Returns the node's XML markup, including the markup of any child nodes
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
         {
             string Opener = String.Format("<{0} {1}>", TagName,
                 (from KeyValuePair<string, string> kvp in Attributes select String.Format(" {0}=\"{1}\" ", kvp.Key, kvp.Value.Replace("\"", "\\" + "\"")))

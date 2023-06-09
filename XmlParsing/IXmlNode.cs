@@ -51,6 +51,14 @@ namespace XmlParsing
         public List<IXmlNode> Children { get; }
 
         /// <summary>
+        /// Returns a list of all child nodes of type <typeparamref name="T"/>
+        /// </summary>
+        /// <typeparam name="T">The type of node to look for</typeparam>
+        /// <param name="Depth">The number of levels below the immediate children in which to search</param>
+        /// <returns>A list of <see cref="IXmlNode"/> child nodes of type <typeparamref name="T"/></returns>
+        public List<T> ChildrenOfType<T>(int Depth) where T : IXmlNode;
+
+        /// <summary>
         /// Parses the specified XML and returns the node object
         /// </summary>
         /// <param name="Xml">The XML from which to populate the object</param>
