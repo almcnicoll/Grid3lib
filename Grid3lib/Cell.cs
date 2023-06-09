@@ -9,7 +9,7 @@ namespace Grid3lib
 {
     public class Cell
     {
-        public Grid Parent;
+        public XmlNodeTag.Grid Parent;
 
         public String Label { get; set; } = "";
         public CellImage? Image { get; set; } = null;
@@ -125,7 +125,7 @@ namespace Grid3lib
         /// <param name="row">The row on which the cell is located</param>
         /// <param name="label">The cell's label</param>
         /// <param name="imageString">The cell's icon</param>
-        public Cell(Grid parent, int column, int row, string label, string? imageString = null)
+        public Cell(XmlNodeTag.Grid parent, int column, int row, string label, string? imageString = null)
         {
             this.Parent = parent;
             this.Label = label;
@@ -135,7 +135,7 @@ namespace Grid3lib
             }
         }
 
-        public Cell(Grid parent, ImportClasses.GridCell importCell)
+        public Cell(XmlNodeTag.Grid parent, ImportClasses.GridCell importCell)
         {
             this.Parent = parent;
 

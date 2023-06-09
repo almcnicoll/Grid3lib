@@ -173,9 +173,6 @@ namespace XmlParsing
             }
 
             // Now check if we have a specific node class for this tag
-            //TODO - this fails - probably because XmlParsing can't see Grid3lib - consider using
-            //  System.Reflection.Assembly.Load("Grid3lib").GetTypes()
-            // or else move this class to Grid3lib
             Type tagNodeType = Type.GetType("Grid3lib.XmlNodeTag." + xpr.BaseTagName);
             
             if (tagNodeType == null)

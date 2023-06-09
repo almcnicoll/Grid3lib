@@ -46,6 +46,8 @@ namespace Grid3lib.XmlNodeTag
         /// </summary>
         public FileMap? Map { get; set; } = null;
 
+        internal List<String> __fileNames = new List<String>();
+
         /// <summary>
         /// A set of all the Grids within the GridSet
         /// </summary>
@@ -68,5 +70,157 @@ namespace Grid3lib.XmlNodeTag
             this.GridSetId = Guid.NewGuid();
             this.Name = name;
         }
+
+        /// <summary>
+        /// Loads a GridSet from a .gridset file
+        /// </summary>
+        /// <param name="filePath">The full path of the GridSet file</param>
+        /// <returns>A <see cref="GridSet"/> object loaded from the file, or null on failure</returns>
+        public static GridSet? Load(String filePath, out List<string> debugInfo)
+        {
+            GridSet gridSet = new GridSet();
+            debugInfo = new List<string>();
+            ZipArchive gridFile = ZipFile.OpenRead(filePath);
+            gridSet.Archive = gridFile;
+
+            // Retrieve and parse settings.xml
+            // Get file
+            ZipArchiveEntry? settingsFile = (from ZipArchiveEntry e in gridFile.Entries
+                                             where e.Name == "settings.xml"
+                                             select e).First();
+            if (settingsFile == null) { debugInfo.Add("No settings.xml found"); return null; }
+            // Read XML
+            using (Stream settingsStream = settingsFile.Open())
+            {
+                using (StreamReader settingsReader = new StreamReader(settingsStream))
+                {
+                    IXmlNode ixnSettings;
+                    string settingsXml = settingsReader.ReadToEnd();
+                    try
+                    {
+                        ixnSettings = XmlNodeBasic.CreateFromXml(settingsXml);
+                    }
+                    catch (Exception ex)
+                    {
+                        debugInfo.Add("Could not parse settings.xml: " + ex.Message);
+                        return null;
+                    }
+                    if (ixnSettings != null && (ixnSettings is XmlNodeTag.GridSetSettings))
+                    {
+                        gridSet.Settings = ixnSettings as XmlNodeTag.GridSetSettings;
+                    }
+                    else
+                    {
+                        debugInfo.Add("Parsing settings.xml did not result in a valid GridSetSettings object");
+                        return null;
+                    }
+                }
+                settingsStream.Close();
+            }
+
+            if (gridSet.Settings == null)
+            {
+                debugInfo.Add("No Settings loaded");
+                return null;
+            }
+
+
+            // Retrieve and parse FileMap.xml
+            // Get file
+            ZipArchiveEntry? fileMapFile = (from ZipArchiveEntry e in gridFile.Entries
+                                            where e.FullName == "FileMap.xml"
+                                            select e).First();
+            if (fileMapFile == null) { debugInfo.Add("No FileMap.xml found"); return null; }
+            // Read XML
+            using (Stream fileMapStream = fileMapFile.Open())
+            {
+                using (StreamReader fileMapReader = new StreamReader(fileMapStream))
+                {
+                    IXmlNode ixnFileMap;
+                    string fileMapXml = fileMapReader.ReadToEnd();
+                    try
+                    {
+                        ixnFileMap = XmlNodeBasic.CreateFromXml(fileMapXml);
+                    }
+                    catch (Exception ex)
+                    {
+                        debugInfo.Add("Could not parse FileMap.xml: " + ex.Message);
+                        return null;
+                    }
+                    if (ixnFileMap != null && (ixnFileMap is XmlNodeTag.FileMap))
+                    {
+                        gridSet.Map = ixnFileMap as XmlNodeTag.FileMap;
+                    }
+                    else
+                    {
+                        debugInfo.Add("Parsing FileMap.xml did not result in a valid FileMap object");
+                        return null;
+                    }
+                }
+                fileMapStream.Close();
+            }
+
+            if (gridSet.Map == null)
+            {
+                debugInfo.Add("No FileMap loaded");
+                return null;
+            }
+
+            // Use FileMap to populate 
+            foreach (Entry entry in gridSet.Map.ChildrenOfType<Entry>(1))
+            {
+                debugInfo.Add(String.Format("File map entry: {0}", entry.StaticFile));
+                if (entry.StaticFile != null && entry.StaticFile.ToPathParts().Last() == "grid.xml")
+                {
+                    gridSet.__fileNames.Add(entry.StaticFile);
+                }
+            }
+
+            // Loop through fileNames, reading grid.xml files into Grid objects as we go
+            foreach (string gridFileName in gridSet.__fileNames)
+            {
+                ZipArchiveEntry? pageGridFile = (from ZipArchiveEntry e in gridFile.Entries
+                                                 where e.FullName == gridFileName.Replace("\\", "/")
+                                                 select e).First();
+                using (Stream fsGridFile = pageGridFile.Open())
+                {
+                    using (StreamReader gridFileReader = new StreamReader(fsGridFile))
+                    {
+                        IXmlNode ixnGrid;
+                        string gridXml = gridFileReader.ReadToEnd();
+                        ixnGrid = XmlNodeBasic.CreateFromXml(gridXml);
+                        if (ixnGrid != null && (ixnGrid is XmlNodeTag.Grid))
+                        {
+                            Grid? g = ixnGrid as Grid;
+                            if (g != null)
+                            {
+                                g.Name = gridFileName.ToPathParts().SkipLast(1).Last();
+                                g.RelativePath = gridFileName;
+                                g.Parent = gridSet;
+                                gridSet.Grids.Add(g);
+                            }
+                        }
+                        else
+                        {
+                            debugInfo.Add("Parsing Grid.xml did not result in a valid Grid object");
+                            return null;
+                        }
+                    }
+                }
+            }
+
+            /*
+            // Loop through all entries
+            foreach (ZipArchiveEntry entry in gridFile.Entries)
+            {
+                string[] folders = entry.FullName.Split(new[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar });
+                //debugInfo.Add(entry.FullName);
+                debugInfo.Add(String.Join(" / ", folders));
+            }
+            */
+
+            return gridSet;
+        }
+
     }
 }

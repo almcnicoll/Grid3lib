@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Grid3lib;
+//using Grid3lib;
 using XmlParsing;
 using System.IO;
+//using Grid3lib.XmlNodeTag;
 
 namespace Grid3LibTest
 {
@@ -11,7 +12,14 @@ namespace Grid3LibTest
         static void Main(string[] args)
         {
             // Test XML parsing code
-            string[] fileLines = File.ReadAllLines(@"C:\Users\GZYBK12\AppData\Local\Temp\test.xml");
+            string[] fileLines;
+            if (File.Exists(@"C:\Users\GZYBK12\AppData\Local\Temp\test.xml"))
+            {
+                fileLines = File.ReadAllLines(@"C:\Users\GZYBK12\AppData\Local\Temp\test.xml");
+            } else
+            {
+                fileLines = File.ReadAllLines(@"C:\Users\almcn\AppData\Local\Temp\test.xml");
+            }
             string testXml = String.Join("",fileLines);
 
             List<Exception> exceptions = new List<Exception>();
@@ -45,21 +53,23 @@ namespace Grid3LibTest
             {
 
                 // Try converting all speaks to writes
-                foreach (Grid page in gs.Grids)
+                foreach (Grid3lib.XmlNodeTag.Grid grid in gs.Grids)
                 {
                     Console.WriteLine("********");
-                    Console.WriteLine(page.Name);
+                    Console.WriteLine(grid.Name);
                     int x, y;
-                    for (y = 0; y < page.RowCount; y++)
+                    for (y = 0; y < grid.RowCount; y++)
                     {
-                        for (x = 0; x < page.ColumnCount; x++)
+                        for (x = 0; x < grid.ColumnCount; x++)
                         {
-                            Cell cell = page.GetCell(x, y);
+                            //TODO - uncomment this
+                            /*Grid3lib.Cell cell = grid.GetCell(x, y);
                             if (cell == null) { Console.WriteLine(String.Format("Null cell {0},{1}", x, y)); continue; } // Don't process null cells
-                            foreach (Command command in cell.Commands)
+                            foreach (Grid3lib.Command command in cell.Commands)
                             {
                                 Console.WriteLine(command.Action);
                             }
+                            */
                         }
                     }
                 }
