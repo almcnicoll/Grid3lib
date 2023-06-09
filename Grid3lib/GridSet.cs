@@ -16,11 +16,11 @@ namespace Grid3lib
     {
         public string? Name { get; set; } = null;
         public Guid? GridSetId { get; set; } = null;
-        public Page? Homepage { get; set; } = null;
+        public Grid? Homepage { get; set; } = null;
         public ZipArchive? Archive { get; set; } = null;
         public GridSetSettings? Settings { get; set; } = null;
         public FileMap? Map { get; set; } = null;
-        public HashSet<Page> Pages { get; set; } = new HashSet<Page>();
+        public HashSet<Grid> Pages { get; set; } = new HashSet<Grid>();
 
         /// <summary>
         /// Creates a new GridSet
@@ -91,13 +91,13 @@ namespace Grid3lib
                 if (fme.StaticFile.ToPathParts().Last() == "grid.xml")
                 {
                     String pageName = fme.StaticFile.ToPathParts().SkipLast(1).Last();
-                    Page p = new Page(gridSet, pageName, (pageName == gridSet.Settings.StartGrid));
+                    Grid p = new Grid(gridSet, pageName, (pageName == gridSet.Settings.StartGrid));
                     p.RelativePath = fme.StaticFile;
                 }
             }
 
             // Loop through grid pages, reading grid.xml files as we go
-            foreach (Page p in gridSet.Pages)
+            foreach (Grid p in gridSet.Pages)
             {
                 ZipArchiveEntry? pageGridFile = (from ZipArchiveEntry e in gridFile.Entries
                                                  where e.FullName == p.RelativePath.Replace("\\","/")

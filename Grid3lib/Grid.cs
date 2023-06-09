@@ -9,7 +9,7 @@ namespace Grid3lib
     /// <summary>
     /// Represents a page of a GridSet
     /// </summary>
-    public class Page
+    public class Grid
     {
         public GridSet Parent { get; set; }
         public String Name { get; set; }
@@ -61,9 +61,9 @@ namespace Grid3lib
         /// </summary>
         /// <param name="parent">The GridSet to which the page should be attached</param>
         /// <param name="isHomePage">Whether this grid is the home page of the parent</param>
-        /// <param name="generateGuid">Whether to auto-generate a new Guid for this <see cref="Page"/> (recommended if creating a page from scratch)</param>
-        /// <param name="forLoading">Whether this <see cref="Page"/> is expected to be populated from XML (true) or using code (false)</param>
-        public Page(GridSet parent, bool isHomePage = false, bool generateGuid = false, bool forLoading = true)
+        /// <param name="generateGuid">Whether to auto-generate a new Guid for this <see cref="Grid"/> (recommended if creating a page from scratch)</param>
+        /// <param name="forLoading">Whether this <see cref="Grid"/> is expected to be populated from XML (true) or using code (false)</param>
+        public Grid(GridSet parent, bool isHomePage = false, bool generateGuid = false, bool forLoading = true)
         {
             if (generateGuid) { this.PageId = Guid.NewGuid(); }
             this.Parent = parent; parent.Pages.Add(this);
@@ -77,9 +77,9 @@ namespace Grid3lib
         /// <param name="parent">The GridSet to which the page should be attached</param>
         /// <param name="name">The name of the Page</param>
         /// <param name="isHomePage">Whether this grid is the home page of the parent</param>
-        /// <param name="generateGuid">Whether to auto-generate a new Guid for this <see cref="Page"/> (recommended if creating a page from scratch)</param>
-        /// <param name="forLoading">Whether this <see cref="Page"/> is expected to be populated from XML (true) or using code (false)</param>
-        public Page(GridSet parent, String name, bool isHomePage = false, bool generateGuid = false, bool forLoading = true)
+        /// <param name="generateGuid">Whether to auto-generate a new Guid for this <see cref="Grid"/> (recommended if creating a page from scratch)</param>
+        /// <param name="forLoading">Whether this <see cref="Grid"/> is expected to be populated from XML (true) or using code (false)</param>
+        public Grid(GridSet parent, String name, bool isHomePage = false, bool generateGuid = false, bool forLoading = true)
         {
             if (generateGuid) { this.PageId = Guid.NewGuid(); }
             this.Parent = parent; parent.Pages.Add(this);
@@ -89,7 +89,7 @@ namespace Grid3lib
         }
 
         /// <summary>
-        /// Populates a <see cref="Page"/> object from its XML definition
+        /// Populates a <see cref="Grid"/> object from its XML definition
         /// </summary>
         /// <param name="fs">The <see cref="Stream"/> containing the XML definition</param>
         public void Load(Stream fs)

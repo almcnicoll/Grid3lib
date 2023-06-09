@@ -45,7 +45,7 @@ namespace Grid3LibTest
             {
 
                 // Try converting all speaks to writes
-                foreach (Page page in gs.Pages)
+                foreach (Grid page in gs.Pages)
                 {
                     Console.WriteLine("********");
                     Console.WriteLine(page.Name);
