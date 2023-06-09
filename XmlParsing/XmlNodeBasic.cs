@@ -21,6 +21,11 @@ namespace XmlParsing
         /// </summary>
         public XmlNodeBasic() { }
 
+        protected virtual void OnChildrenPopulated(EventArgs e)
+        {
+            ChildrenPopulated?.Invoke(this, e);
+        }
+
         /// <summary>
         /// Fills the XML node from the specified XML markup
         /// </summary>
@@ -63,6 +68,7 @@ namespace XmlParsing
                     child.Parent = this;
                     __Children.Add(child);
                 }
+                OnChildrenPopulated(new EventArgs());
             }
 
             // Set node as parsed
@@ -144,7 +150,15 @@ namespace XmlParsing
             }
         }
 
+        public event EventHandler ChildrenPopulated;
 
+        /// <summary>
+        /// Creates an <see cref="IXmlNode"/> from XML markup
+        /// </summary>
+        /// <param name="Xml">The XML to parse</param>
+        /// <param name="PopulateChildren">Whether to populate child nodes as well as the base node</param>
+        /// <returns>An object implementing <see cref="IXmlNode"/>, either generic or tag-specific depending on the base tag</returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static IXmlNode CreateFromXml(string Xml, bool PopulateChildren = true)
         {
             IXmlNode node;
@@ -175,7 +189,7 @@ namespace XmlParsing
             // Actual serious parsing of Xml will happen here
             node.PopulateFromXml(Xml, PopulateChildren);
 
-            throw new NotImplementedException();
+            return node;
         }
 
         /// <summary>
