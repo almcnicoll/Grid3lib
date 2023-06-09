@@ -11,16 +11,16 @@ namespace Grid3lib
     /// </summary>
     public class Grid
     {
-        public GridSet Parent { get; set; }
+        public XmlNodeTag.GridSet Parent { get; set; }
         public String Name { get; set; }
-        public Guid? PageId { get; set; } = null;
+        public Guid? GridId { get; set; } = null;
         public string RelativePath { get; set; } = null;
         private bool __XmlParsed = false;
         public List<Command> StartupCommands { get; set; } = new List<Command>();
         public List<ScanBlockAudioDescription> ScanBlockAudioDescriptions { get; set; } = new List<ScanBlockAudioDescription>();
         // NB In file and library, rows and columns are zero-based
-        private Dictionary<int, PageColumn> Columns = new Dictionary<int, PageColumn>();
-        private Dictionary<int, PageRow> Rows = new Dictionary<int, PageRow>();
+        private Dictionary<int, GridColumn> Columns = new Dictionary<int, GridColumn>();
+        private Dictionary<int, GridRow> Rows = new Dictionary<int, GridRow>();
 
         private int? __ColumnCount;
         private int? __RowCount;
@@ -63,10 +63,10 @@ namespace Grid3lib
         /// <param name="isHomePage">Whether this grid is the home page of the parent</param>
         /// <param name="generateGuid">Whether to auto-generate a new Guid for this <see cref="Grid"/> (recommended if creating a page from scratch)</param>
         /// <param name="forLoading">Whether this <see cref="Grid"/> is expected to be populated from XML (true) or using code (false)</param>
-        public Grid(GridSet parent, bool isHomePage = false, bool generateGuid = false, bool forLoading = true)
+        public Grid(XmlNodeTag.GridSet parent, bool isHomePage = false, bool generateGuid = false, bool forLoading = true)
         {
-            if (generateGuid) { this.PageId = Guid.NewGuid(); }
-            this.Parent = parent; parent.Pages.Add(this);
+            if (generateGuid) { this.GridId = Guid.NewGuid(); }
+            this.Parent = parent; parent.Grids.Add(this);
             if (isHomePage) { this.Parent.Homepage = this; }
             __forLoading = forLoading;
         }
@@ -79,10 +79,10 @@ namespace Grid3lib
         /// <param name="isHomePage">Whether this grid is the home page of the parent</param>
         /// <param name="generateGuid">Whether to auto-generate a new Guid for this <see cref="Grid"/> (recommended if creating a page from scratch)</param>
         /// <param name="forLoading">Whether this <see cref="Grid"/> is expected to be populated from XML (true) or using code (false)</param>
-        public Grid(GridSet parent, String name, bool isHomePage = false, bool generateGuid = false, bool forLoading = true)
+        public Grid(XmlNodeTag.GridSet parent, String name, bool isHomePage = false, bool generateGuid = false, bool forLoading = true)
         {
-            if (generateGuid) { this.PageId = Guid.NewGuid(); }
-            this.Parent = parent; parent.Pages.Add(this);
+            if (generateGuid) { this.GridId = Guid.NewGuid(); }
+            this.Parent = parent; parent.Grids.Add(this);
             this.Name = name;
             if (isHomePage) { this.Parent.Homepage = this; }
             __forLoading = forLoading;
@@ -113,9 +113,9 @@ namespace Grid3lib
             cell.Column = Column;
             cell.Row = Row;
             // Ensure containers are ready
-            if (!Columns.ContainsKey(Column)) { Columns.Add(Column, new PageColumn()); }
+            if (!Columns.ContainsKey(Column)) { Columns.Add(Column, new GridColumn()); }
             if (Column >= __ColumnCount) { __ColumnCount = Column + 1; }
-            if (!Rows.ContainsKey(Row)) { Rows.Add(Row, new PageRow()); }
+            if (!Rows.ContainsKey(Row)) { Rows.Add(Row, new GridRow()); }
             if (Row >= __RowCount) { __RowCount = Row + 1; }
             // Add or insert to sub-containers
             Columns[Column].Cells.AddOrEdit(Row, cell);
@@ -128,7 +128,7 @@ namespace Grid3lib
         /// <param name="importGrid"></param>
         private void CopyFromImportGrid(ImportClasses.Grid importGrid)
         {
-            this.PageId = new Guid(importGrid.GridGuid);
+            this.GridId = new Guid(importGrid.GridGuid);
             this.__ColumnCount = importGrid.ColumnDefinitions.Length;
             this.__RowCount = importGrid.RowDefinitions.Length;
 
@@ -174,8 +174,8 @@ namespace Grid3lib
                 for (int r = 0; r < this.RowCount; r++)
                 {
                     Cell cell = new Cell(this, c, r, "");
-                    if (Columns.Count <= c) { Columns.Add(c, new PageColumn()); }
-                    if (Rows.Count <= r) { Rows.Add(r, new PageRow()); }
+                    if (Columns.Count <= c) { Columns.Add(c, new GridColumn()); }
+                    if (Rows.Count <= r) { Rows.Add(r, new GridRow()); }
                     Columns[c].Cells.Add(r, cell);
                     Rows[r].Cells.Add(c, cell);
                 }
@@ -219,7 +219,7 @@ namespace Grid3lib
             }
             string xml = $@"
             <Grid xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
-            <GridGuid>{PageId}</GridGuid>
+            <GridGuid>{GridId}</GridGuid>
             <ColumnDefinitions>{colDefs}</ColumnDefinitions>
             <RowDefinitions>{rowDefs}</RowDefinitions>
             <AutoContentCommands />

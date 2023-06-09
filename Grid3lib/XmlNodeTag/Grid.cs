@@ -6,7 +6,7 @@ using XmlParsing;
 namespace Grid3lib.XmlNodeTag
 {
     /// <summary>
-    /// Represents a Grid within a <see cref="Gridset"/>
+    /// Represents a Grid within a <see cref="GridSet"/>
     /// </summary>
     public class Grid : XmlNodeBasic
     {
@@ -20,19 +20,35 @@ namespace Grid3lib.XmlNodeTag
         /// <summary>
         /// Returns the number of columns in the Grid
         /// </summary>
-        public int ColumnCount { get; set; }
+        public int ColumnCount
+        {
+            get
+            {
+                return ChildrenOfType<ColumnDefinition>().Count;
+            }
+        }
 
         /// <summary>
         /// Returns the number of rows in the Grid
         /// </summary>
-        public int RowCount { get; set; }
+        public int RowCount
+        {
+            get
+            {
+                return ChildrenOfType<RowDefinition>().Count;
+            }
+        }
 
         /// <summary>
-        /// Constructor if creating programmatically
+        /// Constructor if creating programmatically rather than parsing XML
         /// </summary>
-        public Grid(bool GenerateGuid = true)
+        public Grid(GridSet parent, bool isHomePage = false, bool GenerateGuid = true)
         {
             if (GenerateGuid) { PageId = Guid.NewGuid(); }
+            if (isHomePage)
+            {
+                (this.Parent as GridSet).Homepage = this;
+            }
         }
 
         /// <summary>

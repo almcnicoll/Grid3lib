@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using XmlParsing;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using System.Xml.Serialization;
+
+namespace Grid3lib.XmlNodeTag
+{
+    /// <summary>
+    /// Represents a Gridset
+    /// NB - there is not actually a GridSet node, so maybe this shouldn't be an XmlNodeTag class
+    /// </summary>
+    public class Gridset : XmlNodeBasic
+    {
+        public string? Name { get; set; } = null;
+        public Guid? GridSetId { get; set; } = null;
+        public Grid? Homepage { get; set; } = null;
+        public ZipArchive? Archive { get; set; } = null;
+        public GridSetSettings? Settings { get; set; } = null;
+        public FileMap? Map { get; set; } = null;
+        public HashSet<Grid> Pages { get; set; } = new HashSet<Grid>();
+
+    }
+}
