@@ -257,7 +257,7 @@ namespace XmlParsing
             string Contents;
             if (Children.Count == 0)
             {
-                Contents = InnerXmlString;
+                Contents = InnerXmlString.BlankIfNull();
             }
             else
             {

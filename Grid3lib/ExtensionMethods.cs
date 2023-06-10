@@ -8,8 +8,17 @@ using System.Linq;
 
 namespace Grid3lib
 {
+    /// <summary>
+    ///  Contains Extension Methods for use throughout the library
+    /// </summary>
     public static class ExtensionMethods
     {
+        /// <summary>
+        /// Produces a repeating string
+        /// </summary>
+        /// <param name="input">The string to repeat</param>
+        /// <param name="count">The number of times to repeat it</param>
+        /// <returns>The resulting composite string</returns>
         public static string Repeat(this string input, int count)
         {
             if (String.IsNullOrEmpty(input) || count <= 1)
@@ -24,6 +33,11 @@ namespace Grid3lib
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Breaks a path string apart into folders
+        /// </summary>
+        /// <param name="input">The path with backslash or forward-slash separators</param>
+        /// <returns>An array of <see cref="string"/> containing the path elements in order</returns>
         public static string[] ToPathParts(this string input)
         {
             return input.Split(new[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar });
@@ -74,6 +88,13 @@ namespace Grid3lib
             }
         }
 
+        /// <summary>
+        /// Breaks a string into chunks of the specified length
+        /// </summary>
+        /// <param name="str">The original string</param>
+        /// <param name="chunkLength">The length of each chunk</param>
+        /// <returns>An <see cref="IEnumerable{String}" /> of the string chunks</returns>
+        /// <exception cref="ArgumentException"></exception>
         public static IEnumerable<string> SplitBy(this string str, int chunkLength)
         {
             if (String.IsNullOrEmpty(str)) throw new ArgumentException();
@@ -88,6 +109,11 @@ namespace Grid3lib
             }
         }
 
+        /// <summary>
+        /// Converts a hex (A)RGB colour to a <see cref="Color"/>
+        /// </summary>
+        /// <param name="source">The colour in RGB or ARGB format, with or without a leading #</param>
+        /// <returns>A <see cref="Color"/> object, or null if the string could not be parsed</returns>
         public static Color? ToColor(this string source)
         {
             if (string.IsNullOrEmpty(source)) { return null; }
@@ -124,9 +150,17 @@ namespace Grid3lib
                 default: // Who knows?
                     return null;
             }
+        }
 
-            Color c = new Color();
-
+        /// <summary>
+        /// Makes a nullable string safe for use in non-nullable contexts
+        /// </summary>
+        /// <param name="value">The string to evaluate</param>
+        /// <returns>The original string if not null, otherwise an empty string</returns>
+        public static string BlankIfNull(this string? value)
+        {
+            if (value == null) { return ""; }
+            return value;
         }
     }
 }
