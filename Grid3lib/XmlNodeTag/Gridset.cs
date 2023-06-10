@@ -11,7 +11,7 @@ using System.Xml.Serialization;
 namespace Grid3lib.XmlNodeTag
 {
     /// <summary>
-    /// Represents a Gridset
+    /// Represents a GridSet
     /// NB - there is not actually a GridSet node, but by making this an XmlNodeTag class, we can make it a parent of <see cref="Grid"/> objects
     /// </summary>
     public class GridSet : XmlNodeBasic

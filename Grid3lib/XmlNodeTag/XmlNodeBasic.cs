@@ -7,6 +7,9 @@ using Grid3lib;
 
 namespace XmlParsing
 {
+    /// <summary>
+    /// A basic node class which can be instantiated to represent an XML node, or extended to support custom XML tags
+    /// </summary>
     public class XmlNodeBasic : IXmlNode
     {
         private bool __Parsed = false;
@@ -22,6 +25,10 @@ namespace XmlParsing
         /// </summary>
         public XmlNodeBasic() { }
 
+        /// <summary>
+        /// Fires when child nodes have been populated
+        /// </summary>
+        /// <param name="e"></param>
         protected virtual void OnChildrenPopulated(EventArgs e)
         {
             ChildrenPopulated?.Invoke(this, e);
@@ -57,6 +64,9 @@ namespace XmlParsing
             }
         }
 
+        /// <summary>
+        /// Represents all attributes associated with the node
+        /// </summary>
         public Dictionary<string, string> Attributes
         {
             get { return __Attributes; }
@@ -102,7 +112,10 @@ namespace XmlParsing
             }
         }
 
-        public event EventHandler ChildrenPopulated;
+        /// <summary>
+        /// Raised when all child nodes have been populated
+        /// </summary>
+        public event EventHandler? ChildrenPopulated;
 
         /// <summary>
         /// Fills the XML node from the specified XML markup
@@ -248,14 +261,16 @@ namespace XmlParsing
             }
             else
             {
-                Contents = String.Join(Environment.NewLine, (from IXmlNode child in Children select child.ToString()));
+                //Contents = String.Join(Environment.NewLine, (from IXmlNode child in Children select child.ToString()));
+                Contents = String.Join("", (from IXmlNode child in Children select child.ToString()));
             }
             // Now allow for self-closing
             if (String.IsNullOrWhiteSpace(Contents))
             {
                 return String.Format("<{0}{1} />", TagName, AttributesString);
             }
-            return Opener + Environment.NewLine + Contents + Environment.NewLine + this.TagClosure;
+            //return Opener + Environment.NewLine + Contents + Environment.NewLine + this.TagClosure;
+            return Opener + Contents + this.TagClosure;
         }
 
         /// <summary>
