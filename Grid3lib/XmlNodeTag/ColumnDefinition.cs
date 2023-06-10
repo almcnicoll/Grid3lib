@@ -7,7 +7,7 @@ namespace Grid3lib.XmlNodeTag
 {
     /// <summary>
     /// Defines a column on a <see cref="Grid"/>
-    /// /// </summary>
+    /// </summary>
     public class ColumnDefinition:XmlNodeBasic
     {
 

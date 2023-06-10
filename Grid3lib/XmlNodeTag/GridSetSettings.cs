@@ -13,7 +13,22 @@ namespace Grid3lib.XmlNodeTag
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
     public partial class GridSetSettings : XmlNodeBasic
     {
+        /// <summary>
+        /// Returns the name of the starting <see cref="Grid"/> for the current <see cref="GridSet"/>.
+        /// </summary>
+        public string StartGrid
+        {
+            get
+            {
+                return base.GetAttributeValueOrNull("StartGrid");
+            }
+            set
+            {
+                Attributes.AddOrEdit("StartGrid", value);
+            }
+        }
 
+        /*
         private GridSetSettingsPictureSearch pictureSearchField;
 
         private object appearanceField;
@@ -102,31 +117,6 @@ namespace Grid3lib.XmlNodeTag
             {
                 this.gridSetFileFormatVersionField = value;
             }
-        }
+        }*/
     }
-
-    /// <remarks/>
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class GridSetSettingsPictureSearch
-    {
-
-        private string[] pictureSearchKeysField;
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("PictureSearchKey", IsNullable = false)]
-        public string[] PictureSearchKeys
-        {
-            get
-            {
-                return this.pictureSearchKeysField;
-            }
-            set
-            {
-                this.pictureSearchKeysField = value;
-            }
-        }
-    }
-
 }

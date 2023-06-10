@@ -6,9 +6,9 @@ using XmlParsing;
 namespace Grid3lib.XmlNodeTag
 {
     /// <summary>
-    /// Defines a row on a <see cref="Grid"/>
+    /// Defines a PictureSearchKey within Grid settings
     /// </summary>
-    public class RowDefinition : XmlNodeBasic
+    public class PictureSearchKey : XmlNodeBasic
     {
 
     }

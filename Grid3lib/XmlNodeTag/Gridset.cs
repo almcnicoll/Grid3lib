@@ -85,9 +85,9 @@ namespace Grid3lib.XmlNodeTag
 
             // Retrieve and parse settings.xml
             // Get file
-            ZipArchiveEntry? settingsFile = (from ZipArchiveEntry e in gridFile.Entries
-                                             where e.Name == "settings.xml"
-                                             select e).First();
+            ZipArchiveEntry? settingsFile = (from ZipArchiveEntry zipEntry in gridFile.Entries
+                                             where zipEntry.Name == "settings.xml"
+                                             select zipEntry).First();
             if (settingsFile == null) { debugInfo.Add("No settings.xml found"); return null; }
             // Read XML
             using (Stream settingsStream = settingsFile.Open())
@@ -127,9 +127,9 @@ namespace Grid3lib.XmlNodeTag
 
             // Retrieve and parse FileMap.xml
             // Get file
-            ZipArchiveEntry? fileMapFile = (from ZipArchiveEntry e in gridFile.Entries
-                                            where e.FullName == "FileMap.xml"
-                                            select e).First();
+            ZipArchiveEntry? fileMapFile = (from ZipArchiveEntry zipEntry in gridFile.Entries
+                                            where zipEntry.FullName == "FileMap.xml"
+                                            select zipEntry).First();
             if (fileMapFile == null) { debugInfo.Add("No FileMap.xml found"); return null; }
             // Read XML
             using (Stream fileMapStream = fileMapFile.Open())

@@ -40,6 +40,7 @@ namespace Grid3LibTest
             //GridSet gs = GridSet.Load(@"G:\My Drive\Florence\Grid3\backup\grids\Super Core PCS (Florence McNicoll's conflicted copy) (1).gridset", out output);
             Grid3lib.XmlNodeTag.GridSet gs = Grid3lib.XmlNodeTag.GridSet.Load(@"G:\My Drive\Florence\Grid3\backup\grids\Dear Zoo.gridset", out output);
 
+            // Output debug info
             foreach (string s in output)
             {
                 Console.WriteLine(s);
@@ -51,6 +52,15 @@ namespace Grid3LibTest
             }
             else
             {
+                // Test XML writing by outputting the Settings and FileMap files to temp files
+                string tempDir = Path.Combine(Path.GetTempPath(),System.Reflection.Assembly.GetEntryAssembly().GetName().Name);
+                Directory.CreateDirectory(tempDir);
+                
+                string tempXmlSettings = Path.Combine(tempDir, "settings.xml");
+                string tempXmlFileMap = Path.Combine(tempDir, "FileMap.xml");
+
+                File.WriteAllText(tempXmlSettings,gs.Settings.ToString());
+                File.WriteAllText(tempXmlFileMap, gs.Map.ToString());
 
                 // Try converting all speaks to writes
                 foreach (Grid3lib.XmlNodeTag.Grid grid in gs.Grids)

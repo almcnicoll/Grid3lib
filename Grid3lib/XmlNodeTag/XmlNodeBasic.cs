@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Grid3lib;
 
 namespace XmlParsing
 {
@@ -24,55 +25,6 @@ namespace XmlParsing
         protected virtual void OnChildrenPopulated(EventArgs e)
         {
             ChildrenPopulated?.Invoke(this, e);
-        }
-
-        /// <summary>
-        /// Fills the XML node from the specified XML markup
-        /// </summary>
-        /// <param name="Xml">The source XML</param>
-        /// <param name="PopulateChildren">Whether to populate the child nodes also</param>
-        public virtual void PopulateFromXml(string Xml, bool PopulateChildren = true)
-        {
-            // TODO - parse and process XML
-
-            // Parse the first XML layer
-            XmlParseResult xpr = XmlParseFunctions.ParseSingleXmlLevel(Xml);
-
-            __TagName = xpr.BaseTagName;
-            // TODO - TagString, TagClosure
-
-            // Set attributes dictionary
-            Dictionary<string, string> AttributesDictionary = new Dictionary<string, string>();
-            if (xpr.BaseTagAttributes.Length > 0)
-            {
-                MatchCollection mc = XmlParseFunctions.rxAttributes.Matches(xpr.BaseTagAttributes);
-                if (mc != null)
-                {
-                    foreach (Match m in mc)
-                    {
-                        AttributesDictionary.Add(m.Groups["Key"].Value, m.Groups["Value"].Value);
-                    }
-                    if (AttributesDictionary.Count > 0) { SetAttributes(AttributesDictionary); } // TODO - check that this will call subclass function on subclass nodes
-                }
-            }
-
-            // Set contents
-            SetContents(xpr.BaseTagContents);
-
-            // Now populate children if appropriate
-            if (PopulateChildren)
-            {
-                foreach (string childXml in xpr.BaseTagContents)
-                {
-                    IXmlNode child = XmlNodeBasic.CreateFromXml(childXml, PopulateChildren);
-                    child.Parent = this;
-                    __Children.Add(child);
-                }
-                OnChildrenPopulated(new EventArgs());
-            }
-
-            // Set node as parsed
-            __Parsed = true;
         }
 
         public bool Parsed
@@ -153,6 +105,54 @@ namespace XmlParsing
         public event EventHandler ChildrenPopulated;
 
         /// <summary>
+        /// Fills the XML node from the specified XML markup
+        /// </summary>
+        /// <param name="Xml">The source XML</param>
+        /// <param name="PopulateChildren">Whether to populate the child nodes also</param>
+        public virtual void PopulateFromXml(string Xml, bool PopulateChildren = true)
+        {
+            // Parse the first XML layer
+            XmlParseResult xpr = XmlParseFunctions.ParseSingleXmlLevel(Xml);
+
+            __TagName = xpr.BaseTagName;
+            // TODO - TagString, TagClosure
+
+            // Set attributes dictionary
+            Dictionary<string, string> AttributesDictionary = new Dictionary<string, string>();
+            if (xpr.BaseTagAttributes.Length > 0)
+            {
+                MatchCollection mc = XmlParseFunctions.rxAttributes.Matches(xpr.BaseTagAttributes);
+                if (mc != null)
+                {
+                    foreach (Match m in mc)
+                    {
+                        AttributesDictionary.Add(m.Groups["Key"].Value, m.Groups["Value"].Value);
+                    }
+                    if (AttributesDictionary.Count > 0) { SetAttributes(AttributesDictionary); } // TODO - check that this will call subclass function on subclass nodes
+                }
+            }
+
+            // Set contents
+            SetContents(xpr.BaseTagContents);
+
+            // Now populate children if appropriate
+            if (PopulateChildren)
+            {
+                foreach (string childXml in xpr.BaseTagContents)
+                {
+                    if (!XmlParseFunctions.rxOpeningTag.IsMatch(childXml)) { continue; } // Don't parse text nodes - leave them as contents
+                    IXmlNode child = XmlNodeBasic.CreateFromXml(childXml, PopulateChildren);
+                    child.Parent = this;
+                    __Children.Add(child);
+                }
+                OnChildrenPopulated(new EventArgs());
+            }
+
+            // Set node as parsed
+            __Parsed = true;
+        }
+
+        /// <summary>
         /// Creates an <see cref="IXmlNode"/> from XML markup
         /// </summary>
         /// <param name="Xml">The XML to parse</param>
@@ -174,7 +174,7 @@ namespace XmlParsing
 
             // Now check if we have a specific node class for this tag
             Type tagNodeType = Type.GetType("Grid3lib.XmlNodeTag." + xpr.BaseTagName);
-            
+
             if (tagNodeType == null)
             {
                 // No - create generic node
@@ -236,11 +236,50 @@ namespace XmlParsing
         /// <returns></returns>
         public override string ToString()
         {
-            string Opener = String.Format("<{0} {1}>", TagName,
-                (from KeyValuePair<string, string> kvp in Attributes select String.Format(" {0}=\"{1}\" ", kvp.Key, kvp.Value.Replace("\"", "\\" + "\"")))
+            string AttributesString = String.Join(" ",
+                    from KeyValuePair<string, string> kvp in Attributes select String.Format(" {0}=\"{1}\" ", kvp.Key, kvp.Value.Replace("\"", "\\" + "\""))
+                ).Trim();
+            if (AttributesString.Length > 0) { AttributesString = " " + AttributesString; }
+            string Opener = String.Format("<{0}{1}>", TagName, AttributesString
+
                 );
-            string Contents = String.Join(Environment.NewLine, (from IXmlNode child in Children select child.ToString()));
+            string Contents;
+            if (Children.Count == 0)
+            {
+                Contents = InnerXmlString;
+            }
+            else
+            {
+                Contents = String.Join(Environment.NewLine, (from IXmlNode child in Children select child.ToString()));
+            }
             return Opener + Environment.NewLine + Contents + Environment.NewLine + this.TagClosure;
+        }
+
+        /// <summary>
+        ///  Returns the value of the specified attribute if set, otherwise null
+        /// </summary>
+        /// <param name="Key">The attribute to search for</param>
+        /// <returns>A <see cref="string"/> of the attribute value, or null if the attribute is not set</returns>
+        public string GetAttributeValueOrNull(string Key)
+        {
+            if (Attributes.ContainsKey(Key))
+            {
+                return Attributes[Key];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        ///  Sets the value of the specified attribute, by either creating or editing
+        /// </summary>
+        /// <param name="Key">The attribute to set</param>
+        /// <param name="Value">The desired value of that attribute</param>
+        public void SetAttributeValue(string Key, string Value)
+        {
+            Attributes.AddOrEdit(Key, Value);
         }
     }
 }
