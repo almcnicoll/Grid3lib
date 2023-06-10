@@ -240,9 +240,7 @@ namespace XmlParsing
                     from KeyValuePair<string, string> kvp in Attributes select String.Format(" {0}=\"{1}\" ", kvp.Key, kvp.Value.Replace("\"", "\\" + "\""))
                 ).Trim();
             if (AttributesString.Length > 0) { AttributesString = " " + AttributesString; }
-            string Opener = String.Format("<{0}{1}>", TagName, AttributesString
-
-                );
+            string Opener = String.Format("<{0}{1}>", TagName, AttributesString);
             string Contents;
             if (Children.Count == 0)
             {
@@ -251,6 +249,11 @@ namespace XmlParsing
             else
             {
                 Contents = String.Join(Environment.NewLine, (from IXmlNode child in Children select child.ToString()));
+            }
+            // Now allow for self-closing
+            if (String.IsNullOrWhiteSpace(Contents))
+            {
+                return String.Format("<{0}{1} />", TagName, AttributesString);
             }
             return Opener + Environment.NewLine + Contents + Environment.NewLine + this.TagClosure;
         }
