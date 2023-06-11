@@ -5,7 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.Diagnostics.Tracing;
 
-namespace Grid3lib
+namespace Grid3lib.ToConvert
 {
     public enum Shape
     {

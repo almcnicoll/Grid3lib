@@ -4,14 +4,65 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Linq;
+using XmlParsing;
 
-namespace Grid3lib
+namespace Grid3lib.XmlNodeTag
 {
-    public class Cell
+    public class Cell : XmlNodeBasic
     {
-        public XmlNodeTag.Grid Parent;
+        /// <summary>
+        /// Returns the parent node as a strongly-typed Grid rather than as an IXmlNode
+        /// </summary>
+        public Grid? ParentGrid
+        {
+            get
+            {
+                return (Parent as Grid);
+            }
+            set
+            {
+                Parent = value;
+            }
+        }
 
-        public String Label { get; set; } = "";
+        /// <summary>
+        /// Gets or sets the cell label
+        /// </summary>
+        public string? Label
+        {
+            get
+            {
+                // Look for any <Caption> descendant node - return its InnerXmlString, or null if not found
+                List<Caption> captions = ChildrenOfType<Caption>(-1);
+                if (captions.Count == 0) { return null; }
+                return captions[0].InnerXmlString;
+            }
+            set
+            {
+                // Look for any <Caption> descendant node - set or clear its InnerXml if found
+                List<Caption> captions = ChildrenOfType<Caption>(-1);
+                if (captions.Count == 0)
+                {
+                    // Create a Content -> CaptionAndImage -> Caption node chain, then set or clear the Caption's InnerXml
+                    if (value == null) { return; }
+                    Content content = GetOrCreateImmediateChild<Content>();
+                    CaptionAndImage captionAndImage = content.GetOrCreateImmediateChild<CaptionAndImage>();
+                    Caption caption = captionAndImage.GetOrCreateImmediateChild<Caption>();
+                    caption.InnerXml.Add(value);
+                }
+                else
+                {
+                    // Set or clear the Caption's InnerXml
+                    captions[0].InnerXml.Clear();
+                    if (value != null)
+                    {
+                        captions[0].InnerXml.Add(value);
+                    }
+                }
+            }
+        }
+
+        /*
         public CellImage? Image { get; set; } = null;
 
         public Style? CellStyle { get; set; } = null;
@@ -29,7 +80,7 @@ namespace Grid3lib
                 }
                 else
                 {
-                    if ((CellStyle != null) && (CellStyle.BackColour.HasValue))
+                    if (CellStyle != null && CellStyle.BackColour.HasValue)
                     {
                         return CellStyle.BackColour.Value;
                     }
@@ -51,7 +102,7 @@ namespace Grid3lib
                 }
                 else
                 {
-                    if ((CellStyle != null) && (CellStyle.FontColour.HasValue))
+                    if (CellStyle != null && CellStyle.FontColour.HasValue)
                     {
                         return CellStyle.FontColour.Value;
                     }
@@ -73,7 +124,7 @@ namespace Grid3lib
                 }
                 else
                 {
-                    if ((CellStyle != null) && (CellStyle.BorderColour.HasValue))
+                    if (CellStyle != null && CellStyle.BorderColour.HasValue)
                     {
                         return CellStyle.BorderColour.Value;
                     }
@@ -85,7 +136,7 @@ namespace Grid3lib
                 __BorderColor = value;
             }
         }
-        public String BaseStyle { get; set; } = "";
+        public string BaseStyle { get; set; } = "";
         public List<Command> Commands = new List<Command>();
         public List<string> Speech
         {
@@ -125,25 +176,25 @@ namespace Grid3lib
         /// <param name="row">The row on which the cell is located</param>
         /// <param name="label">The cell's label</param>
         /// <param name="imageString">The cell's icon</param>
-        public Cell(XmlNodeTag.Grid parent, int column, int row, string label, string? imageString = null)
+        public Cell(Grid parent, int column, int row, string label, string? imageString = null)
         {
-            this.Parent = parent;
-            this.Label = label;
+            Parent = parent;
+            Label = label;
             if (imageString != null)
             {
-                this.Image = new CellImage(this, imageString);
+                Image = new CellImage(this, imageString);
             }
         }
 
-        public Cell(XmlNodeTag.Grid parent, ImportClasses.GridCell importCell)
+        public Cell(Grid parent, ImportClasses.GridCell importCell)
         {
-            this.Parent = parent;
+            Parent = parent;
 
             // Size & position
-            this.Column = importCell.X;
-            this.Row = importCell.Y;
-            if (importCell.ColumnSpanSpecified) { this.ColumnSpan = importCell.ColumnSpan; }
-            if (importCell.RowSpanSpecified) { this.RowSpan = importCell.RowSpan; }
+            Column = importCell.X;
+            Row = importCell.Y;
+            if (importCell.ColumnSpanSpecified) { ColumnSpan = importCell.ColumnSpan; }
+            if (importCell.RowSpanSpecified) { RowSpan = importCell.RowSpan; }
 
             if (importCell.Content != null)
             {
@@ -153,8 +204,8 @@ namespace Grid3lib
                 if (content.CaptionAndImage != null)
                 {
                     ImportClasses.GridCellContentCaptionAndImage captionAndImage = content.CaptionAndImage;
-                    if (captionAndImage.Caption != null) { this.Label = captionAndImage.Caption; }
-                    if (captionAndImage.Image != null) { this.Image = new CellImage(this, captionAndImage.Image); }
+                    if (captionAndImage.Caption != null) { Label = captionAndImage.Caption; }
+                    if (captionAndImage.Image != null) { Image = new CellImage(this, captionAndImage.Image); }
                 }
 
                 // Commands
@@ -162,14 +213,14 @@ namespace Grid3lib
                 {
                     foreach (ImportClasses.GridCellContentCommand command in content.Commands)
                     {
-                        this.Commands.Add(new Command(command));
+                        Commands.Add(new Command(command));
                     }
                 }
 
                 if (content.Style != null)
                 {
                     // TODO - import cell - styles (classes now exist)
-                    this.CellStyle = new Style(content.Style);
+                    CellStyle = new Style(content.Style);
                 }
             }
         }
@@ -181,7 +232,7 @@ namespace Grid3lib
         public string GetXml()
         {
             // Commands
-            String commandsXml = "";
+            string commandsXml = "";
             if (Commands.Count > 0)
             {
                 commandsXml += "<Commands>\n";
@@ -209,22 +260,22 @@ namespace Grid3lib
             {
                 imageXml = $"<Image>{Image.EntryString}</Image>";
             }
-            /*if (String.IsNullOrEmpty(Picture))
-            {
-                if (String.IsNullOrEmpty(Icon))
-                {
-                    imageXml = $"<Image>{Icon}</Image>";
-                }
-            }
-            else
-            {
-                imageXml = $"<Image>{Picture}</Image>";
-            }*/
+            //if (String.IsNullOrEmpty(Picture))
+            //{
+            //    if (String.IsNullOrEmpty(Icon))
+            //    {
+            //        imageXml = $"<Image>{Icon}</Image>";
+            //    }
+            //}
+            //else
+            //{
+            //    imageXml = $"<Image>{Picture}</Image>";
+            //}
 
-            // Style
-            String styleXml;
+        // Style
+        string styleXml;
             // TODO - see where Style info is used and output it in XML
-            if (String.IsNullOrEmpty(BaseStyle))
+            if (string.IsNullOrEmpty(BaseStyle))
             {
                 styleXml = "<BasedOnStyle>Default</BasedOnStyle>";
             }
@@ -233,7 +284,7 @@ namespace Grid3lib
                 styleXml = $"<BasedOnStyle>{BaseStyle}</BasedOnStyle>";
             }
 
-            String xml = $@"            <Cell X=""{Column}"" Y=""{Row}"">
+string xml = $@"            <Cell X=""{Column}"" Y=""{Row}"">
             <Content>
               {commandsXml}
               <CaptionAndImage>
@@ -247,7 +298,8 @@ namespace Grid3lib
             </Content>
           </Cell>
 ";
-            return xml;
+return xml;
         }
+*/
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Grid3lib
+namespace Grid3lib.ToConvert
 {
     /// <remarks/>
     [System.SerializableAttribute()]

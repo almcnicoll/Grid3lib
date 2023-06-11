@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Grid3lib
+namespace Grid3lib.ToConvert
 {
     /// <summary>
     /// Represents a command that can be attached to a cell or Page

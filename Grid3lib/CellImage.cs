@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Grid3lib.XmlNodeTag;
 using ImageSharp = SixLabors.ImageSharp;
 
 namespace Grid3lib

@@ -51,6 +51,7 @@ namespace Grid3LibTest
             {
                 Console.WriteLine(s);
             }
+            return gs;
         }
 
         static void TestWriteXmlMetadata(GridSet gs)

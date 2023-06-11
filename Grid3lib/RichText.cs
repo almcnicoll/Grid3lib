@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace Grid3lib
+namespace Grid3lib.ToConvert
 {
 
     [Serializable]

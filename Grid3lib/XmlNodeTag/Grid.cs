@@ -10,6 +10,21 @@ namespace Grid3lib.XmlNodeTag
     /// </summary>
     public class Grid : XmlNodeBasic
     {
+        /// <summary>
+        /// Returns the parent node as a strongly-typed GridSet rather than as an IXmlNode
+        /// </summary>
+        public GridSet? ParentGridSet
+        {
+            get
+            {
+                return (Parent as GridSet);
+            }
+            set
+            {
+                Parent = value;
+            }
+        }
+
         public String Name { get; set; }
         public Guid? GridId { get; set; } = null;
         public string RelativePath { get; set; } = null;

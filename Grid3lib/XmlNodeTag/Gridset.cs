@@ -7,6 +7,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Xml.Serialization;
+using Grid3lib.ImportClasses;
 
 namespace Grid3lib.XmlNodeTag
 {
@@ -40,6 +41,8 @@ namespace Grid3lib.XmlNodeTag
         /// The settings loaded from the GridSet's settings.xml
         /// </summary>
         public GridSetSettings? Settings { get; set; } = null;
+
+        public StyleData? Styles { get; set; } = null;
 
         /// <summary>
         /// The file map loaded from the GridSet's FileMap.xml
@@ -75,6 +78,7 @@ namespace Grid3lib.XmlNodeTag
         /// Loads a GridSet from a .gridset file
         /// </summary>
         /// <param name="filePath">The full path of the GridSet file</param>
+        /// <param name="debugInfo">Debugging info outputted during loading</param>
         /// <returns>A <see cref="GridSet"/> object loaded from the file, or null on failure</returns>
         public static GridSet? Load(String filePath, out List<string> debugInfo)
         {

@@ -4,6 +4,7 @@ using System.Text;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Grid3lib;
+using System.Runtime.InteropServices;
 
 namespace XmlParsing
 {
@@ -295,9 +296,39 @@ namespace XmlParsing
         /// </summary>
         /// <param name="Key">The attribute to set</param>
         /// <param name="Value">The desired value of that attribute</param>
-        public void SetAttributeValue(string Key, string Value)
+        public void SetAttributeValue(string Key, string? Value)
         {
-            Attributes.AddOrEdit(Key, Value);
+            if (Value == null)
+            {
+                if (Attributes.ContainsKey(Key)) { Attributes.Remove(Key); }
+            }
+            else
+            {
+                Attributes.AddOrEdit(Key, Value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or creates an immediate child node of the specified <see cref="IXmlNode"/>-implementing type. If there are fewer than <paramref name="index"/> nodes of the relevant type, a new one will be created.
+        /// </summary>
+        /// <typeparam name="T">The type of child node to create</typeparam>
+        /// <param name="index">The index of the node to return, if there are multiple nodes</param>
+        /// <returns>The found or created node</returns>
+        public T GetOrCreateImmediateChild<T>(int index = 0) where T : IXmlNode, new()
+        {
+            if (Children.Count > 0)
+            {
+                // Check for valid children
+                List<T> validChildren = ChildrenOfType<T>().ToList();
+                if (validChildren.Count >= index + 1)
+                {
+                    return validChildren[index];
+                }
+            }
+            T newNode = new T();
+            newNode.Parent = this;
+            this.__Children.Add(newNode);
+            return newNode;
         }
     }
 }
