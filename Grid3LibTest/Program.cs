@@ -92,6 +92,7 @@ namespace Grid3LibTest
                         if (command.ID!= null && command.ID == "Action.InsertText")
                         {
                             command.ID = "Speech.SpeakNow";
+
                         }
                     }
                     /*

@@ -222,5 +222,28 @@ namespace Grid3lib.XmlNodeTag
             return gridSet;
         }
 
+        /// <summary>
+        /// Searches for a grid by name
+        /// </summary>
+        /// <param name="gridName">The name of the grid to search for</param>
+        /// <returns>A <see cref="Grid"/> object, or null if the name cannot be found</returns>
+        public Grid? getGrid(string gridName)
+        {
+            List<Grid> matches = (from Grid g in Grids where g.Name == gridName select g).ToList();
+            if (matches.Count > 0) { return matches[1]; }
+            return null;
+        }
+
+        /// <summary>
+        /// Searches for a grid by ID
+        /// </summary>
+        /// <param name="id">The ID of the grid to search for</param>
+        /// <returns>A <see cref="Grid"/> object, or null if the name cannot be found</returns>
+        public Grid? getGrid(Guid id)
+        {
+            List<Grid> matches = (from Grid g in Grids where g.GridId.Equals(id) select g).ToList();
+            if (matches.Count > 0) { return matches[1]; }
+            return null;
+        }
     }
 }
