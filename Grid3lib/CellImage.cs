@@ -4,7 +4,7 @@ using System.Text;
 using Grid3lib.XmlNodeTag;
 using ImageSharp = SixLabors.ImageSharp;
 
-namespace Grid3lib
+namespace Grid3lib.ToConvert
 {
     public class CellImage
     {
