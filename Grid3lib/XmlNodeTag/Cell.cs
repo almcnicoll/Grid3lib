@@ -62,6 +62,12 @@ namespace Grid3lib.XmlNodeTag
             }
         }
 
+
+        public int Column { get; set; } = 0;
+        public int Row { get; set; } = 0;
+        public int ColumnSpan { get; set; } = 1;
+        public int RowSpan { get; set; } = 1;
+
         /*
         public CellImage? Image { get; set; } = null;
 
@@ -162,10 +168,6 @@ namespace Grid3lib.XmlNodeTag
 
             }
         }
-        public int Column { get; set; } = 0;
-        public int Row { get; set; } = 0;
-        public int ColumnSpan { get; set; } = 1;
-        public int RowSpan { get; set; } = 1;
         public int? ScanBlock { get; set; }
 
         /// <summary>

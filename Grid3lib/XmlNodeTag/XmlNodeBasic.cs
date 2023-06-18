@@ -238,7 +238,10 @@ namespace XmlParsing
             // If Depth is positive, recurse another level; if Depth is negative, recurse until there are no more child nodes
             if (Depth != 0 && Children.Count > 0)
             {
-                thisLevelAndBelow.AddRange(ChildrenOfType<T>(Depth - 1));
+                foreach (IXmlNode childNode in Children)
+                {
+                    thisLevelAndBelow.AddRange(childNode.ChildrenOfType<T>(Depth - 1));
+                }
             }
 
             return thisLevelAndBelow;

@@ -30,7 +30,7 @@ namespace Grid3lib.XmlNodeTag
         public string RelativePath { get; set; } = null;
 
         public List<Command> StartupCommands { get; set; } = new List<Command>();
-        public List<ScanBlockAudioDescription> ScanBlockAudioDescriptions { get; set; } = new List<ScanBlockAudioDescription>();
+        //public List<ScanBlockAudioDescription> ScanBlockAudioDescriptions { get; set; } = new List<ScanBlockAudioDescription>();
 
         /// <summary>
         /// Returns the number of columns in the Grid
