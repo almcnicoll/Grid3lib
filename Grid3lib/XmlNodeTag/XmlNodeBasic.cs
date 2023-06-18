@@ -21,6 +21,8 @@ namespace XmlParsing
         private IXmlNode? __Parent = null;
         private List<IXmlNode> __Children = new List<IXmlNode>();
 
+        // TODO - create lazy-loading by passing in a LoadToDepth parameter, in the same was as we do with ChildrenOfType<T>()
+
         /// <summary>
         /// Creates an empty node
         /// </summary>
@@ -197,7 +199,15 @@ namespace XmlParsing
             }
             else
             {
-                node = (IXmlNode)Activator.CreateInstance(tagNodeType);
+                if (tagNodeType.GetConstructor(Type.EmptyTypes) == null)
+                {
+                    // We can only use parameterless constructors here
+                    node = (IXmlNode)(new XmlNodeBasic());
+                }
+                else
+                {
+                    node = (IXmlNode)Activator.CreateInstance(tagNodeType);
+                }
             }
 
             // Actual serious parsing of Xml will happen here

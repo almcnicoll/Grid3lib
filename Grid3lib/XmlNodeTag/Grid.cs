@@ -26,21 +26,75 @@ namespace Grid3lib.XmlNodeTag
         }
 
         public String Name { get; set; }
-        public Guid? GridId { get; set; } = null;
+
+        /// <summary>
+        /// Gets or sets the GUID of the grid
+        /// </summary>
+        public Guid? GridId
+        {
+            get
+            {
+                List<GridGuid> idNodes = ChildrenOfType<GridGuid>();
+                if (idNodes.Count == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    return new Guid(idNodes[0].InnerXmlString);
+                }
+            }
+            set
+            {
+                List<GridGuid> idNodes = ChildrenOfType<GridGuid>();
+                GridGuid guidNode;
+                if (idNodes.Count == 0)
+                {
+                    guidNode = new GridGuid();
+                    this.Children.Add(guidNode);
+                }
+                else
+                {
+                    guidNode = idNodes[0];
+                }
+                guidNode.InnerXml = new List<string> { value.ToString() };
+            }
+        }
+
         public string RelativePath { get; set; } = null;
 
-        public List<Command> StartupCommands { get; set; } = new List<Command>();
+        //public List<Command> StartupCommands { get; set; } = new List<Command>();
         //public List<ScanBlockAudioDescription> ScanBlockAudioDescriptions { get; set; } = new List<ScanBlockAudioDescription>();
 
         /// <summary>
         /// Returns the number of columns in the Grid
         /// </summary>
-        public int ColumnCount { get; set; }
+        public int ColumnCount
+        {
+            get
+            {
+                return ChildrenOfType<ColumnDefinition>(1).Count;
+            }
+        }
 
         /// <summary>
         /// Returns the number of rows in the Grid
         /// </summary>
-        public int RowCount { get; set; }
+        public int RowCount
+        {
+            get
+            {
+                return ChildrenOfType<RowDefinition>(1).Count;
+            }
+        }
+
+        /// <summary>
+        /// Parameterless constructor needed if creating from XML
+        /// </summary>
+        public Grid()
+        {
+
+        }
 
         /// <summary>
         /// Constructor if creating programmatically
@@ -60,7 +114,7 @@ namespace Grid3lib.XmlNodeTag
             // Always call base method to populate basic properties
             base.PopulateFromXml(Xml, PopulateChildren);
 
-            //TODO - extra property setting here
+
         }
     }
 }

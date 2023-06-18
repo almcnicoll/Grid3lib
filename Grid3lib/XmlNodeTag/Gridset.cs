@@ -202,6 +202,7 @@ namespace Grid3lib.XmlNodeTag
                                 g.RelativePath = gridFileName;
                                 g.Parent = gridSet;
                                 gridSet.Grids.Add(g);
+                                gridSet.Children.Add(g);
                             }
                         }
                         else
