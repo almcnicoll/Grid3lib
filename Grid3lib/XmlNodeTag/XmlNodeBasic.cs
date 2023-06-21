@@ -37,6 +37,9 @@ namespace XmlParsing
             ChildrenPopulated?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Whether or not the XML of this node (not necessarily its contents) has been parsed
+        /// </summary>
         public bool Parsed
         {
             get
@@ -49,6 +52,9 @@ namespace XmlParsing
             }
         }
 
+        /// <summary>
+        /// The XML tag name without angle-brackets
+        /// </summary>
         public string? TagName
         {
             get
@@ -57,8 +63,14 @@ namespace XmlParsing
             }
         }
 
+        /// <summary>
+        /// The opening and closing tags, with angle-brackets and any attributes
+        /// </summary>
         public string? TagString { get { return __TagString; } }
 
+        /// <summary>
+        /// The closing tag syntax, with angle-brackets
+        /// </summary>
         public string? TagClosure
         {
             get
@@ -75,6 +87,9 @@ namespace XmlParsing
             get { return __Attributes; }
         }
 
+        /// <summary>
+        /// A list of XML strings representing the node's contents
+        /// </summary>
         public List<string> InnerXml
         {
             get
@@ -87,6 +102,9 @@ namespace XmlParsing
             }
         }
 
+        /// <summary>
+        /// The raw XML of the node's contents
+        /// </summary>
         public string? InnerXmlString
         {
             get
@@ -95,6 +113,9 @@ namespace XmlParsing
             }
         }
 
+        /// <summary>
+        /// The parent XML node
+        /// </summary>
         public IXmlNode? Parent
         {
             get
@@ -107,6 +128,9 @@ namespace XmlParsing
             }
         }
 
+        /// <summary>
+        /// A <see cref="List{IXmlNode}"/> of child nodes
+        /// </summary>
         public List<IXmlNode> Children
         {
             get
@@ -131,7 +155,6 @@ namespace XmlParsing
             XmlParseResult xpr = XmlParseFunctions.ParseSingleXmlLevel(Xml);
 
             __TagName = xpr.BaseTagName;
-            // TODO - TagString, TagClosure
 
             // Set attributes dictionary
             Dictionary<string, string> AttributesDictionary = new Dictionary<string, string>();
@@ -147,6 +170,10 @@ namespace XmlParsing
                     if (AttributesDictionary.Count > 0) { SetAttributes(AttributesDictionary); } // TODO - check that this will call subclass function on subclass nodes
                 }
             }
+
+            string AllAttributes = String.Join(" ", (from KeyValuePair<string, string> kvp in AttributesDictionary select String.Format("{0}=\"{1}\"", kvp.Key, kvp.Value.Replace("\"", "&quot;"))));
+            if (AllAttributes.Trim().Length > 0) { AllAttributes = " " + AllAttributes.Trim(); }
+            __TagString = String.Format("<{0}{1}></{0}>", TagName, AllAttributes);
 
             // Set contents
             SetContents(xpr.BaseTagContents);
