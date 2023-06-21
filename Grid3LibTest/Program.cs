@@ -81,7 +81,7 @@ namespace Grid3LibTest
             {
                 TestWriteXmlMetadata(gs);
 
-                // Try converting all speaks to writes
+                // Try converting all writes to speaknows
                 foreach (Grid3lib.XmlNodeTag.Grid grid in gs.Grids)
                 {
                     Console.WriteLine("********");
@@ -90,10 +90,10 @@ namespace Grid3LibTest
 
                     foreach (Command command in AllCommands)
                     {
-                        if (command.ID!= null && command.ID == "Action.InsertText")
+                        if (command.ID != null && command.ID == Grid3lib.Grid3.Actions.Write)
                         {
-                            command.ID = "Speech.SpeakNow";
-
+                            command.ID = Grid3lib.Grid3.Actions.SpeakNow;
+                            // TODO - contents of these commands are stored differently - conversion prob needed
                         }
                     }
                     /*
@@ -102,7 +102,6 @@ namespace Grid3LibTest
                     {
                         for (x = 0; x < grid.ColumnCount; x++)
                         {
-                            //TODO - uncomment this
                             //Grid3lib.Cell cell = grid.GetCell(x, y);
                             //if (cell == null) { Console.WriteLine(String.Format("Null cell {0},{1}", x, y)); continue; } // Don't process null cells
                             //foreach (Grid3lib.Command command in cell.Commands)

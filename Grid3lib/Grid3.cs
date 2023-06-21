@@ -8,9 +8,19 @@ namespace Grid3lib
     public static class Grid3
     {
         // TODO - enums or constants for common actions, icons, ...
-        public static class Action
+
+        /// <summary>
+        /// Contains common cell and grid actions
+        /// </summary>
+        public static class Actions
         {
+            /// <summary>
+            /// Represents the Write action
+            /// </summary>
             public const string Write = "Action.InsertText";
+            /// <summary>
+            /// Represents the Speak Now action
+            /// </summary>
             public const string SpeakNow = "Speech.SpeakNow";
         }
     }
