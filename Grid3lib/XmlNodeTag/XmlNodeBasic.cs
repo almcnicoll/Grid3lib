@@ -21,13 +21,16 @@ namespace XmlParsing
         private IXmlNode? __Parent = null;
         private List<IXmlNode> __Children = new List<IXmlNode>();
 
-        // TODO - create lazy-loading by passing in a LoadToDepth parameter, in the same was as we do with ChildrenOfType<T>()
+        // TODO - what's the process for parsing this node at a later date if not at the start? Do we store our full XML in this node
+        //          or do we depend on parsing the XML when the parent's Children collection is accessed?
+        // TODO - Make sure that this node is populated before trying to return any properties (as it can now be lazy-loaded)
 
         /// <summary>
         /// Creates an empty node
         /// </summary>
         public XmlNodeBasic() { }
 
+        // TODO - check that this event fires at the right time now that we're doing lazy loading
         /// <summary>
         /// Fires when child nodes have been populated
         /// </summary>
@@ -148,8 +151,8 @@ namespace XmlParsing
         /// Fills the XML node from the specified XML markup
         /// </summary>
         /// <param name="Xml">The source XML</param>
-        /// <param name="PopulateChildren">Whether to populate the child nodes also</param>
-        public virtual void PopulateFromXml(string Xml, bool PopulateChildren = true)
+        /// <param name="PopulateToDepth">The depth of child nodes to populate</param>
+        public virtual void PopulateFromXml(string Xml, int PopulateToDepth = 0)
         {
             // Parse the first XML layer
             XmlParseResult xpr = XmlParseFunctions.ParseSingleXmlLevel(Xml);
@@ -179,12 +182,12 @@ namespace XmlParsing
             SetContents(xpr.BaseTagContents);
 
             // Now populate children if appropriate
-            if (PopulateChildren)
+            if (PopulateToDepth != 0)
             {
                 foreach (string childXml in xpr.BaseTagContents)
                 {
                     if (!XmlParseFunctions.rxOpeningTag.IsMatch(childXml)) { continue; } // Don't parse text nodes - leave them as contents
-                    IXmlNode child = XmlNodeBasic.CreateFromXml(childXml, PopulateChildren);
+                    IXmlNode child = XmlNodeBasic.CreateFromXml(childXml, PopulateToDepth - 1);
                     child.Parent = this;
                     __Children.Add(child);
                 }
@@ -199,10 +202,10 @@ namespace XmlParsing
         /// Creates an <see cref="IXmlNode"/> from XML markup
         /// </summary>
         /// <param name="Xml">The XML to parse</param>
-        /// <param name="PopulateChildren">Whether to populate child nodes as well as the base node</param>
+        /// <param name="PopulateToDepth">The depth of child nodes to populate</param>
         /// <returns>An object implementing <see cref="IXmlNode"/>, either generic or tag-specific depending on the base tag</returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static IXmlNode CreateFromXml(string Xml, bool PopulateChildren = true)
+        public static IXmlNode CreateFromXml(string Xml, int PopulateToDepth = 0)
         {
             IXmlNode node;
 
@@ -238,7 +241,7 @@ namespace XmlParsing
             }
 
             // Actual serious parsing of Xml will happen here
-            node.PopulateFromXml(Xml, PopulateChildren);
+            node.PopulateFromXml(Xml, PopulateToDepth);
 
             return node;
         }

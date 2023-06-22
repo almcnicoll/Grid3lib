@@ -63,7 +63,7 @@ namespace XmlParsing
         /// </summary>
         /// <param name="Xml">The XML from which to populate the object</param>
         /// <returns>A node object implementing <see cref="IXmlNode"/></returns>
-        public void PopulateFromXml(string Xml, bool PopulateChildren);
+        public void PopulateFromXml(string Xml, int PopulateToDepth);
 
         /// <summary>
         /// Sets the attributes of the specified node
