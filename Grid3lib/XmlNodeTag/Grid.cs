@@ -57,7 +57,7 @@ namespace Grid3lib.XmlNodeTag
                 {
                     guidNode = idNodes[0];
                 }
-                guidNode.InnerXml = new List<string> { value.ToString() };
+                guidNode.InnerXml = new List<RawXml> { new RawXml(value.ToString()) };
             }
         }
 

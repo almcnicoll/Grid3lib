@@ -48,7 +48,7 @@ namespace Grid3lib.XmlNodeTag
                     Content content = GetOrCreateImmediateChild<Content>();
                     CaptionAndImage captionAndImage = content.GetOrCreateImmediateChild<CaptionAndImage>();
                     Caption caption = captionAndImage.GetOrCreateImmediateChild<Caption>();
-                    caption.InnerXml.Add(value);
+                    caption.InnerXml.Add(new RawXml(value));
                 }
                 else
                 {
@@ -56,7 +56,7 @@ namespace Grid3lib.XmlNodeTag
                     captions[0].InnerXml.Clear();
                     if (value != null)
                     {
-                        captions[0].InnerXml.Add(value);
+                        captions[0].InnerXml.Add(new RawXml(value));
                     }
                 }
             }

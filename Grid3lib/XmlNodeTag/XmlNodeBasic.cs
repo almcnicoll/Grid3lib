@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Grid3lib;
 using System.Runtime.InteropServices;
+using Grid3lib.XmlNodeTag;
 
 namespace XmlParsing
 {
@@ -17,13 +18,14 @@ namespace XmlParsing
         private string? __TagName = null;
         private string? __TagString = null;
         private Dictionary<string, string> __Attributes = new Dictionary<string, string>();
-        private List<string> __InnerXml = new List<string>();
+        private List<RawXml> __InnerXml = new List<RawXml>();
         private IXmlNode? __Parent = null;
         private List<IXmlNode> __Children = new List<IXmlNode>();
 
-        // TODO - what's the process for parsing this node at a later date if not at the start? Do we store our full XML in this node
-        //          or do we depend on parsing the XML when the parent's Children collection is accessed?
+        // TODO - test lazy loading (implemented in theory!)
         // TODO - Make sure that this node is populated before trying to return any properties (as it can now be lazy-loaded)
+        //      This code is in place for Children property, but may be needed elsewhere?
+        // TODO - Think about ChildrenPopulated event firing on lazy-load
 
         /// <summary>
         /// Creates an empty node
@@ -93,7 +95,7 @@ namespace XmlParsing
         /// <summary>
         /// A list of XML strings representing the node's contents
         /// </summary>
-        public List<string> InnerXml
+        public List<RawXml> InnerXml
         {
             get
             {
@@ -138,11 +140,12 @@ namespace XmlParsing
         {
             get
             {
-                List<IXmlNode> unpopulated = (from IXmlNode child in __Children where child.Parsed == false select child).ToList();
-                foreach (IXmlNode child in unpopulated)
+                // Make sure all our children are parsed
+                List<RawXml> unparsed = (from RawXml rawChild in __InnerXml where rawChild.Parsed == false select rawChild).ToList();
+                foreach (RawXml rawChild in unparsed)
                 {
-                    // TODO - where's our source of child XML? How do we access the relevant XML string?
                     // Populate this child node
+                    IXmlNode xmlNode = AddChildFromXml(rawChild.Markup, 0);
                 }
                 return __Children;
             }
@@ -188,17 +191,24 @@ namespace XmlParsing
             SetContents(xpr.BaseTagContents);
 
             // Now populate children if appropriate
-            if (PopulateToDepth != 0)
+
+            foreach (RawXml childXml in xpr.BaseTagContents)
             {
-                foreach (string childXml in xpr.BaseTagContents)
+                if (!XmlParseFunctions.rxOpeningTag.IsMatch(childXml.Markup)) { childXml.Parsed = true; continue; } // Don't parse text nodes - leave them as contents
+
+                if (PopulateToDepth == 0)
                 {
-                    if (!XmlParseFunctions.rxOpeningTag.IsMatch(childXml)) { continue; } // Don't parse text nodes - leave them as contents
-                    IXmlNode child = XmlNodeBasic.CreateFromXml(childXml, PopulateToDepth - 1);
-                    child.Parent = this;
-                    __Children.Add(child);
+                    // We don't want to parse this now (lazy loading)
                 }
-                OnChildrenPopulated(new EventArgs());
+                else
+                {
+                    // Parse away!
+                    AddChildFromXml(childXml.Markup, PopulateToDepth - 1);
+                    childXml.Parsed = true;
+                }
             }
+            OnChildrenPopulated(new EventArgs());
+
 
             // Set node as parsed
             __Parsed = true;
@@ -266,7 +276,7 @@ namespace XmlParsing
         /// Sets the content of the node from the list of XML strings, and runs any resulting processes
         /// </summary>
         /// <param name="Contents">A list of valid XML strings</param>
-        public virtual void SetContents(List<string> Contents)
+        public virtual void SetContents(List<RawXml> Contents)
         {
             // Create the InnerXml list
             __InnerXml = Contents.ToList();
@@ -355,6 +365,14 @@ namespace XmlParsing
             {
                 Attributes.AddOrEdit(Key, Value);
             }
+        }
+
+        public IXmlNode AddChildFromXml(string childXml, int PopulateToDepth)
+        {
+            IXmlNode child = XmlNodeBasic.CreateFromXml(childXml, PopulateToDepth);
+            child.Parent = this;
+            __Children.Add(child);
+            return child;
         }
 
         /// <summary>

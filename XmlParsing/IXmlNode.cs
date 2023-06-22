@@ -38,7 +38,7 @@ namespace XmlParsing
         /// <summary>
         /// A string containing any XML contained within the tag
         /// </summary>
-        public List<string> InnerXml { get; set; }
+        public List<RawXml> InnerXml { get; set; }
 
         /// <summary>
         /// This node's parent node
