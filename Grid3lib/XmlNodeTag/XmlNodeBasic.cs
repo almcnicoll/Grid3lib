@@ -138,6 +138,12 @@ namespace XmlParsing
         {
             get
             {
+                List<IXmlNode> unpopulated = (from IXmlNode child in __Children where child.Parsed == false select child).ToList();
+                foreach (IXmlNode child in unpopulated)
+                {
+                    // TODO - where's our source of child XML? How do we access the relevant XML string?
+                    // Populate this child node
+                }
                 return __Children;
             }
         }
