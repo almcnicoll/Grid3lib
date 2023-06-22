@@ -133,12 +133,12 @@ namespace XmlParsing
 
                 // Retrieve contained nodes / strings as list
                 string TagContents = m.Groups["TagContents"].Value;
-                List<string> BaseTagContents = new List<string>();
+                List<RawXml> BaseTagContents = new List<RawXml>();
 
                 MatchCollection mc = rxOpeningAndClosingTagsMultiple.Matches(TagContents.Trim());
                 foreach (Match m2 in mc)
                 {
-                    BaseTagContents.Add(m2.Groups["WholeString"].Value);
+                    BaseTagContents.Add(new RawXml(m2.Groups["WholeString"].Value));
                     if (BaseTagContents.Count > 0)
                     {
                         result.BaseTagContents.AddRange(BaseTagContents);
@@ -146,7 +146,7 @@ namespace XmlParsing
                 }
                 if (BaseTagContents.Count == 0)
                 {
-                    result.BaseTagContents.Add(TagContents);
+                    result.BaseTagContents.Add(new RawXml(TagContents));
                 }
                 return result;
             }

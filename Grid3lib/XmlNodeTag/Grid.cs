@@ -109,10 +109,10 @@ namespace Grid3lib.XmlNodeTag
         /// </summary>
         /// <param name="Xml">The source XML</param>
         /// <param name="PopulateChildren">Whether to populate the child nodes also</param>
-        public override void PopulateFromXml(string Xml, bool PopulateChildren = true)
+        public override void PopulateFromXml(string Xml, int PopulateToDepth = 0)
         {
             // Always call base method to populate basic properties
-            base.PopulateFromXml(Xml, PopulateChildren);
+            base.PopulateFromXml(Xml, PopulateToDepth);
 
 
         }
