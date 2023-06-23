@@ -9,7 +9,7 @@ namespace XmlParsing
     {
         // NB - special characters requiring escaping:      . $ ^ { [ ( | ) * + ? \
 
-        public static Regex rxDocType = new Regex(@"^<\?xml\s+version=""1.0""\?>\s*",
+        public static Regex rxDocType = new Regex(@"^<\?xml\s+version=""1.0""(.*?)\?>\s*",
             RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.Singleline);
         public static Regex rxSelfClosingTag = new Regex(@"^<(?<TagName>[A-Za-z][\w\d]*)\s*(?<TagAttributes>[^>]*)/>$",
             RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.Singleline);
