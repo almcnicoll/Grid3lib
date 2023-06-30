@@ -78,6 +78,17 @@ namespace Grid3lib.XmlNodeTag
         /// Loads a GridSet from a .gridset file
         /// </summary>
         /// <param name="filePath">The full path of the GridSet file</param>
+        /// <returns>A <see cref="GridSet"/> object loaded from the file, or null on failure</returns>
+        public static GridSet? Load(String filePath)
+        {
+            List<string> discard = new List<string>();
+            return Load(filePath, out discard);
+        }
+
+        /// <summary>
+        /// Loads a GridSet from a .gridset file
+        /// </summary>
+        /// <param name="filePath">The full path of the GridSet file</param>
         /// <param name="debugInfo">Debugging info outputted during loading</param>
         /// <returns>A <see cref="GridSet"/> object loaded from the file, or null on failure</returns>
         public static GridSet? Load(String filePath, out List<string> debugInfo)
@@ -225,6 +236,38 @@ namespace Grid3lib.XmlNodeTag
             */
 
             return gridSet;
+        }
+
+        /// <summary>
+        /// Loads a GridSet from a .gridset file
+        /// </summary>
+        /// <param name="filePath">The full path of the GridSet file</param>
+        /// <returns>A <see cref="GridSet"/> object loaded from the file, or null on failure</returns>
+        public void SaveAs(String filePath)
+        {
+            List<string> discard = new List<string>();
+            SaveAs(filePath, out discard);
+        }
+
+        /// <summary>
+        /// Loads a GridSet from a .gridset file
+        /// </summary>
+        /// <param name="filePath">The full path of the GridSet file</param>
+        /// <param name="debugInfo">Debugging info outputted during loading</param>
+        /// <returns>A <see cref="GridSet"/> object loaded from the file, or null on failure</returns>
+        public void SaveAs(String filePath, out List<string> debugInfo)
+        {
+            debugInfo = new List<string>();
+            // Create temporary storage area
+            Guid tempID = Guid.NewGuid();
+            string workingFolder = Path.Combine(Path.GetTempPath(), System.Reflection.Assembly.GetEntryAssembly().GetName().Name,tempID.ToString("D"));
+            Directory.CreateDirectory(workingFolder);
+
+            // Create primary folder structure
+            Utility.CreateSubFolder(workingFolder, "Grids");
+            Utility.CreateSubFolder(workingFolder, "Settings0/Styles");
+
+            // TODO - HIGH PRIORITY create folder structure of grids
         }
 
         /// <summary>
