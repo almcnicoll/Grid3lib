@@ -78,6 +78,17 @@ namespace Grid3lib.XmlNodeTag
         /// Loads a GridSet from a .gridset file
         /// </summary>
         /// <param name="filePath">The full path of the GridSet file</param>
+        /// <returns>A <see cref="GridSet"/> object loaded from the file, or null on failure</returns>
+        public static GridSet? Load(string filePath)
+        {
+            List<string> discard = new List<string>();
+            return GridSet.Load(filePath, out discard);
+        }
+
+        /// <summary>
+        /// Loads a GridSet from a .gridset file
+        /// </summary>
+        /// <param name="filePath">The full path of the GridSet file</param>
         /// <param name="debugInfo">Debugging info outputted during loading</param>
         /// <returns>A <see cref="GridSet"/> object loaded from the file, or null on failure</returns>
         public static GridSet? Load(String filePath, out List<string> debugInfo)
@@ -225,6 +236,35 @@ namespace Grid3lib.XmlNodeTag
             */
 
             return gridSet;
+        }
+
+        /// <summary>
+        /// Saves a GridSet to a .gridset file
+        /// </summary>
+        /// <param name="filePath">The full path of the GridSet file to write</param>
+        public void SaveAs(string filePath)
+        {
+            List<string> discard = new List<string>();
+            this.SaveAs(filePath, out discard);
+        }
+
+        /// <summary>
+        /// Saves a GridSet to a .gridset file
+        /// </summary>
+        /// <param name="filePath">The full path of the GridSet file to write</param>
+        /// <param name="debugInfo">Debugging info outputted during saving</param>
+        public void SaveAs(string filePath, out List<string> debugInfo)
+        {
+            debugInfo = new List<string>();
+            // TODO - HIGH PRIORITY map out folder structure
+            // TODO - HIGH PRIORITY create temp area to which we can write
+            // TODO - HIGH PRIORITY write FileMap.xml
+            // TODO - HIGH PRIORITY write styles.xml
+            // TODO - HIGH PRIORITY loop through grids, writing grid.xml files
+            // TODO - HIGH PRIORITY where are we storing other items such as images and sounds?
+            // TODO - HIGH PRIORITY write those items
+            // TODO - HIGH PRIORITY zip up folders into .gridset file
+            // TODO - HIGH PRIORITY check whether paths use backslash or forward-slash - wrong slashes will cause Grid3 to crash
         }
 
         /// <summary>
