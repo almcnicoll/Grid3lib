@@ -146,6 +146,7 @@ namespace XmlParsing
                 {
                     // Populate this child node
                     IXmlNode xmlNode = AddChildFromXml(rawChild.Markup, 0);
+                    rawChild.Parsed = true;
                 }
                 return __Children;
             }

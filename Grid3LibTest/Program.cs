@@ -72,6 +72,7 @@ namespace Grid3LibTest
             // TestXmlParsing();
 
             GridSet gs = TestLoadGridset(@"G:\My Drive\Florence\Grid3\backup\grids\Dear Zoo.gridset");
+            Grid? g = null;
 
             if (gs == null)
             {
@@ -82,20 +83,10 @@ namespace Grid3LibTest
                 TestWriteXmlMetadata(gs);
 
                 // Try converting all writes to speaknows
+                Console.WriteLine("********");
                 foreach (Grid3lib.XmlNodeTag.Grid grid in gs.Grids)
                 {
-                    Console.WriteLine("********");
                     Console.WriteLine(grid.Name);
-                    List<Grid3lib.XmlNodeTag.Command> AllCommands = gs.ChildrenOfType<Command>(-1);
-
-                    foreach (Command command in AllCommands)
-                    {
-                        if (command.ID != null && command.ID == Grid3lib.Grid3.Actions.Write)
-                        {
-                            command.ID = Grid3lib.Grid3.Actions.SpeakNow;
-                            // TODO - contents of these commands are stored differently - conversion prob needed
-                        }
-                    }
                     /*
                     int x, y;
                     for (y = 0; y < grid.RowCount; y++)
@@ -111,7 +102,23 @@ namespace Grid3LibTest
                         }
                     }
                     */
+                    g = grid;
                 }
+                if (g != null)
+                {
+                    List<Grid3lib.XmlNodeTag.Command> AllCommands = gs.ChildrenOfType<Command>(-1);
+
+                    foreach (Command command in AllCommands)
+                    {
+                        if (command.ID != null && command.ID == Grid3lib.Grid3.Actions.Write)
+                        {
+                            command.ID = Grid3lib.Grid3.Actions.SpeakNow;
+                            // TODO - contents of these commands are stored differently - conversion prob needed
+                        }
+                    }
+                }
+
+                gs.SaveAs(@"G:\My Drive\Florence\Grid3\backup\grids\Dear Zoo grid3lib.gridset");
             }
         }
     }

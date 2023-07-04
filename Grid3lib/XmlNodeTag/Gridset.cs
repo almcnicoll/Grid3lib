@@ -300,9 +300,10 @@ namespace Grid3lib.XmlNodeTag
 
             // TODO HIGH PRIORITY - Write FileMap.xml
             // Zip up folder into a .gridset file
-            string tempOutputFileName = Path.Combine(tempFolder, this.Name + ".gridset");
+            string tempOutputFileName = Path.Combine(tempFolder, (this.Name == null ? "temp" : this.Name) + ".gridset");
+            if (File.Exists(tempOutputFileName)) { File.Delete(tempOutputFileName); }
             ZipFile.CreateFromDirectory(workingFolder, tempOutputFileName, CompressionLevel.Optimal, false);
-            File.Copy(tempOutputFileName, filePath);
+            File.Copy(tempOutputFileName, filePath,overwrite:true);
             // TODO - HIGH PRIORITY check whether paths use absolute\backslash or relative/forward-slash - wrong slashes will apparently cause Grid3 to crash
 
         }
