@@ -8,6 +8,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Xml.Serialization;
 using Grid3lib.ImportClasses;
+using System.IO.Compression;
 
 namespace Grid3lib.XmlNodeTag
 {
@@ -263,7 +264,8 @@ namespace Grid3lib.XmlNodeTag
             debugInfo = new List<string>();
             // Create temporary storage area
             Guid tempID = Guid.NewGuid();
-            string workingFolder = Path.Combine(Path.GetTempPath(), System.Reflection.Assembly.GetEntryAssembly().GetName().Name, tempID.ToString("D"));
+            string tempFolder = Path.Combine(Path.GetTempPath(), System.Reflection.Assembly.GetEntryAssembly().GetName().Name);
+            string workingFolder = Path.Combine(tempFolder, tempID.ToString("D"));
             Directory.CreateDirectory(workingFolder);
 
             // Create primary folder structure
@@ -273,7 +275,7 @@ namespace Grid3lib.XmlNodeTag
 
             // Create a blank FileMap and populate as we go
             FileMap fileMap = new FileMap();
-            
+
             // TODO HIGH PRIORITY - Write settings.xml
 
             // TODO HIGH PRIORITY - Write thumbnail.png
@@ -297,8 +299,11 @@ namespace Grid3lib.XmlNodeTag
             }
 
             // TODO HIGH PRIORITY - Write FileMap.xml
-            // TODO - HIGH PRIORITY zip up folders into .gridset file
-            // TODO - HIGH PRIORITY check whether paths use backslash or forward-slash - wrong slashes will cause Grid3 to crash
+            // Zip up folder into a .gridset file
+            string tempOutputFileName = Path.Combine(tempFolder, this.Name + ".gridset");
+            ZipFile.CreateFromDirectory(workingFolder, tempOutputFileName, CompressionLevel.Optimal, false);
+            File.Copy(tempOutputFileName, filePath);
+            // TODO - HIGH PRIORITY check whether paths use absolute\backslash or relative/forward-slash - wrong slashes will apparently cause Grid3 to crash
 
         }
 
