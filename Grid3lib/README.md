@@ -2,7 +2,7 @@
 
 ### Disclaimer ###
 
-In its current iteration, this library will be more useful for constructing and maintaining gridsets than for Editing existing ones.
+In its current iteration, this library will be more useful for constructing and maintaining gridsets than for editing existing ones.
 This is because, without access to a full file spec for the Grid3 format, it will inevitably not support the full range of Grid3 functionality.
 
 USE AT YOUR OWN RISK! If you open existing gridsets using this tool, they may lose functionality, or cease to function completely. Take regular backups of all gridsets, and always plan as though the the library will at some indeterminate point break all your stuff.
@@ -13,4 +13,4 @@ Grid3 is a fantastic program that the author first came across through his daugh
 Out of this need the idea for Grid3lib was born.
 
 Gridset files are compressed using standard ZIP compression, and contain a set of XML documents and associated files in a reasonably predictable folder structure.
-This library attempts to make reading and writing these zipped files significantly easier.
+This library attempts to make reading and writing these zipped files significantly easier. Bulk operations which are otherwise cumbersome using the standard Grid3 software can also be achieved more efficiently.

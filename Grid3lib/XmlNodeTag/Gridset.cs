@@ -55,7 +55,9 @@ namespace Grid3lib.XmlNodeTag
         /// A set of all the Grids within the GridSet
         /// </summary>
         public HashSet<Grid> Grids { get; set; } = new HashSet<Grid>();
-
+        // TODO - some way of keeping FileMap.xml up-to-date
+        // OR just regenerate from Grids if we're _certain_ that we know all the possible tags and attributes that FileMaps can contain
+        // The latter is going to be tidier if we're going to be adding and removing grids and media within grids
 
         /// <summary>
         /// Creates a new GridSet
@@ -194,10 +196,10 @@ namespace Grid3lib.XmlNodeTag
             // Loop through fileNames, reading grid.xml files into Grid objects as we go
             foreach (string gridFileName in gridSet.__fileNames)
             {
-                ZipArchiveEntry? pageGridFile = (from ZipArchiveEntry e in gridFile.Entries
-                                                 where e.FullName == gridFileName.Replace("\\", "/")
-                                                 select e).First();
-                using (Stream fsGridFile = pageGridFile.Open())
+                ZipArchiveEntry? gridXmlFile = (from ZipArchiveEntry e in gridFile.Entries
+                                                where e.FullName == gridFileName.Replace("\\", "/")
+                                                select e).First();
+                using (Stream fsGridFile = gridXmlFile.Open())
                 {
                     using (StreamReader gridFileReader = new StreamReader(fsGridFile))
                     {
@@ -212,6 +214,7 @@ namespace Grid3lib.XmlNodeTag
                                 g.Name = gridFileName.ToPathParts().SkipLast(1).Last();
                                 g.RelativePath = gridFileName;
                                 g.Parent = gridSet;
+                                // TODO HIGH PRIORITY - handle DynamicFiles and attach these to the grid
                                 gridSet.Grids.Add(g);
                                 gridSet.Children.Add(g);
                             }
@@ -242,29 +245,61 @@ namespace Grid3lib.XmlNodeTag
         /// Saves a GridSet to a .gridset file
         /// </summary>
         /// <param name="filePath">The full path of the GridSet file to write</param>
-        public void SaveAs(string filePath)
+        public void SaveAs(String filePath)
         {
             List<string> discard = new List<string>();
-            this.SaveAs(filePath, out discard);
+            SaveAs(filePath, out discard);
         }
 
         /// <summary>
-        /// Saves a GridSet to a .gridset file
+        /// Loads a GridSet from a .gridset file
         /// </summary>
-        /// <param name="filePath">The full path of the GridSet file to write</param>
-        /// <param name="debugInfo">Debugging info outputted during saving</param>
-        public void SaveAs(string filePath, out List<string> debugInfo)
+        /// <param name="filePath">The full path of the GridSet file</param>
+        /// <param name="debugInfo">Debugging info outputted during loading</param>
+        /// <returns>A <see cref="GridSet"/> object loaded from the file, or null on failure</returns>
+        public void SaveAs(String filePath, out List<string> debugInfo)
         {
+            // TODO LOW PRIORITY - if some grids aren't loaded due to lazy-loading, could they be copied over rather than loaded and then serialized?
             debugInfo = new List<string>();
-            // TODO - HIGH PRIORITY map out folder structure
-            // TODO - HIGH PRIORITY create temp area to which we can write
-            // TODO - HIGH PRIORITY write FileMap.xml
-            // TODO - HIGH PRIORITY write styles.xml
-            // TODO - HIGH PRIORITY loop through grids, writing grid.xml files
-            // TODO - HIGH PRIORITY where are we storing other items such as images and sounds?
-            // TODO - HIGH PRIORITY write those items
+            // Create temporary storage area
+            Guid tempID = Guid.NewGuid();
+            string workingFolder = Path.Combine(Path.GetTempPath(), System.Reflection.Assembly.GetEntryAssembly().GetName().Name, tempID.ToString("D"));
+            Directory.CreateDirectory(workingFolder);
+
+            // Create primary folder structure
+            Utility.CreateSubFolder(workingFolder, "Grids");
+            Utility.CreateSubFolder(workingFolder, "Settings0/Styles");
+            debugInfo.Add("Created primary folder structure");
+
+            // Create a blank FileMap and populate as we go
+            FileMap fileMap = new FileMap();
+            
+            // TODO HIGH PRIORITY - Write settings.xml
+
+            // TODO HIGH PRIORITY - Write thumbnail.png
+
+            // TODO HIGH PRIORITY - Write Styles/styles.xml
+
+            // Create folder structure of grids, also writing out grid.xml files and any associated media files
+            foreach (Grid grid in this.Grids)
+            {
+                // Create grid folder
+                string gridFolder = "Grids/" + grid.Name;
+                Utility.CreateSubFolder(workingFolder, gridFolder);
+                debugInfo.Add("Created folder " + gridFolder);
+
+                // Generate and write grid.xml
+                string gridXml = grid.ToString();
+                debugInfo.Add(String.Format("Grid {0} has grid.xml of length {1} characters", grid.Name, gridXml.Length));
+                File.WriteAllText(Path.Combine(workingFolder, gridFolder, "grid.xml"), gridXml);
+
+                // TODO HIGH PRIORITY - locate and write out any media files
+            }
+
+            // TODO HIGH PRIORITY - Write FileMap.xml
             // TODO - HIGH PRIORITY zip up folders into .gridset file
             // TODO - HIGH PRIORITY check whether paths use backslash or forward-slash - wrong slashes will cause Grid3 to crash
+
         }
 
         /// <summary>
