@@ -14,13 +14,13 @@ namespace Grid3LibTest
         {
             // Test XML parsing code
             string[] fileLines;
-            if (File.Exists(@"C:\Users\GZYBK12\AppData\Local\Temp\test.xml"))
+            if (System.IO.File.Exists(@"C:\Users\GZYBK12\AppData\Local\Temp\test.xml"))
             {
-                fileLines = File.ReadAllLines(@"C:\Users\GZYBK12\AppData\Local\Temp\test.xml");
+                fileLines = System.IO.File.ReadAllLines(@"C:\Users\GZYBK12\AppData\Local\Temp\test.xml");
             }
             else
             {
-                fileLines = File.ReadAllLines(@"C:\Users\almcn\AppData\Local\Temp\test.xml");
+                fileLines = System.IO.File.ReadAllLines(@"C:\Users\almcn\AppData\Local\Temp\test.xml");
             }
             string testXml = String.Join("", fileLines);
 
@@ -63,8 +63,8 @@ namespace Grid3LibTest
             string tempXmlSettings = Path.Combine(tempDir, "settings.xml");
             string tempXmlFileMap = Path.Combine(tempDir, "FileMap.xml");
 
-            if (gs.Settings == null) { File.WriteAllText(tempXmlSettings, ""); } else { File.WriteAllText(tempXmlSettings, gs.Settings.ToString()); }
-            if (gs.Map == null) { File.WriteAllText(tempXmlFileMap, ""); } else { File.WriteAllText(tempXmlFileMap, gs.Map.ToString()); }
+            if (gs.Settings == null) { System.IO.File.WriteAllText(tempXmlSettings, ""); } else { System.IO.File.WriteAllText(tempXmlSettings, gs.Settings.ToString()); }
+            if (gs.Map == null) { System.IO.File.WriteAllText(tempXmlFileMap, ""); } else { System.IO.File.WriteAllText(tempXmlFileMap, gs.Map.ToString()); }
         }
 
         static void Main(string[] args)

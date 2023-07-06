@@ -20,4 +20,4 @@ This library attempts to make reading and writing these zipped files significant
 * Reads .gridset files into memory
 * Stores the whole gridset as a tree of IXmlNodes
 * Uses lazy-loading by default to keep code as responsive as possible
-* Allows for writing gridset back to file _currently minus any media files_
+* Allows for writing gridset back to file _currently minus any media files_ (although that's currently in progress)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using XmlParsing;
 
@@ -10,6 +11,8 @@ namespace Grid3lib.XmlNodeTag
     /// </summary>
     public class Grid : XmlNodeBasic
     {
+        private Entry? __FileMapEntry = null;
+
         /// <summary>
         /// Returns the parent node as a strongly-typed GridSet rather than as an IXmlNode
         /// </summary>
@@ -85,6 +88,29 @@ namespace Grid3lib.XmlNodeTag
             get
             {
                 return ChildrenOfType<RowDefinition>(1).Count;
+            }
+        }
+
+        /// <summary>
+        /// Returns a reference to the <see cref="Grid"/>'s <see cref="Entry"/> in the GridSet's <see cref="FileMap"/>
+        /// </summary>
+        public Entry? FileMapEntry
+        {
+            get
+            {
+                if (__FileMapEntry == null)
+                {
+                    GridSet? gs = this.ParentGridSet;
+                    if (gs == null) { return null; }
+                    if (gs.Map == null) { return null; }
+                    List<Entry> entries = gs.Map.ChildrenOfType<Entry>(2);
+                    Entry? entry = (from Entry e in entries.Cast<Entry>()
+                                    where e.StaticFile == ""
+                                    select e).First();
+                    if (entry == null) { return null; }
+                    __FileMapEntry = entry;
+                }
+                return __FileMapEntry;
             }
         }
 
