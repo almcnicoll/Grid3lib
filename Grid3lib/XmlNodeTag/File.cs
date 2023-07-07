@@ -8,7 +8,7 @@ namespace Grid3lib.XmlNodeTag
     /// <summary>
     /// Represents a File node in a FileMap
     /// </summary>
-    public class File : XmlNodeBasic
+    public class File : XmlNodeBasic, IFileNode
     {
         private bool __sourceIsArchive = true;
 

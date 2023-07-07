@@ -8,7 +8,6 @@ using System.IO.Compression;
 using System.Linq;
 using System.Xml.Serialization;
 using Grid3lib.ImportClasses;
-using System.IO.Compression;
 
 namespace Grid3lib.XmlNodeTag
 {
@@ -295,7 +294,6 @@ namespace Grid3lib.XmlNodeTag
                 debugInfo.Add(String.Format("Grid {0} has grid.xml of length {1} characters", grid.Name, gridXml.Length));
                 System.IO.File.WriteAllText(Path.Combine(workingFolder, gridFolder, "grid.xml"), gridXml);
 
-                // TODO HIGH PRIORITY - locate and write out any media files
                 if (grid.FileMapEntry != null)
                 {
                     Entry entry = grid.FileMapEntry;
