@@ -253,7 +253,7 @@ namespace Grid3lib.XmlNodeTag
         }
 
         /// <summary>
-        /// Loads a GridSet from a .gridset file
+        /// Saves a GridSet to a .gridset file
         /// </summary>
         /// <param name="filePath">The full path of the GridSet file</param>
         /// <param name="debugInfo">Debugging info outputted during loading</param>
@@ -301,7 +301,13 @@ namespace Grid3lib.XmlNodeTag
                     Entry entry = grid.FileMapEntry;
                     foreach (XmlNodeTag.File file in entry.ChildrenOfType<XmlNodeTag.File>(2))
                     {
-                        // TODO - locate file and write it to temp folder
+                        // TODO - HIGH PRIORITY what if we're building from scratch and there's no archive?
+                        string sourceFile = file.filePath;
+                        string destFile = Path.Combine(workingFolder, file.filePath);
+                        if (this.Archive != null)
+                        {
+                            this.Archive.GetEntry(sourceFile).ExtractToFile(destFile, true);
+                        }
                     }
                 }
             }
