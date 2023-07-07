@@ -8,6 +8,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Xml.Serialization;
 using Grid3lib.ImportClasses;
+using System.Runtime.CompilerServices;
 
 namespace Grid3lib.XmlNodeTag
 {
@@ -41,6 +42,52 @@ namespace Grid3lib.XmlNodeTag
         /// The settings loaded from the GridSet's settings.xml
         /// </summary>
         public GridSetSettings? Settings { get; set; } = null;
+
+        public Thumbnail? thumbnail
+        {
+            get
+            {
+                if (this.Map == null) { return null; }
+
+                foreach (Entry entry in Map.ChildrenOfType<Entry>(1))
+                {
+                    if (entry.StaticFile != null && entry.StaticFile.ToPathParts().Last() == "settings.xml")
+                    {
+                        List<File> dynamicFiles = entry.ChildrenOfType<File>();
+                        foreach (File df in dynamicFiles)
+                        {
+                            if (Grid3.RegularExpressions.ThumbnailFile.IsMatch(df.filePath.ToPathParts().Last()))
+                            {
+                                return df as Thumbnail;
+                            }
+                        }
+                    }
+                }
+                return null;
+            }
+            set
+            {
+                if (this.Map == null) { throw new Exception("Cannot find a FileMap to which the thumbnail can be added"); }
+
+                foreach (Entry entry in Map.ChildrenOfType<Entry>(1))
+                {
+                    if (entry.StaticFile != null && entry.StaticFile.ToPathParts().Last() == "settings.xml")
+                    {
+                        List<File> dynamicFiles = entry.ChildrenOfType<File>();
+                        foreach (File df in dynamicFiles)
+                        {
+                            if (Grid3.RegularExpressions.ThumbnailFile.IsMatch(df.filePath.ToPathParts().Last()))
+                            {
+                                // TODO - what if this is an in-memory thumbnail rather than a file reference? What if it's a local file rather than an archive reference.
+                                if (value == null) { df.Parent?.Children.Remove(df); return; }
+                                df.filePath = value.filePath; return;
+                            }
+                        }
+                    }
+                }
+                // TODO HIGH PRIORITY - Need to check for / add the right Settings entry to FileMap, then add a dynamic file for its thumbnail
+            }
+        }
 
         public StyleData? Styles { get; set; } = null;
 
@@ -191,6 +238,17 @@ namespace Grid3lib.XmlNodeTag
                 {
                     gridSet.__fileNames.Add(entry.StaticFile);
                 }
+                else if (entry.StaticFile != null && entry.StaticFile.ToPathParts().Last() == "settings.xml")
+                {
+                    List<File> dynamicFiles = entry.ChildrenOfType<File>();
+                    foreach (File df in dynamicFiles)
+                    {
+                        if (Grid3.RegularExpressions.ThumbnailFile.IsMatch(df.filePath.ToPathParts().Last()))
+                        {
+                            gridSet.thumbnail = df as Thumbnail;
+                        }
+                    }
+                }
             }
 
             // Loop through fileNames, reading grid.xml files into Grid objects as we go
@@ -277,7 +335,8 @@ namespace Grid3lib.XmlNodeTag
 
             // TODO HIGH PRIORITY - Write settings.xml
 
-            // TODO HIGH PRIORITY - Write thumbnail.png
+            // TODO HIGH PRIORITY - Write thumbnail
+
 
             // TODO HIGH PRIORITY - Write Styles/styles.xml
 

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using XmlParsing;
 using SixLabors.ImageSharp;
+using Grid3lib.XmlNodeTag;
 
 namespace Grid3lib
 {
     /// <summary>
     /// Contains the thumbnail of a <see cref="XmlNodeTag.GridSet"/>
     /// </summary>
-    public class Thumbnail : IFileNode
+    public class Thumbnail : Grid3lib.XmlNodeTag.File
     {
         /// <summary>
         /// Sets or returns the path contained within the <see cref="File"/> node.
