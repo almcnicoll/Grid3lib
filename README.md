@@ -14,3 +14,10 @@ Out of this need the idea for Grid3lib was born.
 
 Gridset files are compressed using standard ZIP compression, and contain a set of XML documents and associated files in a reasonably predictable folder structure.
 This library attempts to make reading and writing these zipped files significantly easier. Bulk operations which are otherwise cumbersome using the standard Grid3 software can also be achieved more efficiently.
+
+## Current functionality ##
+
+* Reads .gridset files into memory
+* Stores the whole gridset as a tree of IXmlNodes
+* Uses lazy-loading by default to keep code as responsive as possible
+* Allows for writing gridset back to file _currently minus any media files_ (although that's currently in progress)
