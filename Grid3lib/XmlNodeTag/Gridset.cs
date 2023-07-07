@@ -271,7 +271,7 @@ namespace Grid3lib.XmlNodeTag
             // Create primary folder structure
             Utility.CreateSubFolder(workingFolder, "Grids");
             Utility.CreateSubFolder(workingFolder, "Settings0/Styles");
-            debugInfo.Add("Created primary folder structure");
+            debugInfo.Add(String.Format("Created primary folder structure in {0}", workingFolder));
 
             // Create a blank FileMap and populate as we go
             FileMap fileMap = new FileMap();
@@ -301,12 +301,23 @@ namespace Grid3lib.XmlNodeTag
                     Entry entry = grid.FileMapEntry;
                     foreach (XmlNodeTag.File file in entry.ChildrenOfType<XmlNodeTag.File>(2))
                     {
-                        // TODO - HIGH PRIORITY what if we're building from scratch and there's no archive?
-                        string sourceFile = file.filePath;
-                        string destFile = Path.Combine(workingFolder, file.filePath);
-                        if (this.Archive != null)
+                        string? sourceFile = file.filePath;
+                        if (sourceFile == null) { throw new FileNotFoundException("Could not find dynamic file"); }
+                        string destinationFile = Path.Combine(workingFolder, file.filePath);
+                        if (file.sourceIsArchive)
                         {
-                            this.Archive.GetEntry(sourceFile).ExtractToFile(destFile, true);
+                            if (this.Archive == null)
+                            {
+                                throw new FileNotFoundException("File listed as being in archive, but no GridSet archive present");
+                            }
+                            else
+                            {
+                                this.Archive.GetEntry(sourceFile).ExtractToFile(destinationFile, true);
+                            }
+                        }
+                        else
+                        {
+                            System.IO.File.Copy(sourceFile, destinationFile, true);
                         }
                     }
                 }
