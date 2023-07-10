@@ -221,7 +221,7 @@ namespace Grid3lib.XmlNodeTag
 
                 if (content.Style != null)
                 {
-                    // TODO - LOW PRIORITY import cell - styles (classes now exist)
+                    // TODO LOW PRIORITY - import cell - styles (classes now exist)
                     CellStyle = new Style(content.Style);
                 }
             }
@@ -276,7 +276,7 @@ namespace Grid3lib.XmlNodeTag
 
         // Style
         string styleXml;
-            // TODO - LOW PRIORITY see where Style info is used and output it in XML
+            // TODO LOW PRIORITY - see where Style info is used and output it in XML
             if (string.IsNullOrEmpty(BaseStyle))
             {
                 styleXml = "<BasedOnStyle>Default</BasedOnStyle>";

@@ -7,7 +7,7 @@ namespace Grid3lib.ToConvert
 {
     public class CommandParameter
     {
-        // TODO - LOW PRIORITY handle more complex parameters with <p><s><r></r></s></p> structure
+        // TODO LOW PRIORITY - handle more complex parameters with <p><s><r></r></s></p> structure
 
 
         public string Key { get; set; }

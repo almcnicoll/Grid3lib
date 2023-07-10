@@ -12,7 +12,7 @@ namespace Grid3lib.ImportClasses
     [XmlTypeAttribute(AnonymousType = true)]
     public partial class GridCellContentCommandsCommandParameter
     {
-        //TODO - LOW PRIORITY Parameters can contain rich text elements (RichTextPSR etc.)
+        //TODO LOW PRIORITY - Parameters can contain rich text elements (RichTextPSR etc.)
         // so we can't simply have a value text field alone
 
         private string[] dataField;
@@ -68,7 +68,7 @@ namespace Grid3lib.ImportClasses
         /// <summary>
         /// Contains the value, including any rich text subitems
         /// </summary>
-        // TODO - LOW PRIORITY this is not yet pulling data correctly. Suggest we use XmlElement as in https://stackoverflow.com/a/38913372/356256
+        // TODO LOW PRIORITY - this is not yet pulling data correctly. Suggest we use XmlElement as in https://stackoverflow.com/a/38913372/356256
         // and then parse and deserialize that on conversion to the main CommandParameter class
         public RichText Text
         {

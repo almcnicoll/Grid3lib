@@ -471,7 +471,7 @@ namespace Grid3lib.XmlNodeTag
             if (System.IO.File.Exists(tempOutputFileName)) { System.IO.File.Delete(tempOutputFileName); }
             ZipFile.CreateFromDirectory(workingFolder, tempOutputFileName, CompressionLevel.Optimal, false);
             System.IO.File.Copy(tempOutputFileName, filePath, overwrite: true);
-            // TODO - HIGH PRIORITY check whether paths use absolute\backslash or relative/forward-slash - wrong slashes will apparently cause Grid3 to crash
+            // TODO HIGH PRIORITY - check whether paths use absolute\backslash or relative/forward-slash - wrong slashes will apparently cause Grid3 to crash
 
         }
 
