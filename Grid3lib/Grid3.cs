@@ -88,85 +88,84 @@ namespace Grid3lib
             /// Represents the Activate AutoContent action
             /// </summary>
             public const string AutoContentActivate = "AutoContent.Activate";
-
+            /// <summary>
+            /// Represents the Clear action
+            /// </summary>
+            public const string Clear = "Action.Clear";
+            /// <summary>
+            /// Represents the Copy action
+            /// </summary>
+            public const string Copy = "Action.Copy";
+            /// <summary>
+            /// Represents the DeleteLetter action
+            /// </summary>
+            public const string DeleteLetter = "Action.DeleteLetter";
+            /// <summary>
+            /// Represents the DeleteSpace action
+            /// </summary>
+            public const string DeleteSpace = "Action.DeleteSpace";
+            /// <summary>
+            /// Represents the DeleteWord action
+            /// </summary>
+            public const string DeleteWord = "Action.DeleteWord";
+            /// <summary>
+            /// Represents the Enter action
+            /// </summary>
+            public const string Enter = "Action.Enter";
+            /// <summary>
+            /// Represents the FindWord action
+            /// </summary>
+            public const string FindWord = "Action.FindWord";
+            /// <summary>
+            /// Represents the InsertCellText action
+            /// </summary>
+            public const string InsertCellText = "Action.InsertCellText";
+            /// <summary>
+            /// Represents the InsertText action
+            /// </summary>
+            public const string InsertText = "Action.InsertText";
+            /// <summary>
+            /// Represents the Letter action
+            /// </summary>
+            public const string Letter = "Action.Letter";
+            /// <summary>
+            /// Represents the NextLetter action
+            /// </summary>
+            public const string NextLetter = "Action.NextLetter";
+            /// <summary>
+            /// Represents the Number action
+            /// </summary>
+            public const string Number = "Action.Number";
+            /// <summary>
+            /// Represents the Paste action
+            /// </summary>
+            public const string Paste = "Action.Paste";
+            /// <summary>
+            /// Represents the PreviousLetter action
+            /// </summary>
+            public const string PreviousLetter = "Action.PreviousLetter";
+            /// <summary>
+            /// Represents the Print action
+            /// </summary>
+            public const string Print = "Action.Print";
+            /// <summary>
+            /// Represents the Punctuation action
+            /// </summary>
+            public const string Punctuation = "Action.Punctuation";
+            /// <summary>
+            /// Represents the Space action
+            /// </summary>
+            public const string Space = "Action.Space";
+            /// <summary>
+            /// Represents the Speak action
+            /// </summary>
+            public const string Speak = "Action.Speak";
+            /// <summary>
+            /// Represents the UndoClear action
+            /// </summary>
+            public const string UndoClear = "Action.UndoClear";
 
             /* TODO - Still to implement
-            /// <summary>
-/// Represents the Action.Clear action
-/// </summary>
-public const string Action.Clear = "Action.Clear";
-
-/// <summary>
-/// Represents the Action.Copy action
-/// </summary>
-public const string Action.Copy = "Action.Copy";
-
-/// <summary>
-/// Represents the Action.DeleteLetter action
-/// </summary>
-public const string Action.DeleteLetter = "Action.DeleteLetter";
-
-/// <summary>
-/// Represents the Action.DeleteSpace action
-/// </summary>
-public const string Action.DeleteSpace = "Action.DeleteSpace";
-
-/// <summary>
-/// Represents the Action.DeleteWord action
-/// </summary>
-public const string Action.DeleteWord = "Action.DeleteWord";
-
-/// <summary>
-/// Represents the Action.Enter action
-/// </summary>
-public const string Action.Enter = "Action.Enter";
-
-/// <summary>
-/// Represents the Action.FindWord action
-/// </summary>
-public const string Action.FindWord = "Action.FindWord";
-
-/// <summary>
-/// Represents the Action.InsertCellText action
-/// </summary>
-public const string Action.InsertCellText = "Action.InsertCellText";
-
-<Command ID="Action.InsertText">
-<Command ID="Action.Letter">
-/// <summary>
-/// Represents the Action.NextLetter action
-/// </summary>
-public const string Action.NextLetter = "Action.NextLetter";
-
-<Command ID="Action.Number">
-/// <summary>
-/// Represents the Action.Paste action
-/// </summary>
-public const string Action.Paste = "Action.Paste";
-
-/// <summary>
-/// Represents the Action.PreviousLetter action
-/// </summary>
-public const string Action.PreviousLetter = "Action.PreviousLetter";
-
-/// <summary>
-/// Represents the Action.Print action
-/// </summary>
-public const string Action.Print = "Action.Print";
-
-<Command ID="Action.Punctuation">
-/// <summary>
-/// Represents the Action.Space action
-/// </summary>
-public const string Action.Space = "Action.Space";
-
-<Command ID="Action.Speak">
-/// <summary>
-/// Represents the Action.UndoClear action
-/// </summary>
-public const string Action.UndoClear = "Action.UndoClear";
-
-<Command ID="AutoContent.Activate">
 /// <summary>
 /// Represents the Calculator.Add action
 /// </summary>
