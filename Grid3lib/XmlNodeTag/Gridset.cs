@@ -375,7 +375,10 @@ namespace Grid3lib.XmlNodeTag
             }
 
             // TODO HIGH PRIORITY - Write Styles/styles.xml
+            if (Styles != null)
+            {
 
+            }
 
             // Create folder structure of grids, also writing out grid.xml files and any associated media files
             foreach (Grid grid in this.Grids)

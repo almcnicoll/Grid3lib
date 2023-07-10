@@ -53,6 +53,10 @@ namespace Grid3lib
         public static class Actions
         {
             /// <summary>
+            /// Represents the Grid Explorer action
+            /// </summary>
+            public const string GridExplorer = "Settings.GridExplorer";
+            /// <summary>
             /// Represents the Write action
             /// </summary>
             public const string Write = "Action.InsertText";
@@ -60,6 +64,26 @@ namespace Grid3lib
             /// Represents the Speak Now action
             /// </summary>
             public const string SpeakNow = "Speech.SpeakNow";
+            /// <summary>
+            /// Represents the Jump Back action
+            /// </summary>
+            public const string JumpBack = "Jump.Back";
+            /// <summary>
+            /// Represents the Jump To action
+            /// </summary>
+            public const string JumpTo = "Jump.To";
+            /// <summary>
+            /// Represents the Play Sound action
+            /// </summary>
+            public const string PlaySound = "SpeechPlaySound";
+            /// <summary>
+            /// Represents the Open Music File action
+            /// </summary>
+            public const string OpenMusicFile = "MusicVideo.OpenMusicFile";
+            /// <summary>
+            /// Represents the Wait action
+            /// </summary>
+            public const string Wait = "CommandExecution.Wait";
         }
     }
 }
