@@ -98,7 +98,7 @@ namespace Grid3lib.XmlNodeTag
         /// <summary>
         /// Contains style data for the <see cref="GridSet">GridSet</see>
         /// </summary>
-        public IXmlNode? Styles { get; set; } = null;
+        public Styles? Styles { get; set; } = null;
 
         /// <summary>
         /// The file map loaded from the <see cref="GridSet">GridSet</see>'s FileMap.xml
@@ -153,12 +153,12 @@ namespace Grid3lib.XmlNodeTag
         {
             GridSet gridSet = new GridSet();
             debugInfo = new List<string>();
-            ZipArchive gridFile = ZipFile.OpenRead(filePath);
-            gridSet.Archive = gridFile;
+            ZipArchive gridsetZipFile = ZipFile.OpenRead(filePath);
+            gridSet.Archive = gridsetZipFile;
 
             // Retrieve and parse settings.xml
             // Get file
-            ZipArchiveEntry? settingsFile = (from ZipArchiveEntry zipEntry in gridFile.Entries
+            ZipArchiveEntry? settingsFile = (from ZipArchiveEntry zipEntry in gridsetZipFile.Entries
                                              where zipEntry.Name == "settings.xml"
                                              select zipEntry).First();
             if (settingsFile == null) { debugInfo.Add("No settings.xml found"); return null; }
@@ -200,7 +200,7 @@ namespace Grid3lib.XmlNodeTag
 
             // Retrieve and parse FileMap.xml
             // Get file
-            ZipArchiveEntry? fileMapFile = (from ZipArchiveEntry zipEntry in gridFile.Entries
+            ZipArchiveEntry? fileMapFile = (from ZipArchiveEntry zipEntry in gridsetZipFile.Entries
                                             where zipEntry.FullName == "FileMap.xml"
                                             select zipEntry).First();
             if (fileMapFile == null) { debugInfo.Add("No FileMap.xml found"); return null; }
@@ -239,7 +239,7 @@ namespace Grid3lib.XmlNodeTag
                 return null;
             }
 
-            // Use FileMap to populate 
+            // Use FileMap to populate GridSet
             foreach (Entry entry in gridSet.Map.ChildrenOfType<Entry>(1))
             {
                 debugInfo.Add(String.Format("File map entry: {0}", entry.StaticFile));
@@ -261,10 +261,39 @@ namespace Grid3lib.XmlNodeTag
                 }
             }
 
+            // Read in styles.xml (not in FileMap for some reason)
+            ZipArchiveEntry? stylesXmlFile = (from ZipArchiveEntry zipEntry in gridsetZipFile.Entries
+                                              where zipEntry.FullName == "styles.xml"
+                                              select zipEntry).First();
+            if (stylesXmlFile != null)
+            {
+                using (Stream fsStylesFile = stylesXmlFile.Open())
+                {
+                    using (StreamReader styleFileReader = new StreamReader(fsStylesFile))
+                    {
+                        IXmlNode ixnStyles;
+                        string stylesXml = styleFileReader.ReadToEnd();
+                        ixnStyles = XmlNodeBasic.CreateFromXml(stylesXml);
+                        if (ixnStyles != null && (ixnStyles is XmlNodeTag.Styles))
+                        {
+                            Styles? s = ixnStyles as Styles;
+                            if (s != null)
+                            {
+                                s.Parent = gridSet;
+                                gridSet.Styles = s;
+                                gridSet.Children.Add(s);
+                                s.filePath = stylesXmlFile.FullName;
+                                s.sourceIsArchive = true;
+                            }
+                        }
+                    }
+                }
+            }
+
             // Loop through fileNames, reading grid.xml files into Grid objects as we go
             foreach (string gridFileName in gridSet.__fileNames)
             {
-                ZipArchiveEntry? gridXmlFile = (from ZipArchiveEntry e in gridFile.Entries
+                ZipArchiveEntry? gridXmlFile = (from ZipArchiveEntry e in gridsetZipFile.Entries
                                                 where e.FullName == gridFileName.Replace("\\", "/")
                                                 select e).First();
                 using (Stream fsGridFile = gridXmlFile.Open())
@@ -374,10 +403,26 @@ namespace Grid3lib.XmlNodeTag
                 }
             }
 
-            // TODO HIGH PRIORITY - Write Styles/styles.xml
+            // Write Styles/styles.xml
             if (Styles != null)
             {
-
+                string? sourceFile = Styles.filePath; if (sourceFile == null) { sourceFile = Grid3.Paths.StylesXml; }
+                string destinationFile = Path.Combine(workingFolder, sourceFile);
+                if (Styles.sourceIsArchive)
+                {
+                    if (this.Archive == null)
+                    {
+                        throw new FileNotFoundException("Styles file listed as being in archive, but no GridSet archive present");
+                    }
+                    else
+                    {
+                        this.Archive.GetEntry(sourceFile).ExtractToFile(destinationFile, true);
+                    }
+                }
+                else
+                {
+                    System.IO.File.Copy(sourceFile, destinationFile, true);
+                }
             }
 
             // Create folder structure of grids, also writing out grid.xml files and any associated media files
