@@ -21,6 +21,33 @@ namespace Grid3lib
         }
 
         /// <summary>
+        ///  Contains common paths within a <see cref="Grid3lib.XmlNodeTag.GridSet"/>
+        /// </summary>
+        public static class Paths
+        {
+            /// <summary>
+            /// The default root folder for <see cref="XmlNodeTag.GridSet"/> folders
+            /// </summary>
+            public static string GridsFolder = @"Grids";
+            /// <summary>
+            /// The default folder for the <see cref="Grid3lib.XmlNodeTag.GridSet"/>'s <see cref="XmlNodeTag.GridSetSettings"/>
+            /// </summary>
+            public static string SettingsFolder = @"Settings0";
+            /// <summary>
+            /// The default location of the settings.xml file containing <see cref="XmlNodeTag.GridSetSettings"/>
+            /// </summary>
+            public static string SettingsXml = @"Settings0\settings.xml";
+            /// <summary>
+            /// The default location of the settings.xml file
+            /// </summary>
+            public static string StylesFolder = @"Settings0\Styles";
+            /// <summary>
+            /// The default location of the styles.xml
+            /// </summary>
+            public static string StylesXml = @"Settings0\Styles\styles.xml";
+        }
+
+        /// <summary>
         /// Contains common cell and grid actions
         /// </summary>
         public static class Actions

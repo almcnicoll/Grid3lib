@@ -9,6 +9,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using Grid3lib.ImportClasses;
 using System.Runtime.CompilerServices;
+using System.Diagnostics;
 
 namespace Grid3lib.XmlNodeTag
 {
@@ -19,12 +20,12 @@ namespace Grid3lib.XmlNodeTag
     public class GridSet : XmlNodeBasic
     {
         /// <summary>
-        /// The user-facing name of the GridSet
+        /// The user-facing name of the <see cref="GridSet">GridSet</see>
         /// </summary>
         public string? Name { get; set; } = null;
 
         /// <summary>
-        /// The unique <see cref="Guid"/> of the GridSet
+        /// The unique <see cref="Guid"/> of the <see cref="GridSet">GridSet</see>
         /// </summary>
         public Guid? GridSetId { get; set; } = null;
 
@@ -34,16 +35,19 @@ namespace Grid3lib.XmlNodeTag
         public Grid? Homepage { get; set; } = null;
 
         /// <summary>
-        /// A reference to the Zip archive from which the GridSet was loaded
+        /// A reference to the Zip archive from which the <see cref="GridSet">GridSet</see> was loaded
         /// </summary>
         public ZipArchive? Archive { get; set; } = null;
 
         /// <summary>
-        /// The settings loaded from the GridSet's settings.xml
+        /// The settings loaded from the <see cref="GridSet">GridSet</see>'s settings.xml
         /// </summary>
         public GridSetSettings? Settings { get; set; } = null;
 
-        public Thumbnail? thumbnail
+        /// <summary>
+        ///  Contains a reference to the <see cref="GridSet"/>'s thumbnail image
+        /// </summary>
+        public Thumbnail? Thumbnail
         {
             get
             {
@@ -56,6 +60,7 @@ namespace Grid3lib.XmlNodeTag
                         List<File> dynamicFiles = entry.ChildrenOfType<File>();
                         foreach (File df in dynamicFiles)
                         {
+                            if (df.filePath == null) { continue; }
                             if (Grid3.RegularExpressions.ThumbnailFile.IsMatch(df.filePath.ToPathParts().Last()))
                             {
                                 return df as Thumbnail;
@@ -76,6 +81,7 @@ namespace Grid3lib.XmlNodeTag
                         List<File> dynamicFiles = entry.ChildrenOfType<File>();
                         foreach (File df in dynamicFiles)
                         {
+                            if (df.filePath == null) { continue; }
                             if (Grid3.RegularExpressions.ThumbnailFile.IsMatch(df.filePath.ToPathParts().Last()))
                             {
                                 // TODO - what if this is an in-memory thumbnail rather than a file reference? What if it's a local file rather than an archive reference.
@@ -89,10 +95,13 @@ namespace Grid3lib.XmlNodeTag
             }
         }
 
-        public StyleData? Styles { get; set; } = null;
+        /// <summary>
+        /// Contains style data for the <see cref="GridSet">GridSet</see>
+        /// </summary>
+        public IXmlNode? Styles { get; set; } = null;
 
         /// <summary>
-        /// The file map loaded from the GridSet's FileMap.xml
+        /// The file map loaded from the <see cref="GridSet">GridSet</see>'s FileMap.xml
         /// </summary>
         public FileMap? Map { get; set; } = null;
 
@@ -243,9 +252,10 @@ namespace Grid3lib.XmlNodeTag
                     List<File> dynamicFiles = entry.ChildrenOfType<File>();
                     foreach (File df in dynamicFiles)
                     {
+                        if (df.filePath == null) { continue; }
                         if (Grid3.RegularExpressions.ThumbnailFile.IsMatch(df.filePath.ToPathParts().Last()))
                         {
-                            gridSet.thumbnail = df as Thumbnail;
+                            gridSet.Thumbnail = df as Thumbnail;
                         }
                     }
                 }
@@ -326,19 +336,46 @@ namespace Grid3lib.XmlNodeTag
             Directory.CreateDirectory(workingFolder);
 
             // Create primary folder structure
-            Utility.CreateSubFolder(workingFolder, "Grids");
-            Utility.CreateSubFolder(workingFolder, "Settings0/Styles");
+            Utility.CreateSubFolder(workingFolder, Grid3.Paths.GridsFolder);
+            Utility.CreateSubFolder(workingFolder, Grid3.Paths.SettingsFolder);
+            Utility.CreateSubFolder(workingFolder, Grid3.Paths.StylesFolder);
             debugInfo.Add(String.Format("Created primary folder structure in {0}", workingFolder));
 
             // Create a blank FileMap and populate as we go
             FileMap fileMap = new FileMap();
 
-            // TODO HIGH PRIORITY - Write settings.xml
+            // Write settings.xml
+            if (Settings != null)
+            {
+                string SettingsXml = Settings.ToString();
+                string destinationFile = Path.Combine(workingFolder, Grid3.Paths.SettingsXml);
+                System.IO.File.WriteAllText(destinationFile, SettingsXml);
+            }
 
-            // TODO HIGH PRIORITY - Write thumbnail
-
+            // Write thumbnail
+            if (Thumbnail != null)
+            {
+                string? sourceFile = Thumbnail.filePath;
+                string destinationFile = Path.Combine(workingFolder, sourceFile);
+                if (Thumbnail.sourceIsArchive)
+                {
+                    if (this.Archive == null)
+                    {
+                        throw new FileNotFoundException("Thumbnail listed as being in archive, but no GridSet archive present");
+                    }
+                    else
+                    {
+                        this.Archive.GetEntry(sourceFile).ExtractToFile(destinationFile, true);
+                    }
+                }
+                else
+                {
+                    System.IO.File.Copy(sourceFile, destinationFile, true);
+                }
+            }
 
             // TODO HIGH PRIORITY - Write Styles/styles.xml
+
 
             // Create folder structure of grids, also writing out grid.xml files and any associated media files
             foreach (Grid grid in this.Grids)
@@ -360,7 +397,7 @@ namespace Grid3lib.XmlNodeTag
                     {
                         string? sourceFile = file.filePath;
                         if (sourceFile == null) { throw new FileNotFoundException("Could not find dynamic file"); }
-                        string destinationFile = Path.Combine(workingFolder, file.filePath);
+                        string destinationFile = Path.Combine(workingFolder, sourceFile);
                         if (file.sourceIsArchive)
                         {
                             if (this.Archive == null)
