@@ -164,266 +164,256 @@ namespace Grid3lib
             /// Represents the UndoClear action
             /// </summary>
             public const string UndoClear = "Action.UndoClear";
-
+            /// <summary>
+            /// Represents the Calculator.Add action
+            /// </summary>
+            public const string Calculator_Add = "Calculator.Add";
+            /// <summary>
+            /// Represents the Calculator.Clear action
+            /// </summary>
+            public const string Calculator_Clear = "Calculator.Clear";
+            /// <summary>
+            /// Represents the Calculator.Divide action
+            /// </summary>
+            public const string Calculator_Divide = "Calculator.Divide";
+            /// <summary>
+            /// Represents the Calculator.Eight action
+            /// </summary>
+            public const string Calculator_Eight = "Calculator.Eight";
+            /// <summary>
+            /// Represents the Calculator.Equals action
+            /// </summary>
+            public const string Calculator_Equals = "Calculator.Equals";
+            /// <summary>
+            /// Represents the Calculator.Five action
+            /// </summary>
+            public const string Calculator_Five = "Calculator.Five";
+            /// <summary>
+            /// Represents the Calculator.Four action
+            /// </summary>
+            public const string Calculator_Four = "Calculator.Four";
+            /// <summary>
+            /// Represents the Calculator.Multiply action
+            /// </summary>
+            public const string Calculator_Multiply = "Calculator.Multiply";
+            /// <summary>
+            /// Represents the Calculator.Nine action
+            /// </summary>
+            public const string Calculator_Nine = "Calculator.Nine";
+            /// <summary>
+            /// Represents the Calculator.One action
+            /// </summary>
+            public const string Calculator_One = "Calculator.One";
+            /// <summary>
+            /// Represents the Calculator.Seven action
+            /// </summary>
+            public const string Calculator_Seven = "Calculator.Seven";
+            /// <summary>
+            /// Represents the Calculator.Six action
+            /// </summary>
+            public const string Calculator_Six = "Calculator.Six";
+            /// <summary>
+            /// Represents the Calculator.Subtract action
+            /// </summary>
+            public const string Calculator_Subtract = "Calculator.Subtract";
+            /// <summary>
+            /// Represents the Calculator.Three action
+            /// </summary>
+            public const string Calculator_Three = "Calculator.Three";
+            /// <summary>
+            /// Represents the Calculator.Two action
+            /// </summary>
+            public const string Calculator_Two = "Calculator.Two";
+            /// <summary>
+            /// Represents the Calculator.Zero action
+            /// </summary>
+            public const string Calculator_Zero = "Calculator.Zero";
+            /// <summary>
+            /// Represents the ClockSpeakTime action
+            /// </summary>
+            public const string ClockSpeakTime = "ClockSpeakTime";
+            /// <summary>
+            /// Represents the ClockWriteTime action
+            /// </summary>
+            public const string ClockWriteTime = "ClockWriteTime";
+            /// <summary>
+            /// Represents the ComputerControl.Dock action
+            /// </summary>
+            public const string ComputerControl_Dock = "ComputerControl.Dock";
+            /// <summary>
+            /// Represents the ComputerControl.Keyboard action
+            /// </summary>
+            public const string ComputerControl_Keyboard = "ComputerControl.Keyboard";
+            /// <summary>
+            /// Represents the ComputerControl.MouseClick action
+            /// </summary>
+            public const string ComputerControl_MouseClick = "ComputerControl.MouseClick";
+            /// <summary>
+            /// Represents the ComputerControl.MouseClickOnDwell action
+            /// </summary>
+            public const string ComputerControl_MouseClickOnDwell = "ComputerControl.MouseClickOnDwell";
+            /// <summary>
+            /// Represents the ComputerControl.MouseDragPointerOnDwell action
+            /// </summary>
+            public const string ComputerControl_MouseDragPointerOnDwell = "ComputerControl.MouseDragPointerOnDwell";
+            /// <summary>
+            /// Represents the ComputerControl.MoveMouseTo action
+            /// </summary>
+            public const string ComputerControl_MoveMouseTo = "ComputerControl.MoveMouseTo";
+            /// <summary>
+            /// Represents the ComputerControl.Run action
+            /// </summary>
+            public const string ComputerControl_Run = "ComputerControl.Run";
+            /// <summary>
+            /// Represents the ComputerControl.Shift action
+            /// </summary>
+            public const string ComputerControl_Shift= "ComputerControl.Shift";
+            /// <summary>
+            /// Represents the Email.AttachPhoto action
+            /// </summary>
+            public const string Email_AttachPhoto = "Email.AttachPhoto";
+            /// <summary>
+            /// Represents the Email.Back action
+            /// </summary>
+            public const string Email_Back = "Email.Back";
+            /// <summary>
+            /// Represents the Email.ClearAttachments action
+            /// </summary>
+            public const string Email_ClearAttachments = "Email.ClearAttachments";
+            /// <summary>
+            /// Represents the Email.Delete action
+            /// </summary>
+            public const string Email_Delete = "Email.Delete";
+            /// <summary>
+            /// Represents the Email.New action
+            /// </summary>
+            public const string Email_New = "Email.New";
+            /// <summary>
+            /// Represents the Email.Next action
+            /// </summary>
+            public const string Email_Next = "Email.Next";
+            /// <summary>
+            /// Represents the Email.Open action
+            /// </summary>
+            public const string Email_Open = "Email.Open";
+            /// <summary>
+            /// Represents the Email.Previous action
+            /// </summary>
+            public const string Email_Previous = "Email.Previous";
+            /// <summary>
+            /// Represents the Email.Reply action
+            /// </summary>
+            public const string Email_Reply= "Email.Reply";
+            /// <summary>
+            /// Represents the Email.Send action
+            /// </summary>
+            public const string Email_Send = "Email.Send";
+            /// <summary>
+            /// Represents the Email.Speak action
+            /// </summary>
+            public const string Email_Speak = "Email.Speak";
             /* TODO - Still to implement
-/// <summary>
-/// Represents the Calculator.Add action
-/// </summary>
-public const string Calculator.Add = "Calculator.Add";
 
-/// <summary>
-/// Represents the Calculator.Clear action
-/// </summary>
-public const string Calculator.Clear = "Calculator.Clear";
+        <Command ID = "Interactive.Action" >
+            /// <summary>
+        /// Represents the Interactive.Restart action
+        /// </summary>
+        public const string Interactive.Restart = "Interactive.Restart";
 
-/// <summary>
-/// Represents the Calculator.Divide action
-/// </summary>
-public const string Calculator.Divide = "Calculator.Divide";
+        /// <summary>
+        /// Represents the Jump.Back action
+        /// </summary>
+        public const string Jump.Back = "Jump.Back";
 
-/// <summary>
-/// Represents the Calculator.Eight action
-/// </summary>
-public const string Calculator.Eight = "Calculator.Eight";
+        /// <summary>
+        /// Represents the Jump.Home action
+        /// </summary>
+        public const string Jump.Home = "Jump.Home";
 
-/// <summary>
-/// Represents the Calculator.Equals action
-/// </summary>
-public const string Calculator.Equals = "Calculator.Equals";
+        /// <summary>
+        /// Represents the Jump.PreventSelfClosing action
+        /// </summary>
+        public const string Jump.PreventSelfClosing = "Jump.PreventSelfClosing";
 
-/// <summary>
-/// Represents the Calculator.Five action
-/// </summary>
-public const string Calculator.Five = "Calculator.Five";
+        <Command ID="Jump.SetBookmark">
+        <Command ID="Jump.To">
+        <Command ID="Jump.ToggleSelfClosing">
+        <Command ID="MusicVideo.OpenMusicFile">
+        <Command ID="MusicVideo.OpenVideoFile">
+        <Command ID="Photos.MorePhotos">
+        <Command ID="Photos.OpenFile">
+        /// <summary>
+        /// Represents the Photos.Snapshot action
+        /// </summary>
+        public const string Photos.Snapshot = "Photos.Snapshot";
 
-/// <summary>
-/// Represents the Calculator.Four action
-/// </summary>
-public const string Calculator.Four = "Calculator.Four";
+        /// <summary>
+        /// Represents the Photos.SnapshotsFolder action
+        /// </summary>
+        public const string Photos.SnapshotsFolder = "Photos.SnapshotsFolder";
 
-/// <summary>
-/// Represents the Calculator.Multiply action
-/// </summary>
-public const string Calculator.Multiply = "Calculator.Multiply";
+        <Command ID="Prediction.MoreWords">
+        <Command ID="Prediction.PredictThis">
+        <Command ID="Settings.ChangeGridSet">
+        /// <summary>
+        /// Represents the Settings.GridExplorer action
+        /// </summary>
+        public const string Settings.GridExplorer = "Settings.GridExplorer";
 
-/// <summary>
-/// Represents the Calculator.Nine action
-/// </summary>
-public const string Calculator.Nine = "Calculator.Nine";
+        <Command ID="Settings.Notify">
+        /// <summary>
+        /// Represents the Settings.PointerDwellLonger action
+        /// </summary>
+        public const string Settings.PointerDwellLonger = "Settings.PointerDwellLonger";
 
-/// <summary>
-/// Represents the Calculator.One action
-/// </summary>
-public const string Calculator.One = "Calculator.One";
+        /// <summary>
+        /// Represents the Settings.PointerDwellShorter action
+        /// </summary>
+        public const string Settings.PointerDwellShorter = "Settings.PointerDwellShorter";
 
-/// <summary>
-/// Represents the Calculator.Seven action
-/// </summary>
-public const string Calculator.Seven = "Calculator.Seven";
+        <Command ID="Settings.RequiredFeature">
+        <Command ID="Settings.RestAll">
+        <Command ID="Settings.RestEyeGaze">
+        <Command ID="Settings.RestPointer">
+        <Command ID="Settings.RestSwitch">
+        /// <summary>
+        /// Represents the Settings.ScanspeedFaster action
+        /// </summary>
+        public const string Settings.ScanspeedFaster = "Settings.ScanspeedFaster";
 
-/// <summary>
-/// Represents the Calculator.Six action
-/// </summary>
-public const string Calculator.Six = "Calculator.Six";
+        /// <summary>
+        /// Represents the Settings.ScanspeedSlower action
+        /// </summary>
+        public const string Settings.ScanspeedSlower = "Settings.ScanspeedSlower";
 
-/// <summary>
-/// Represents the Calculator.Subtract action
-/// </summary>
-public const string Calculator.Subtract = "Calculator.Subtract";
+        /// <summary>
+        /// Represents the Settings.TouchDwellLonger action
+        /// </summary>
+        public const string Settings.TouchDwellLonger = "Settings.TouchDwellLonger";
 
-/// <summary>
-/// Represents the Calculator.Three action
-/// </summary>
-public const string Calculator.Three = "Calculator.Three";
+        /// <summary>
+        /// Represents the Settings.TouchDwellShorter action
+        /// </summary>
+        public const string Settings.TouchDwellShorter = "Settings.TouchDwellShorter";
 
-/// <summary>
-/// Represents the Calculator.Two action
-/// </summary>
-public const string Calculator.Two = "Calculator.Two";
+        <Command ID="Speech.ReadCell">
+        <Command ID="Speech.SpeakNow">
+        <Command ID="Speech.SpeechMute">
+        <Command ID="Speech.SpeechVolume">
+        /// <summary>
+        /// Represents the Speech.Stop action
+        /// </summary>
+        public const string Speech.Stop = "Speech.Stop";
 
-/// <summary>
-/// Represents the Calculator.Zero action
-/// </summary>
-public const string Calculator.Zero = "Calculator.Zero";
+        <Command ID="SpeechPlaySound">
+        <Command ID="Verbs.Morphology">
+        /// <summary>
+        /// Represents the Verbs.SetVerbCellState action
+        /// </summary>
+        public const string Verbs.SetVerbCellState = "Verbs.SetVerbCellState";
 
-/// <summary>
-/// Represents the ClockSpeakTime action
-/// </summary>
-public const string ClockSpeakTime = "ClockSpeakTime";
-
-/// <summary>
-/// Represents the ClockWriteTime action
-/// </summary>
-public const string ClockWriteTime = "ClockWriteTime";
-
-<Command ID="CommandExecution.Wait">
-/// <summary>
-/// Represents the ComputerControl.Dock action
-/// </summary>
-public const string ComputerControl.Dock = "ComputerControl.Dock";
-
-<Command ID="ComputerControl.Keyboard">
-/// <summary>
-/// Represents the ComputerControl.MouseClick action
-/// </summary>
-public const string ComputerControl.MouseClick = "ComputerControl.MouseClick";
-
-<Command ID="ComputerControl.MouseClickOnDwell">
-<Command ID="ComputerControl.MouseDragPointerOnDwell">
-<Command ID="ComputerControl.MoveMouseTo">
-<Command ID="ComputerControl.Run">
-<Command ID="ComputerControl.Shift">
-/// <summary>
-/// Represents the Email.AttachPhoto action
-/// </summary>
-public const string Email.AttachPhoto = "Email.AttachPhoto";
-
-/// <summary>
-/// Represents the Email.Back action
-/// </summary>
-public const string Email.Back = "Email.Back";
-
-/// <summary>
-/// Represents the Email.ClearAttachments action
-/// </summary>
-public const string Email.ClearAttachments = "Email.ClearAttachments";
-
-/// <summary>
-/// Represents the Email.Delete action
-/// </summary>
-public const string Email.Delete = "Email.Delete";
-
-/// <summary>
-/// Represents the Email.New action
-/// </summary>
-public const string Email.New = "Email.New";
-
-/// <summary>
-/// Represents the Email.Next action
-/// </summary>
-public const string Email.Next = "Email.Next";
-
-/// <summary>
-/// Represents the Email.Open action
-/// </summary>
-public const string Email.Open = "Email.Open";
-
-/// <summary>
-/// Represents the Email.Previous action
-/// </summary>
-public const string Email.Previous = "Email.Previous";
-
-<Command ID="Email.Reply">
-/// <summary>
-/// Represents the Email.Send action
-/// </summary>
-public const string Email.Send = "Email.Send";
-
-/// <summary>
-/// Represents the Email.Speak action
-/// </summary>
-public const string Email.Speak = "Email.Speak";
-
-<Command ID="Interactive.Action">
-/// <summary>
-/// Represents the Interactive.Restart action
-/// </summary>
-public const string Interactive.Restart = "Interactive.Restart";
-
-/// <summary>
-/// Represents the Jump.Back action
-/// </summary>
-public const string Jump.Back = "Jump.Back";
-
-/// <summary>
-/// Represents the Jump.Home action
-/// </summary>
-public const string Jump.Home = "Jump.Home";
-
-/// <summary>
-/// Represents the Jump.PreventSelfClosing action
-/// </summary>
-public const string Jump.PreventSelfClosing = "Jump.PreventSelfClosing";
-
-<Command ID="Jump.SetBookmark">
-<Command ID="Jump.To">
-<Command ID="Jump.ToggleSelfClosing">
-<Command ID="MusicVideo.OpenMusicFile">
-<Command ID="MusicVideo.OpenVideoFile">
-<Command ID="Photos.MorePhotos">
-<Command ID="Photos.OpenFile">
-/// <summary>
-/// Represents the Photos.Snapshot action
-/// </summary>
-public const string Photos.Snapshot = "Photos.Snapshot";
-
-/// <summary>
-/// Represents the Photos.SnapshotsFolder action
-/// </summary>
-public const string Photos.SnapshotsFolder = "Photos.SnapshotsFolder";
-
-<Command ID="Prediction.MoreWords">
-<Command ID="Prediction.PredictThis">
-<Command ID="Settings.ChangeGridSet">
-/// <summary>
-/// Represents the Settings.GridExplorer action
-/// </summary>
-public const string Settings.GridExplorer = "Settings.GridExplorer";
-
-<Command ID="Settings.Notify">
-/// <summary>
-/// Represents the Settings.PointerDwellLonger action
-/// </summary>
-public const string Settings.PointerDwellLonger = "Settings.PointerDwellLonger";
-
-/// <summary>
-/// Represents the Settings.PointerDwellShorter action
-/// </summary>
-public const string Settings.PointerDwellShorter = "Settings.PointerDwellShorter";
-
-<Command ID="Settings.RequiredFeature">
-<Command ID="Settings.RestAll">
-<Command ID="Settings.RestEyeGaze">
-<Command ID="Settings.RestPointer">
-<Command ID="Settings.RestSwitch">
-/// <summary>
-/// Represents the Settings.ScanspeedFaster action
-/// </summary>
-public const string Settings.ScanspeedFaster = "Settings.ScanspeedFaster";
-
-/// <summary>
-/// Represents the Settings.ScanspeedSlower action
-/// </summary>
-public const string Settings.ScanspeedSlower = "Settings.ScanspeedSlower";
-
-/// <summary>
-/// Represents the Settings.TouchDwellLonger action
-/// </summary>
-public const string Settings.TouchDwellLonger = "Settings.TouchDwellLonger";
-
-/// <summary>
-/// Represents the Settings.TouchDwellShorter action
-/// </summary>
-public const string Settings.TouchDwellShorter = "Settings.TouchDwellShorter";
-
-<Command ID="Speech.ReadCell">
-<Command ID="Speech.SpeakNow">
-<Command ID="Speech.SpeechMute">
-<Command ID="Speech.SpeechVolume">
-/// <summary>
-/// Represents the Speech.Stop action
-/// </summary>
-public const string Speech.Stop = "Speech.Stop";
-
-<Command ID="SpeechPlaySound">
-<Command ID="Verbs.Morphology">
-/// <summary>
-/// Represents the Verbs.SetVerbCellState action
-/// </summary>
-public const string Verbs.SetVerbCellState = "Verbs.SetVerbCellState";
-
-<Command ID="Verbs.SetVerbCellState">
-             */
+        <Command ID="Verbs.SetVerbCellState">
+                     */
         }
     }
 }
