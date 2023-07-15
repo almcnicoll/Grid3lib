@@ -1201,19 +1201,19 @@ namespace Grid3lib
             /// <summary>
             /// Represents the [grid2x]ecu.bjperseo.glide symbol
             /// </summary>
-            public const string ecu.bjperseo_glide = @"[grid2x]ecu.bjperseo.glide";
-/// <summary>
-/// Represents the [grid2x]ecu.bjperseo.hold symbol
-/// </summary>
-public const string ecu.bjperseo_hold = @"[grid2x]ecu.bjperseo.hold";
-/// <summary>
-/// Represents the [grid2x]ecu.bjperseo.press symbol
-/// </summary>
-public const string ecu.bjperseo_press = @"[grid2x]ecu.bjperseo.press";
-/// <summary>
-/// Represents the [grid2x]ecu.custom symbol
-/// </summary>
-public const string ecu_custom = @"[grid2x]ecu.custom";
+            public const string ecu_bjperseo_glide = @"[grid2x]ecu.bjperseo.glide";
+            /// <summary>
+            /// Represents the [grid2x]ecu.bjperseo.hold symbol
+            /// </summary>
+            public const string ecu_bjperseo_hold = @"[grid2x]ecu.bjperseo.hold";
+            /// <summary>
+            /// Represents the [grid2x]ecu.bjperseo.press symbol
+            /// </summary>
+            public const string ecu_bjperseo_press = @"[grid2x]ecu.bjperseo.press";
+            /// <summary>
+            /// Represents the [grid2x]ecu.custom symbol
+            /// </summary>
+            public const string ecu_custom = @"[grid2x]ecu.custom";
             /// <summary>
             /// Represents the [grid2x]ecu.easywave symbol
             /// </summary>
@@ -1225,15 +1225,15 @@ public const string ecu_custom = @"[grid2x]ecu.custom";
             /// <summary>
             /// Represents the [grid2x]ecu.gewa.glide symbol
             /// </summary>
-            public const string ecu.gewa_glide = @"[grid2x]ecu.gewa.glide";
-/// <summary>
-/// Represents the [grid2x]ecu.gewa.press symbol
-/// </summary>
-public const string ecu.gewa_press = @"[grid2x]ecu.gewa.press";
-/// <summary>
-/// Represents the [grid2x]ecu.gewalinkglide symbol
-/// </summary>
-public const string ecu_gewalinkglide = @"[grid2x]ecu.gewalinkglide";
+            public const string ecu_gewa_glide = @"[grid2x]ecu.gewa.glide";
+            /// <summary>
+            /// Represents the [grid2x]ecu.gewa.press symbol
+            /// </summary>
+            public const string ecu_gewa_press = @"[grid2x]ecu.gewa.press";
+            /// <summary>
+            /// Represents the [grid2x]ecu.gewalinkglide symbol
+            /// </summary>
+            public const string ecu_gewalinkglide = @"[grid2x]ecu.gewalinkglide";
             /// <summary>
             /// Represents the [grid2x]ecu.gewalinkhold symbol
             /// </summary>
@@ -1277,27 +1277,27 @@ public const string ecu_gewalinkglide = @"[grid2x]ecu.gewalinkglide";
             /// <summary>
             /// Represents the [grid2x]ecu.zwave.alloff symbol
             /// </summary>
-            public const string ecu.zwave_alloff = @"[grid2x]ecu.zwave.alloff";
-/// <summary>
-/// Represents the [grid2x]ecu.zwave.allon symbol
-/// </summary>
-public const string ecu.zwave_allon = @"[grid2x]ecu.zwave.allon";
-/// <summary>
-/// Represents the [grid2x]ecu.zwave.devicelevel symbol
-/// </summary>
-public const string ecu.zwave_devicelevel = @"[grid2x]ecu.zwave.devicelevel";
-/// <summary>
-/// Represents the [grid2x]ecu.zwave.deviceoff symbol
-/// </summary>
-public const string ecu.zwave_deviceoff = @"[grid2x]ecu.zwave.deviceoff";
-/// <summary>
-/// Represents the [grid2x]ecu.zwave.deviceon symbol
-/// </summary>
-public const string ecu.zwave_deviceon = @"[grid2x]ecu.zwave.deviceon";
-/// <summary>
-/// Represents the [grid2x]edit symbol
-/// </summary>
-public const string edit = @"[grid2x]edit";
+            public const string ecu_zwave_alloff = @"[grid2x]ecu.zwave.alloff";
+            /// <summary>
+            /// Represents the [grid2x]ecu.zwave.allon symbol
+            /// </summary>
+            public const string ecu_zwave_allon = @"[grid2x]ecu.zwave.allon";
+            /// <summary>
+            /// Represents the [grid2x]ecu.zwave.devicelevel symbol
+            /// </summary>
+            public const string ecu_zwave_devicelevel = @"[grid2x]ecu.zwave.devicelevel";
+            /// <summary>
+            /// Represents the [grid2x]ecu.zwave.deviceoff symbol
+            /// </summary>
+            public const string ecu_zwave_deviceoff = @"[grid2x]ecu.zwave.deviceoff";
+            /// <summary>
+            /// Represents the [grid2x]ecu.zwave.deviceon symbol
+            /// </summary>
+            public const string ecu_zwave_deviceon = @"[grid2x]ecu.zwave.deviceon";
+            /// <summary>
+            /// Represents the [grid2x]edit symbol
+            /// </summary>
+            public const string edit = @"[grid2x]edit";
             /// <summary>
             /// Represents the [grid2x]editmode symbol
             /// </summary>
@@ -1598,10 +1598,6 @@ public const string edit = @"[grid2x]edit";
             /// Represents the [grid2x]keyboard delete word symbol
             /// </summary>
             public const string keyboard_delete_word = @"[grid2x]keyboard delete word";
-            /// <summary>
-            /// Represents the [grid2x]keyboard enter symbol
-            /// </summary>
-            public const string keyboard_enter = @"[grid2x]keyboard enter";
             /// <summary>
             /// Represents the [grid2x]keyboard insert symbol
             /// </summary>
@@ -2139,25 +2135,25 @@ public const string edit = @"[grid2x]edit";
             /// </summary>
             public const string preview = @"[grid2x]preview";
             /// <summary>
-            /// Represents the [grid2x]primaryspeech.pitch.higher symbol
+            /// Represents the [grid2x]primaryspeech_pitch.higher symbol
             /// </summary>
-            public const string primaryspeech.pitch_higher = @"[grid2x]primaryspeech.pitch.higher";
-/// <summary>
-/// Represents the [grid2x]primaryspeech.pitch.lower symbol
-/// </summary>
-public const string primaryspeech.pitch_lower = @"[grid2x]primaryspeech.pitch.lower";
-/// <summary>
-/// Represents the [grid2x]primaryspeech.speed.faster symbol
-/// </summary>
-public const string primaryspeech.speed_faster = @"[grid2x]primaryspeech.speed.faster";
-/// <summary>
-/// Represents the [grid2x]primaryspeech.speed.slower symbol
-/// </summary>
-public const string primaryspeech.speed_slower = @"[grid2x]primaryspeech.speed.slower";
-/// <summary>
-/// Represents the [grid2x]primaryspeech.voice symbol
-/// </summary>
-public const string primaryspeech_voice = @"[grid2x]primaryspeech.voice";
+            public const string primaryspeech_pitch_higher = @"[grid2x]primaryspeech_pitch.higher";
+            /// <summary>
+            /// Represents the [grid2x]primaryspeech_pitch.lower symbol
+            /// </summary>
+            public const string primaryspeech_pitch_lower = @"[grid2x]primaryspeech_pitch.lower";
+            /// <summary>
+            /// Represents the [grid2x]primaryspeech_speed.faster symbol
+            /// </summary>
+            public const string primaryspeech_speed_faster = @"[grid2x]primaryspeech_speed.faster";
+            /// <summary>
+            /// Represents the [grid2x]primaryspeech_speed.slower symbol
+            /// </summary>
+            public const string primaryspeech_speed_slower = @"[grid2x]primaryspeech_speed.slower";
+            /// <summary>
+            /// Represents the [grid2x]primaryspeech_voice symbol
+            /// </summary>
+            public const string primaryspeech_voice = @"[grid2x]primaryspeech_voice";
             /// <summary>
             /// Represents the [grid2x]q symbol
             /// </summary>
@@ -2207,49 +2203,49 @@ public const string primaryspeech_voice = @"[grid2x]primaryspeech.voice";
             /// </summary>
             public const string scanspeed_slower = @"[grid2x]scanspeed.slower";
             /// <summary>
-            /// Represents the [grid2x]score.add symbol
+            /// Represents the [grid2x]score_add symbol
             /// </summary>
-            public const string score_add = @"[grid2x]score.add";
+            public const string score_add = @"[grid2x]score_add";
             /// <summary>
-            /// Represents the [grid2x]score.compare.start symbol
+            /// Represents the [grid2x]score_compare.start symbol
             /// </summary>
-            public const string score.compare_start = @"[grid2x]score.compare.start";
-/// <summary>
-/// Represents the [grid2x]score.date symbol
-/// </summary>
-public const string score_date = @"[grid2x]score.date";
+            public const string score_compare_start = @"[grid2x]score_compare.start";
             /// <summary>
-            /// Represents the [grid2x]score.equals symbol
+            /// Represents the [grid2x]score_date symbol
             /// </summary>
-            public const string score_equals = @"[grid2x]score.equals";
+            public const string score_date = @"[grid2x]score_date";
             /// <summary>
-            /// Represents the [grid2x]score.if.start symbol
+            /// Represents the [grid2x]score_equals symbol
             /// </summary>
-            public const string score.if_start = @"[grid2x]score.if.start";
-/// <summary>
-/// Represents the [grid2x]score.random symbol
-/// </summary>
-public const string score_random = @"[grid2x]score.random";
+            public const string score_equals = @"[grid2x]score_equals";
             /// <summary>
-            /// Represents the [grid2x]secondaryspeech.pitch.higher symbol
+            /// Represents the [grid2x]score_if.start symbol
             /// </summary>
-            public const string secondaryspeech.pitch_higher = @"[grid2x]secondaryspeech.pitch.higher";
-/// <summary>
-/// Represents the [grid2x]secondaryspeech.pitch.lower symbol
-/// </summary>
-public const string secondaryspeech.pitch_lower = @"[grid2x]secondaryspeech.pitch.lower";
-/// <summary>
-/// Represents the [grid2x]secondaryspeech.speed.faster symbol
-/// </summary>
-public const string secondaryspeech.speed_faster = @"[grid2x]secondaryspeech.speed.faster";
-/// <summary>
-/// Represents the [grid2x]secondaryspeech.speed.slower symbol
-/// </summary>
-public const string secondaryspeech.speed_slower = @"[grid2x]secondaryspeech.speed.slower";
-/// <summary>
-/// Represents the [grid2x]secondaryspeech.voice symbol
-/// </summary>
-public const string secondaryspeech_voice = @"[grid2x]secondaryspeech.voice";
+            public const string score_if_start = @"[grid2x]score_if.start";
+            /// <summary>
+            /// Represents the [grid2x]score_random symbol
+            /// </summary>
+            public const string score_random = @"[grid2x]score_random";
+            /// <summary>
+            /// Represents the [grid2x]secondaryspeech_pitch.higher symbol
+            /// </summary>
+            public const string secondaryspeech_pitch_higher = @"[grid2x]secondaryspeech_pitch.higher";
+            /// <summary>
+            /// Represents the [grid2x]secondaryspeech_pitch.lower symbol
+            /// </summary>
+            public const string secondaryspeech_pitch_lower = @"[grid2x]secondaryspeech_pitch.lower";
+            /// <summary>
+            /// Represents the [grid2x]secondaryspeech_speed.faster symbol
+            /// </summary>
+            public const string secondaryspeech_speed_faster = @"[grid2x]secondaryspeech_speed.faster";
+            /// <summary>
+            /// Represents the [grid2x]secondaryspeech_speed.slower symbol
+            /// </summary>
+            public const string secondaryspeech_speed_slower = @"[grid2x]secondaryspeech_speed.slower";
+            /// <summary>
+            /// Represents the [grid2x]secondaryspeech_voice symbol
+            /// </summary>
+            public const string secondaryspeech_voice = @"[grid2x]secondaryspeech_voice";
             /// <summary>
             /// Represents the [grid2x]shutdown.logoff symbol
             /// </summary>
@@ -2267,37 +2263,37 @@ public const string secondaryspeech_voice = @"[grid2x]secondaryspeech.voice";
             /// </summary>
             public const string shutdown_standby = @"[grid2x]shutdown.standby";
             /// <summary>
-            /// Represents the [grid2x]skype.call symbol
+            /// Represents the [grid2x]skype_call symbol
             /// </summary>
-            public const string skype.call_ = @"[grid2x]skype.call";
-/// <summary>
-/// Represents the [grid2x]skype.down symbol
-/// </summary>
-public const string skype.down_ = @"[grid2x]skype.down";
-/// <summary>
-/// Represents the [grid2x]skype.hangup symbol
-/// </summary>
-public const string skype.hangup_ = @"[grid2x]skype.hangup";
-/// <summary>
-/// Represents the [grid2x]skype.open symbol
-/// </summary>
-public const string skype.open_ = @"[grid2x]skype.open";
-/// <summary>
-/// Represents the [grid2x]skype.send symbol
-/// </summary>
-public const string skype.send_ = @"[grid2x]skype.send";
-/// <summary>
-/// Represents the [grid2x]skype.showlist symbol
-/// </summary>
-public const string skype.showlist_ = @"[grid2x]skype.showlist";
-/// <summary>
-/// Represents the [grid2x]skype.up symbol
-/// </summary>
-public const string skype.up_ = @"[grid2x]skype.up";
-/// <summary>
-/// Represents the [grid2x]sms.atcommand symbol
-/// </summary>
-public const string sms_atcommand = @"[grid2x]sms.atcommand";
+            public const string skype_call = @"[grid2x]skype_call";
+            /// <summary>
+            /// Represents the [grid2x]skype_down symbol
+            /// </summary>
+            public const string skype_down = @"[grid2x]skype_down";
+            /// <summary>
+            /// Represents the [grid2x]skype_hangup symbol
+            /// </summary>
+            public const string skype_hangup = @"[grid2x]skype_hangup";
+            /// <summary>
+            /// Represents the [grid2x]skype_open symbol
+            /// </summary>
+            public const string skype_open = @"[grid2x]skype_open";
+            /// <summary>
+            /// Represents the [grid2x]skype_send symbol
+            /// </summary>
+            public const string skype_send = @"[grid2x]skype_send";
+            /// <summary>
+            /// Represents the [grid2x]skype_showlist symbol
+            /// </summary>
+            public const string skype_showlist = @"[grid2x]skype_showlist";
+            /// <summary>
+            /// Represents the [grid2x]skype_up symbol
+            /// </summary>
+            public const string skype_up = @"[grid2x]skype_up";
+            /// <summary>
+            /// Represents the [grid2x]sms.atcommand symbol
+            /// </summary>
+            public const string sms_atcommand = @"[grid2x]sms.atcommand";
             /// <summary>
             /// Represents the [grid2x]sms.call symbol
             /// </summary>
@@ -2711,93 +2707,93 @@ public const string sms_atcommand = @"[grid2x]sms.atcommand";
             /// </summary>
             public const string word_spelling = @"[grid2x]word spelling";
             /// <summary>
-            /// Represents the [grid2x]workspace.calculator symbol
+            /// Represents the [grid2x]workspace_calculator symbol
             /// </summary>
-            public const string workspace_calculator = @"[grid2x]workspace.calculator";
+            public const string workspace_calculator = @"[grid2x]workspace_calculator";
             /// <summary>
-            /// Represents the [grid2x]workspace.calendar symbol
+            /// Represents the [grid2x]workspace_calendar symbol
             /// </summary>
-            public const string workspace_calendar = @"[grid2x]workspace.calendar";
+            public const string workspace_calendar = @"[grid2x]workspace_calendar";
             /// <summary>
-            /// Represents the [grid2x]workspace.chat symbol
+            /// Represents the [grid2x]workspace_chat symbol
             /// </summary>
-            public const string workspace_chat = @"[grid2x]workspace.chat";
+            public const string workspace_chat = @"[grid2x]workspace_chat";
             /// <summary>
-            /// Represents the [grid2x]workspace.clock symbol
+            /// Represents the [grid2x]workspace_clock symbol
             /// </summary>
-            public const string workspace_clock = @"[grid2x]workspace.clock";
+            public const string workspace_clock = @"[grid2x]workspace_clock";
             /// <summary>
-            /// Represents the [grid2x]workspace.contacts symbol
+            /// Represents the [grid2x]workspace_contacts symbol
             /// </summary>
-            public const string workspace_contacts = @"[grid2x]workspace.contacts";
+            public const string workspace_contacts = @"[grid2x]workspace_contacts";
             /// <summary>
-            /// Represents the [grid2x]workspace.default symbol
+            /// Represents the [grid2x]workspace_default symbol
             /// </summary>
-            public const string workspace_default = @"[grid2x]workspace.default";
+            public const string workspace_default = @"[grid2x]workspace_default";
             /// <summary>
-            /// Represents the [grid2x]workspace.dvd symbol
+            /// Represents the [grid2x]workspace_dvd symbol
             /// </summary>
-            public const string workspace_dvd = @"[grid2x]workspace.dvd";
+            public const string workspace_dvd = @"[grid2x]workspace_dvd";
             /// <summary>
-            /// Represents the [grid2x]workspace.email symbol
+            /// Represents the [grid2x]workspace_email symbol
             /// </summary>
-            public const string workspace_email = @"[grid2x]workspace.email";
+            public const string workspace_email = @"[grid2x]workspace_email";
             /// <summary>
-            /// Represents the [grid2x]workspace.environmentcontrol symbol
+            /// Represents the [grid2x]workspace_environmentcontrol symbol
             /// </summary>
-            public const string workspace_environmentcontrol = @"[grid2x]workspace.environmentcontrol";
+            public const string workspace_environmentcontrol = @"[grid2x]workspace_environmentcontrol";
             /// <summary>
-            /// Represents the [grid2x]workspace.music symbol
+            /// Represents the [grid2x]workspace_music symbol
             /// </summary>
-            public const string workspace_music = @"[grid2x]workspace.music";
+            public const string workspace_music = @"[grid2x]workspace_music";
             /// <summary>
-            /// Represents the [grid2x]workspace.osk symbol
+            /// Represents the [grid2x]workspace_osk symbol
             /// </summary>
-            public const string workspace_osk = @"[grid2x]workspace.osk";
+            public const string workspace_osk = @"[grid2x]workspace_osk";
             /// <summary>
-            /// Represents the [grid2x]workspace.photos symbol
+            /// Represents the [grid2x]workspace_photos symbol
             /// </summary>
-            public const string workspace_photos = @"[grid2x]workspace.photos";
+            public const string workspace_photos = @"[grid2x]workspace_photos";
             /// <summary>
-            /// Represents the [grid2x]workspace.programcontrol symbol
+            /// Represents the [grid2x]workspace_programcontrol symbol
             /// </summary>
-            public const string workspace_programcontrol = @"[grid2x]workspace.programcontrol";
+            public const string workspace_programcontrol = @"[grid2x]workspace_programcontrol";
             /// <summary>
-            /// Represents the [grid2x]workspace.settings symbol
+            /// Represents the [grid2x]workspace_settings symbol
             /// </summary>
-            public const string workspace_settings = @"[grid2x]workspace.settings";
+            public const string workspace_settings = @"[grid2x]workspace_settings";
             /// <summary>
-            /// Represents the [grid2x]workspace.skype symbol
+            /// Represents the [grid2x]workspace_skype symbol
             /// </summary>
-            public const string workspace.skype_ = @"[grid2x]workspace.skype";
-/// <summary>
-/// Represents the [grid2x]workspace.sms symbol
-/// </summary>
-public const string workspace_sms = @"[grid2x]workspace.sms";
+            public const string workspace_skype = @"[grid2x]workspace_skype";
             /// <summary>
-            /// Represents the [grid2x]workspace.symbolgrid symbol
+            /// Represents the [grid2x]workspace_sms symbol
             /// </summary>
-            public const string workspace_symbolgrid = @"[grid2x]workspace.symbolgrid";
+            public const string workspace_sms = @"[grid2x]workspace_sms";
             /// <summary>
-            /// Represents the [grid2x]workspace.symbolwriter symbol
+            /// Represents the [grid2x]workspace_symbolgrid symbol
             /// </summary>
-            public const string workspace_symbolwriter = @"[grid2x]workspace.symbolwriter";
+            public const string workspace_symbolgrid = @"[grid2x]workspace_symbolgrid";
             /// <summary>
-            /// Represents the [grid2x]workspace.text symbol
+            /// Represents the [grid2x]workspace_symbolwriter symbol
             /// </summary>
-            public const string workspace_text = @"[grid2x]workspace.text";
+            public const string workspace_symbolwriter = @"[grid2x]workspace_symbolwriter";
             /// <summary>
-            /// Represents the [grid2x]workspace.web symbol
+            /// Represents the [grid2x]workspace_text symbol
             /// </summary>
-            public const string workspace_web = @"[grid2x]workspace.web";
+            public const string workspace_text = @"[grid2x]workspace_text";
             /// <summary>
-            /// Represents the [grid2x]workspace.webcam symbol
+            /// Represents the [grid2x]workspace_web symbol
             /// </summary>
-            public const string workspace_webcam = @"[grid2x]workspace.webcam";
+            public const string workspace_web = @"[grid2x]workspace_web";
             /// <summary>
-            /// Represents the [grid2x]workspace.wordprocessor symbol
+            /// Represents the [grid2x]workspace_webcam symbol
             /// </summary>
-            public const string workspace_wordprocessor = @"[grid2x]workspace.wordprocessor";
+            public const string workspace_webcam = @"[grid2x]workspace_webcam";
+            /// <summary>
+            /// Represents the [grid2x]workspace_wordprocessor symbol
+            /// </summary>
+            public const string workspace_wordprocessor = @"[grid2x]workspace_wordprocessor";
             /// <summary>
             /// Represents the [grid2x]x symbol
             /// </summary>
@@ -3845,31 +3841,31 @@ public const string workspace_sms = @"[grid2x]workspace.sms";
             /// <summary>
             /// Represents the [grid2x]skypestatus\away symbol
             /// </summary>
-            public const string skypestatus_away_ = @"[grid2x]skypestatus\away";
+            public const string skypestatus_away = @"[grid2x]skypestatus\away";
             /// <summary>
             /// Represents the [grid2x]skypestatus\donotdisturb symbol
             /// </summary>
-            public const string skypestatus_donotdisturb_ = @"[grid2x]skypestatus\donotdisturb";
+            public const string skypestatus_donotdisturb = @"[grid2x]skypestatus\donotdisturb";
             /// <summary>
             /// Represents the [grid2x]skypestatus\notavailable symbol
             /// </summary>
-            public const string skypestatus_notavailable_ = @"[grid2x]skypestatus\notavailable";
+            public const string skypestatus_notavailable = @"[grid2x]skypestatus\notavailable";
             /// <summary>
             /// Represents the [grid2x]skypestatus\offline symbol
             /// </summary>
-            public const string skypestatus_offline_ = @"[grid2x]skypestatus\offline";
+            public const string skypestatus_offline = @"[grid2x]skypestatus\offline";
             /// <summary>
             /// Represents the [grid2x]skypestatus\online symbol
             /// </summary>
-            public const string skypestatus_online_ = @"[grid2x]skypestatus\online";
+            public const string skypestatus_online = @"[grid2x]skypestatus\online";
             /// <summary>
             /// Represents the [grid2x]skypestatus\out symbol
             /// </summary>
-            public const string skypestatus_out_ = @"[grid2x]skypestatus\out";
+            public const string skypestatus_out = @"[grid2x]skypestatus\out";
             /// <summary>
             /// Represents the [grid2x]skypestatus\skypeme symbol
             /// </summary>
-            public const string skypestatus_skypeme_ = @"[grid2x]skypestatus\skypeme";
+            public const string skypestatus_skypeme = @"[grid2x]skypestatus\skypeme";
         }
 
         /// <summary>
@@ -7724,7 +7720,7 @@ public const string workspace_sms = @"[grid2x]workspace.sms";
             /// <summary>
             /// Represents the [grid3x]italian verbs\all' symbol
             /// </summary>
-            public const string italian_verbs_all_ = @"[grid3x]italian verbs\all'";
+            public const string italian_verbs_all = @"[grid3x]italian verbs\all'";
             /// <summary>
             /// Represents the [grid3x]italian verbs\alla symbol
             /// </summary>
@@ -7788,7 +7784,7 @@ public const string workspace_sms = @"[grid2x]workspace.sms";
             /// <summary>
             /// Represents the [grid3x]italian verbs\dall' symbol
             /// </summary>
-            public const string italian_verbs_dall_ = @"[grid3x]italian verbs\dall'";
+            public const string italian_verbs_dall = @"[grid3x]italian verbs\dall'";
             /// <summary>
             /// Represents the [grid3x]italian verbs\dalla symbol
             /// </summary>
@@ -7816,7 +7812,7 @@ public const string workspace_sms = @"[grid2x]workspace.sms";
             /// <summary>
             /// Represents the [grid3x]italian verbs\dell' symbol
             /// </summary>
-            public const string italian_verbs_dell_ = @"[grid3x]italian verbs\dell'";
+            public const string italian_verbs_dell = @"[grid3x]italian verbs\dell'";
             /// <summary>
             /// Represents the [grid3x]italian verbs\della symbol
             /// </summary>
@@ -7920,7 +7916,7 @@ public const string workspace_sms = @"[grid2x]workspace.sms";
             /// <summary>
             /// Represents the [grid3x]italian verbs\l' symbol
             /// </summary>
-            public const string italian_verbs_l_ = @"[grid3x]italian verbs\l'";
+            public const string italian_verbs_l = @"[grid3x]italian verbs\l'";
             /// <summary>
             /// Represents the [grid3x]italian verbs\la+ symbol
             /// </summary>
@@ -7980,7 +7976,7 @@ public const string workspace_sms = @"[grid2x]workspace.sms";
             /// <summary>
             /// Represents the [grid3x]italian verbs\nell' symbol
             /// </summary>
-            public const string italian_verbs_nell_ = @"[grid3x]italian verbs\nell'";
+            public const string italian_verbs_nell = @"[grid3x]italian verbs\nell'";
             /// <summary>
             /// Represents the [grid3x]italian verbs\nella symbol
             /// </summary>
@@ -8036,7 +8032,7 @@ public const string workspace_sms = @"[grid2x]workspace.sms";
             /// <summary>
             /// Represents the [grid3x]italian verbs\sull' symbol
             /// </summary>
-            public const string italian_verbs_sull_ = @"[grid3x]italian verbs\sull'";
+            public const string italian_verbs_sull = @"[grid3x]italian verbs\sull'";
             /// <summary>
             /// Represents the [grid3x]italian verbs\sulla symbol
             /// </summary>
