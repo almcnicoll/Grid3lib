@@ -203,6 +203,7 @@ namespace Grid3lib.XmlNodeTag
             ZipArchiveEntry? fileMapFile = (from ZipArchiveEntry zipEntry in gridsetZipFile.Entries
                                             where zipEntry.FullName == "FileMap.xml"
                                             select zipEntry).First();
+            // TODO - Need to allow for GridSets with no FileMap.xml - it appears to be valid not to have one (see for example the Ancient Egypt one)
             if (fileMapFile == null) { debugInfo.Add("No FileMap.xml found"); return null; }
             // Read XML
             using (Stream fileMapStream = fileMapFile.Open())
