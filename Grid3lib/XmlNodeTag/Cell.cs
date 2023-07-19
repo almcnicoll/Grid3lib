@@ -8,6 +8,9 @@ using XmlParsing;
 
 namespace Grid3lib.XmlNodeTag
 {
+    /// <summary>
+    /// Represents a cell on a <see cref="Grid"/>
+    /// </summary>
     public class Cell : XmlNodeBasic
     {
         /// <summary>
@@ -62,11 +65,71 @@ namespace Grid3lib.XmlNodeTag
             }
         }
 
-
+        /// <summary>
+        /// The cell's horizontal positioning in the <see cref="Grid"/>
+        /// </summary>
         public int Column { get; set; } = 0;
+        /// <summary>
+        /// The cell's vertical positioning in the <see cref="Grid"/>
+        /// </summary>
         public int Row { get; set; } = 0;
+        /// <summary>
+        /// The number of columns spanned by the cell
+        /// </summary>
         public int ColumnSpan { get; set; } = 1;
+        /// <summary>
+        /// The number of rows spanned by the cell
+        /// </summary>
         public int RowSpan { get; set; } = 1;
+
+        /// <summary>
+        /// Synonym for <see cref="Column"/>
+        /// </summary>
+        public int Left
+        {
+            get
+            {
+                return Column;
+            }
+            set
+            {
+                Column = value;
+            }
+        }
+        /// <summary>
+        /// Returns the rightmost column of the cell
+        /// </summary>
+        public int Right
+        {
+            get
+            {
+                return Column + ColumnSpan - 1;
+            }
+        }
+        /// <summary>
+        /// Synonym for <see cref="Row"/>
+        /// </summary>
+        public int Top
+        {
+            get
+            {
+                return Row;
+            }
+            set
+            {
+                Row = value;
+            }
+        }
+        /// <summary>
+        /// Returns the lowest row of the cell
+        /// </summary>
+        public int Bottom
+        {
+            get
+            {
+                return Row + RowSpan - 1;
+            }
+        }
 
         /*
         public CellImage? Image { get; set; } = null;
@@ -303,5 +366,37 @@ string xml = $@"            <Cell X=""{Column}"" Y=""{Row}"">
 return xml;
         }
 */
+    }
+
+    /// <summary>
+    /// An exception thrown when a <see cref="Cell"/> is placed overlapping an existing <see cref="Cell"/>
+    /// </summary>
+    public class CellOverlapException : Exception
+    {
+        /// <summary>
+        /// The <see cref="Cell"/> causing the overlap conflict
+        /// </summary>
+        public Cell? ConflictCell { get; set; }
+
+        /// <summary>
+        /// Creates a new <see cref="CellOverlapException"/>
+        /// </summary>
+        /// <param name="message">The error message associated with the exception</param>
+        /// <param name="conflictCell">The <see cref="Cell"/> causing the conflict</param>
+        public CellOverlapException(String message, Cell conflictCell) : base(message)
+        {
+            ConflictCell = conflictCell;
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="CellOverlapException"/>
+        /// </summary>
+        /// <param name="message">The error message associated with the exception</param>
+        /// <param name="conflictCell">The <see cref="Cell"/> causing the conflict</param>
+        /// <param name="inner">An <see cref="Exception"/> that is the cause of the current <see cref="CellOverlapException"/></param>
+        public CellOverlapException(String message, Cell conflictCell, Exception inner) : base(message, inner)
+        {
+            ConflictCell = conflictCell;
+        }
     }
 }
