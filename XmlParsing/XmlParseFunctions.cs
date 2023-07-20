@@ -61,7 +61,7 @@ namespace XmlParsing
                 }
                 // Check whether there's any invalid Xml between
                 string junk = rxOpeningAndClosingTagsMultiple.Replace(TagContents, "");
-                if (false && !String.IsNullOrWhiteSpace(junk))
+                if (!String.IsNullOrWhiteSpace(junk) && rxOpeningTag.IsMatch(junk.Trim()))
                 {
                     string TagName = m.Groups["TagName"].Value;
                     errors.Add(new Exception(String.Format("Found invalid Xml inside {0} tag: {1}", TagName, junk.Substring(0, 20) + "...")));

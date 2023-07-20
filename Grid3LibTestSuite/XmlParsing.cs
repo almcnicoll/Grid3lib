@@ -10,20 +10,22 @@ namespace Grid3LibTestSuite
     public class XmlParsing
     {
         [Theory]
-        [InlineData("<?xml version=\"1.0\" encoding=\"UTF-8\"?><note>  <to>Tove</to>  <from>Jani</from>  <heading>Reminder</heading>  <body>Don't forget me this weekend!</body></note>")]
-        public void ParseGoodXml(string xml)
+        [InlineData("<?xml version=\"1.0\" encoding=\"UTF-8\"?><note>  <to>Tove</to>  <from>Jani</from>  <heading>Reminder</heading>  <body>Don't forget me this weekend!</body></note>"
+            , true)]
+        [InlineData("<?xml version=\"1.0\" encoding=\"UTF-8\"?><note>  <to>Tove</to>  <from>Jani</fom>  <heading>Reminder</heading>  <body>Don't forget me this weekend!</body></note>"
+            , false)]
+        public void CheckParseXml(string xml, bool expectOK)
         {
             List<Exception>? exceptions = XmlParseFunctions.ValidateXml(xml);
-            Assert.Null(exceptions);
-        }
-
-        [Theory]
-        [InlineData("<?xml version=\"1.0\" encoding=\"UTF-8\"?><note>  <to>Tove</to>  <from>Jani</fom>  <heading>Reminder</heading>  <body>Don't forget me this weekend!</body></note>")]
-        public void ParseBadXml(string xml)
-        {
-            List<Exception>? exceptions = XmlParseFunctions.ValidateXml(xml);
-            Assert.NotNull(exceptions);
-            Assert.NotEmpty(exceptions);
+            if (expectOK)
+            {
+                Assert.Null(exceptions);
+            }
+            else
+            {
+                Assert.NotNull(exceptions);
+                Assert.NotEmpty(exceptions);
+            }
         }
     }
 }
