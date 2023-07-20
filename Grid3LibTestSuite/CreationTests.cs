@@ -55,7 +55,7 @@ namespace Grid3LibTestSuite
 
             // Create cells
             Cell cellMain1 = gridMain.AddCell(0, 0, 1, 1, "Sub grid");
-            Command command1 = new Command(Grid3.Actions.JumpTo,new Dictionary<string,string>{ { "grid", gridSub.Name } });
+            Command command1 = new Command(Grid3.Actions.JumpTo, new Dictionary<string, string> { { "grid", gridSub.Name } });
             cellMain1.AddCommand(command1);
 
             Cell cellSub2 = gridSub.AddCell(0, 0, 1, 1, "Main grid");
@@ -65,8 +65,9 @@ namespace Grid3LibTestSuite
             // Add grids to gridset
             gridSet.Grids.Add(gridMain);
             gridSet.Grids.Add(gridSub);
-        }
 
-        // public void BasicXmlCreate(string gridName, string Xml)
+            // All went OK
+            Assert.True(true);
+        }
     }
 }
