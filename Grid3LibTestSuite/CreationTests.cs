@@ -54,11 +54,13 @@ namespace Grid3LibTestSuite
             gridSub.Name = gridNameSub;
 
             // Create cells
-            // TODO - create cells, including link from main to sub and back again
             Cell cellMain1 = gridMain.AddCell(0, 0, 1, 1, "Sub grid");
-
+            Command command1 = new Command(Grid3.Actions.JumpTo,new Dictionary<string,string>{ { "grid", gridSub.Name } });
+            cellMain1.AddCommand(command1);
 
             Cell cellSub2 = gridSub.AddCell(0, 0, 1, 1, "Main grid");
+            Command command2 = new Command(Grid3.Actions.JumpTo, new Dictionary<string, string> { { "grid", gridMain.Name } });
+            cellSub2.AddCommand(command2);
 
             // Add grids to gridset
             gridSet.Grids.Add(gridMain);

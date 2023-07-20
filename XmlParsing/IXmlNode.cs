@@ -84,5 +84,11 @@ namespace XmlParsing
         /// </summary>
         /// <returns></returns>
         public string ToString();
+
+        /// <summary>
+        /// Sets the tag name
+        /// </summary>
+        /// <param name="TagName">The name of the Xml tag</param>
+        public void SetTagName(string? TagName);
     }
 }

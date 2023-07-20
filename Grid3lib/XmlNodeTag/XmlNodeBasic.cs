@@ -64,7 +64,15 @@ namespace XmlParsing
         {
             get
             {
-                return __TagName;
+                if (__TagName == null)
+                {
+                    if (this.GetType().Name != "XmlNodeBasic") { __TagName = this.GetType().Name; }
+                    return __TagName;
+                }
+                else
+                {
+                    return __TagName;
+                }
             }
         }
 
@@ -144,8 +152,11 @@ namespace XmlParsing
                 List<RawXml> unparsed = (from RawXml rawChild in __InnerXml where rawChild.Parsed == false select rawChild).ToList();
                 foreach (RawXml rawChild in unparsed)
                 {
-                    // Populate this child node
-                    IXmlNode xmlNode = AddChildFromXml(rawChild.Markup, 0);
+                    // Populate this child node if it's XML
+                    if (XmlParseFunctions.rxOpeningTag.IsMatch(rawChild.Markup.Trim()))
+                    {
+                        IXmlNode xmlNode = AddChildFromXml(rawChild.Markup, 0);
+                    }
                     rawChild.Parsed = true;
                 }
                 return __Children;
@@ -216,6 +227,15 @@ namespace XmlParsing
         }
 
         /// <summary>
+        /// Sets the tag name
+        /// </summary>
+        /// <param name="TagName">The name of the Xml tag</param>
+        public void SetTagName(string? TagName)
+        {
+            __TagName = TagName;
+        }
+
+        /// <summary>
         /// Creates an <see cref="IXmlNode"/> from XML markup
         /// </summary>
         /// <param name="Xml">The XML to parse</param>
@@ -259,6 +279,8 @@ namespace XmlParsing
 
             // Actual serious parsing of Xml will happen here
             node.PopulateFromXml(Xml, PopulateToDepth);
+
+            node.SetTagName(xpr.BaseTagName);
 
             return node;
         }
@@ -318,7 +340,7 @@ namespace XmlParsing
             string Contents;
             if (Children.Count == 0)
             {
-                Contents = InnerXmlString.BlankIfNull();
+                Contents = InnerXmlString.BlankIfNull(); // TODO - this seems to be populated with the string "RawXml" at times
             }
             else
             {
@@ -339,7 +361,7 @@ namespace XmlParsing
         /// </summary>
         /// <param name="Key">The attribute to search for</param>
         /// <returns>A <see cref="string"/> of the attribute value, or null if the attribute is not set</returns>
-        public string GetAttributeValueOrNull(string Key)
+        public string? GetAttributeValueOrNull(string Key)
         {
             if (Attributes.ContainsKey(Key))
             {
@@ -373,7 +395,7 @@ namespace XmlParsing
         /// </summary>
         /// <typeparam name="T">The type of child node to create</typeparam>
         /// <returns>The created <see cref="IXmlNode"/></returns>
-        public IXmlNode AddChildOfType<T>(bool selfClosing = false) where T : IXmlNode
+        public T AddChildOfType<T>(bool selfClosing = false) where T : IXmlNode
         {
             IXmlNode child;
             string tagName = typeof(T).Name;
@@ -387,7 +409,7 @@ namespace XmlParsing
                 xml = String.Format(@"<{0}></{0}>", tagName);
             }
             child = AddChildFromXml(xml, 0);
-            return child;
+            return (T)child;
         }
 
         /// <summary>
