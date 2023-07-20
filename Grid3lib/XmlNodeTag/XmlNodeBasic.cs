@@ -368,9 +368,37 @@ namespace XmlParsing
             }
         }
 
-        public IXmlNode AddChildFromXml(string childXml, int PopulateToDepth)
+        /// <summary>
+        /// Adds an empty child <see cref="IXmlNode"/> to the current one, of type <typeparamref name="T"/>
+        /// </summary>
+        /// <typeparam name="T">The type of child node to create</typeparam>
+        /// <returns>The created <see cref="IXmlNode"/></returns>
+        public IXmlNode AddChildOfType<T>(bool selfClosing = false) where T : IXmlNode
         {
-            IXmlNode child = XmlNodeBasic.CreateFromXml(childXml, PopulateToDepth);
+            IXmlNode child;
+            string tagName = typeof(T).Name;
+            string xml;
+            if (selfClosing)
+            {
+                xml = String.Format(@"<{0} />", tagName);
+            }
+            else
+            {
+                xml = String.Format(@"<{0}></{0}>", tagName);
+            }
+            child = AddChildFromXml(xml, 0);
+            return child;
+        }
+
+        /// <summary>
+        /// Adds a child <see cref="IXmlNode"/> to the current one, using the supplied Xml
+        /// </summary>
+        /// <param name="childXml">The XML from which to populate the node</param>
+        /// <param name="populateToDepth">How many layers deep to populate subnodes (0 will populate all layers)</param>
+        /// <returns>The created <see cref="IXmlNode"/></returns>
+        public IXmlNode AddChildFromXml(string childXml, int populateToDepth)
+        {
+            IXmlNode child = XmlNodeBasic.CreateFromXml(childXml, populateToDepth);
             child.Parent = this;
             __Children.Add(child);
             return child;

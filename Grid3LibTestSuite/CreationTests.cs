@@ -12,12 +12,15 @@ namespace Grid3LibTestSuite
         [InlineData(8, 7, 0, 0, 1, 1, 2, 2, 1, 1, false)]
         [InlineData(8, 7, 0, 0, 2, 2, 1, 2, 2, 2, false)]
         [InlineData(8, 7, 0, 0, 2, 2, 1, 1, 2, 2, true)]
+        [InlineData(8, 7, 3, 1, 4, 2, 4, 1, 2, 2, true)]
         public void CellOverlapTest(int columns, int rows, int x1, int y1, int colspan1, int rowspan1, int x2, int y2, int colspan2, int rowspan2, bool expectedOverlap)
         {
             // Set up grid
             Grid g = new Grid();
-            for (int c = 0; c < columns; c++) { g.AddChildFromXml("<ColumnDefinition />", 0); }
-            for (int r = 0; r < rows; r++) { g.AddChildFromXml("<RowDefinition />", 0); }
+            //for (int c = 0; c < columns; c++) { g.AddChildFromXml("<ColumnDefinition />", 0); }
+            //for (int r = 0; r < rows; r++) { g.AddChildFromXml("<RowDefinition />", 0); }
+            for (int c = 0; c < columns; c++) { g.AddChildOfType<ColumnDefinition>(true); }
+            for (int r = 0; r < rows; r++) { g.AddChildOfType<RowDefinition>(true); }
 
             // Create cells by adding to grid
             Cell c1; Cell c2; bool isOverlap;
@@ -51,7 +54,11 @@ namespace Grid3LibTestSuite
             gridSub.Name = gridNameSub;
 
             // Create cells
-            // TODO - create cells, including link from main to sub
+            // TODO - create cells, including link from main to sub and back again
+            Cell cellMain1 = gridMain.AddCell(0, 0, 1, 1, "Sub grid");
+
+
+            Cell cellSub2 = gridSub.AddCell(0, 0, 1, 1, "Main grid");
 
             // Add grids to gridset
             gridSet.Grids.Add(gridMain);

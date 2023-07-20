@@ -142,6 +142,39 @@ namespace Grid3lib.XmlNodeTag
             }
         }
 
+        /// <summary>
+        /// Returns a <see cref="Content"/> object, representing the content node of the cell. Creates this node if it does not exist.
+        /// </summary>
+        public Content Content
+        {
+            get
+            {
+                List<Content> contents = ChildrenOfType<Content>().ToList();
+                Content content;
+                if (contents == null || contents.Count == 0)
+                {
+                    content = this.AddChildOfType<Content>();
+                }
+                else
+                {
+                    content = contents.First();
+                }
+                return content;
+            }
+        }
+
+        /// <summary>
+        /// Adds a <see cref="Command"/> to the <see cref="Cell"/>
+        /// </summary>
+        /// <param name="command">The <see cref="Command"/> object to add</param>
+        /// <returns>The same <see cref="Command"/> object (for chaining)</returns>
+        public Command AddCommand(Command command)
+        {
+            Commands commands = Content.GetOrCreateImmediateChild<Commands>();
+            commands.AddChildFromXml(command.ToString(), 0);
+            return command;
+        }
+
         /*
         public CellImage? Image { get; set; } = null;
 
@@ -260,121 +293,6 @@ namespace Grid3lib.XmlNodeTag
             {
                 Image = new CellImage(this, imageString);
             }
-        }
-
-        public Cell(Grid parent, ImportClasses.GridCell importCell)
-        {
-            Parent = parent;
-
-            // Size & position
-            Column = importCell.X;
-            Row = importCell.Y;
-            if (importCell.ColumnSpanSpecified) { ColumnSpan = importCell.ColumnSpan; }
-            if (importCell.RowSpanSpecified) { RowSpan = importCell.RowSpan; }
-
-            if (importCell.Content != null)
-            {
-                ImportClasses.GridCellContent content = importCell.Content;
-
-                // Caption & image
-                if (content.CaptionAndImage != null)
-                {
-                    ImportClasses.GridCellContentCaptionAndImage captionAndImage = content.CaptionAndImage;
-                    if (captionAndImage.Caption != null) { Label = captionAndImage.Caption; }
-                    if (captionAndImage.Image != null) { Image = new CellImage(this, captionAndImage.Image); }
-                }
-
-                // Commands
-                if (content.Commands.Length > 0)
-                {
-                    foreach (ImportClasses.GridCellContentCommand command in content.Commands)
-                    {
-                        Commands.Add(new Command(command));
-                    }
-                }
-
-                if (content.Style != null)
-                {
-                    // TODO LOW PRIORITY - import cell - styles (classes now exist)
-                    CellStyle = new Style(content.Style);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Returns the XML for this cell, ready for compression into the GridSet file
-        /// </summary>
-        /// <returns></returns>
-        public string GetXml()
-        {
-            // Commands
-            string commandsXml = "";
-            if (Commands.Count > 0)
-            {
-                commandsXml += "<Commands>\n";
-                foreach (Command command in Commands)
-                {
-                    if (command.Parameters.Count == 0)
-                    {
-                        commandsXml += $"<Command ID=\"{command.Action}\" />\n";
-                    }
-                    else
-                    {
-                        commandsXml += $"<Command ID=\"{command.Action}\">\n";
-                        foreach (CommandParameter parameter in command.Parameters)
-                        {
-                            commandsXml += $"<Parameter Key=\"{parameter.Key}\">{parameter.Value}</Parameter>\n";
-                        }
-                    }
-                }
-                commandsXml += "</Commands>\n";
-            }
-
-            // Image
-            string imageXml = "";
-            if (Image != null)
-            {
-                imageXml = $"<Image>{Image.EntryString}</Image>";
-            }
-            //if (String.IsNullOrEmpty(Picture))
-            //{
-            //    if (String.IsNullOrEmpty(Icon))
-            //    {
-            //        imageXml = $"<Image>{Icon}</Image>";
-            //    }
-            //}
-            //else
-            //{
-            //    imageXml = $"<Image>{Picture}</Image>";
-            //}
-
-        // Style
-        string styleXml;
-            // TODO LOW PRIORITY - see where Style info is used and output it in XML
-            if (string.IsNullOrEmpty(BaseStyle))
-            {
-                styleXml = "<BasedOnStyle>Default</BasedOnStyle>";
-            }
-            else
-            {
-                styleXml = $"<BasedOnStyle>{BaseStyle}</BasedOnStyle>";
-            }
-
-string xml = $@"            <Cell X=""{Column}"" Y=""{Row}"">
-            <Content>
-              {commandsXml}
-              <CaptionAndImage>
-                <Caption>{Label}</Caption>
-                {imageXml}
-              </CaptionAndImage>
-              <Style>
-                <BasedOnStyle>Default</BasedOnStyle>
-                <TileColour>{BackColor.ToHexRGBA()}</TileColour>
-              </Style>
-            </Content>
-          </Cell>
-";
-return xml;
         }
 */
     }
