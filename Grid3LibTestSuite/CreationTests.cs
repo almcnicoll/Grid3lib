@@ -10,8 +10,9 @@ namespace Grid3LibTestSuite
 
         [Theory]
         [InlineData(8, 7, 0, 0, 1, 1, 2, 2, 1, 1, false)]
-        [InlineData(8, 7, 0, 0, 2, 2, 1, 2, 2, 2, true)]
-        public void CellOverlapTest(int columns, int rows, int x1, int y1, int colspan1, int rowspan1, int x2, int y2, int colspan2, int rowspan2, bool expected)
+        [InlineData(8, 7, 0, 0, 2, 2, 1, 2, 2, 2, false)]
+        [InlineData(8, 7, 0, 0, 2, 2, 1, 1, 2, 2, true)]
+        public void CellOverlapTest(int columns, int rows, int x1, int y1, int colspan1, int rowspan1, int x2, int y2, int colspan2, int rowspan2, bool expectedOverlap)
         {
             // Set up grid
             Grid g = new Grid();
@@ -19,20 +20,20 @@ namespace Grid3LibTestSuite
             for (int r = 0; r < rows; r++) { g.AddChildFromXml("<RowDefinition />", 0); }
 
             // Create cells by adding to grid
-            Cell c1; Cell c2; bool isOK;
+            Cell c1; Cell c2; bool isOverlap;
             c1 = g.AddCell(x1, y1, colspan1, rowspan1, "Cell 1");
             try
             {
-                c2 = g.AddCell(x1, y1, colspan1, rowspan1, "Cell 1");
-                isOK = true;
+                c2 = g.AddCell(x2, y2, colspan2, rowspan2, "Cell 2");
+                isOverlap = false;
             }
-            catch (CellOverlapException ex)
+            catch (CellOverlapException)
             {
-                isOK = false;
+                isOverlap = true;
             }
 
             // Check for overlap
-            Assert.Equal(expected, isOK);
+            Assert.Equal(expectedOverlap, isOverlap);
         }
 
         [Theory]

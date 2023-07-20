@@ -14,13 +14,13 @@ namespace XmlParsing
     /// </summary>
     public class XmlNodeBasic : IXmlNode
     {
-        private bool __Parsed = false;
-        private string? __TagName = null;
-        private string? __TagString = null;
-        private Dictionary<string, string> __Attributes = new Dictionary<string, string>();
-        private List<RawXml> __InnerXml = new List<RawXml>();
-        private IXmlNode? __Parent = null;
-        private List<IXmlNode> __Children = new List<IXmlNode>();
+        internal bool __Parsed = false;
+        internal string? __TagName = null;
+        internal string? __TagString = null;
+        internal Dictionary<string, string> __Attributes = new Dictionary<string, string>();
+        internal List<RawXml> __InnerXml = new List<RawXml>();
+        internal IXmlNode? __Parent = null;
+        internal List<IXmlNode> __Children = new List<IXmlNode>();
 
         // TODO - test lazy loading (implemented in theory!)
         // TODO - Make sure that this node is populated before trying to return any properties (as it can now be lazy-loaded)

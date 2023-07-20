@@ -103,7 +103,7 @@ namespace Grid3lib.XmlNodeTag
         {
             get
             {
-                return Column + ColumnSpan - 1;
+                return Column + ColumnSpan;
             }
         }
         /// <summary>
@@ -127,7 +127,18 @@ namespace Grid3lib.XmlNodeTag
         {
             get
             {
-                return Row + RowSpan - 1;
+                return Row + RowSpan;
+            }
+        }
+
+        /// <summary>
+        /// Convenience property that returns the grid coordinates of the cell in a single string
+        /// </summary>
+        public string CoordsString
+        {
+            get
+            {
+                return String.Format("({0},{1})-({2},{3})", Column, Row, Column + ColumnSpan, Row + RowSpan);
             }
         }
 

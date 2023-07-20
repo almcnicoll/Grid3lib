@@ -175,7 +175,12 @@ namespace Grid3lib.XmlNodeTag
                     if (c != null)
                     {
                         // Check for overlap
-                        if (c.Left < (x + colSpan - 1) && c.Right > x && c.Top < (y + rowSpan - 1) && c.Bottom > y)
+                        if (
+                            c.Left < (x + colSpan - 1) // Existing cell starts to the left of new cell's right border
+                            && c.Right > x // Existing cell's right border is to the right of new cell's left border
+                            && c.Top < (y + rowSpan - 1) // Existing cell starts above new cell's bottom border
+                            && c.Bottom > y // Existing cell's bottom border is below new cell's top border
+                            )
                         {
                             throw new CellOverlapException("Cell overlaps an existing cell", c);
                         }
@@ -183,7 +188,17 @@ namespace Grid3lib.XmlNodeTag
                 }
             }
 
+            // Create, populate, add to grid
             Cell cell = new Cell();
+            cell.Column = x;
+            cell.Row = y;
+            cell.ColumnSpan = colSpan;
+            cell.RowSpan = rowSpan;
+            cell.Parent = this;
+            if (label != null) { cell.Label = label; }
+
+            __Children.Add(cell);
+
             return cell;
         }
     }
