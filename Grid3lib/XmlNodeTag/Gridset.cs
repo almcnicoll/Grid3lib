@@ -200,10 +200,17 @@ namespace Grid3lib.XmlNodeTag
 
             // Retrieve and parse FileMap.xml
             // Get file
-            ZipArchiveEntry? fileMapFile = (from ZipArchiveEntry zipEntry in gridsetZipFile.Entries
-                                            where zipEntry.FullName == "FileMap.xml"
-                                            select zipEntry).First();
-            // TODO - Need to allow for GridSets with no FileMap.xml - it appears to be valid not to have one (see for example the Ancient Egypt one)
+            ZipArchiveEntry? fileMapFile = null;
+            try
+            {
+                fileMapFile = (from ZipArchiveEntry zipEntry in gridsetZipFile.Entries
+                               where zipEntry.FullName == "FileMap.xml"
+                               select zipEntry).First();
+            }
+            catch
+            {
+                // TODO - Need to allow for GridSets with no FileMap.xml - it appears to be valid not to have one (see for example the Ancient Egypt one)
+            }
             if (fileMapFile == null) { debugInfo.Add("No FileMap.xml found"); return null; }
             // Read XML
             using (Stream fileMapStream = fileMapFile.Open())
@@ -263,9 +270,17 @@ namespace Grid3lib.XmlNodeTag
             }
 
             // Read in styles.xml (not in FileMap for some reason)
-            ZipArchiveEntry? stylesXmlFile = (from ZipArchiveEntry zipEntry in gridsetZipFile.Entries
-                                              where zipEntry.FullName == "styles.xml"
-                                              select zipEntry).First();
+            ZipArchiveEntry? stylesXmlFile = null;
+            try
+            {
+                stylesXmlFile = (from ZipArchiveEntry zipEntry in gridsetZipFile.Entries
+                                 where zipEntry.FullName == "styles.xml"
+                                 select zipEntry).First();
+            }
+            catch
+            {
+                // Nothing here - it's OK to have no style
+            }
             if (stylesXmlFile != null)
             {
                 using (Stream fsStylesFile = stylesXmlFile.Open())

@@ -1,5 +1,6 @@
 ﻿using Grid3lib;
 using Grid3lib.XmlNodeTag;
+using System.IO.Compression;
 
 namespace Grid3LibTestSuite
 {
@@ -70,7 +71,51 @@ namespace Grid3LibTestSuite
             Assert.True(true);
         }
 
-        // TODO - Write OpenSaveCompare test
-        public void OpenSaveCompare() { }
+        // TODO - Finish OpenSaveCompare test
+        [Theory]
+        [InlineData(@"G:\My Drive\Florence\Grid3\backup\grids\Ancient Egypt.gridset")]
+        [InlineData(@"G:\My Drive\Florence\Grid3\backup\grids\My Stories.gridset")]
+        [InlineData(@"G:\My Drive\Florence\Grid3\backup\grids\No No Noe - The Worlds Worst Children 2 By David Walliams.gridset")]
+        public void OpenSaveCompare(string originalGridsetPath)
+        {
+            // Create two temporary locations
+            Guid guidOriginal = Guid.NewGuid();
+            //Guid guidPostSave = Guid.NewGuid();
+            string tempFolder = Path.Combine(Path.GetTempPath(), System.Reflection.Assembly.GetEntryAssembly().GetName().Name);
+            string originalFolder = Path.Combine(tempFolder, "O" + guidOriginal.ToString("D"));
+            string postSaveFolder = Path.Combine(tempFolder, "P" + guidOriginal.ToString("D"));
+            string intermediateFile = Path.Combine(tempFolder, "P" + guidOriginal.ToString("D") + ".gridset");
+            Directory.CreateDirectory(originalFolder);
+            Directory.CreateDirectory(postSaveFolder);
+
+            // Extract original file to first temp location
+            List<string> debugInfo = new List<string>();
+            ZipArchive originalZipFile = ZipFile.OpenRead(originalGridsetPath);
+            originalZipFile.ExtractToDirectory(originalFolder);
+            originalZipFile.Dispose();
+            GridSet? gridSet = GridSet.Load(originalGridsetPath, out debugInfo);
+            Console.WriteLine(String.Join(Environment.NewLine, debugInfo));
+
+            // If Grid failed to load, this test passes (not intended to test integrity of loading) so skip to housekeeping
+            if (gridSet != null)
+            {
+                // Save the grid to a new location using the SaveAs method
+                gridSet.SaveAs(intermediateFile, out debugInfo);
+                Console.WriteLine(String.Join(Environment.NewLine, debugInfo));
+
+                // Extract this new gridset to the second temp location
+                ZipArchive postSaveZipFile = ZipFile.OpenRead(intermediateFile);
+                postSaveZipFile.ExtractToDirectory(postSaveFolder);
+                postSaveZipFile.Dispose();
+
+                // TODO - Diff the two folder structures, and the files within
+
+            }
+
+            // Housekeeping - delete those temporary folders and files
+            if (Directory.Exists(originalFolder)) { Directory.Delete(originalFolder, true); }
+            if (Directory.Exists(postSaveFolder)) { Directory.Delete(postSaveFolder, true); }
+            System.IO.File.Delete(intermediateFile);
+        }
     }
 }

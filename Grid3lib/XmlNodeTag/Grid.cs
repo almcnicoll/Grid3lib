@@ -123,7 +123,7 @@ namespace Grid3lib.XmlNodeTag
                     List<Entry> entries = gs.Map.ChildrenOfType<Entry>(2);
                     Entry? entry = (from Entry e in entries.Cast<Entry>()
                                     where e.StaticFile == ""
-                                    select e).First();
+                                    select e).FirstOrDefault();
                     if (entry == null) { return null; }
                     __FileMapEntry = entry;
                 }
