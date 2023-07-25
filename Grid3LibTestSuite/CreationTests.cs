@@ -69,5 +69,8 @@ namespace Grid3LibTestSuite
             // All went OK
             Assert.True(true);
         }
+
+        // TODO - Write OpenSaveCompare test
+        public void OpenSaveCompare() { }
     }
 }
