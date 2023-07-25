@@ -340,7 +340,7 @@ namespace XmlParsing
             string Contents;
             if (Children.Count == 0)
             {
-                Contents = InnerXmlString.BlankIfNull(); // TODO - this seems to be populated with the string "RawXml" at times
+                Contents = InnerXmlString.BlankIfNull(); // TODO TOP PRIORITY - this seems to be populated with the string "RawXml" at times - perhaps all the time
             }
             else
             {
