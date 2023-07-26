@@ -36,5 +36,14 @@ namespace XmlParsing
             this.Markup = Markup;
             this.Parsed = Parsed;
         }
+
+        /// <summary>
+        /// Returns the XML markup of the <see cref="RawXml"/> node
+        /// </summary>
+        /// <returns>A string containing XML markup</returns>
+        public override string ToString()
+        {
+            return Markup;
+        }
     }
 }
