@@ -209,36 +209,70 @@ namespace Grid3lib.XmlNodeTag
             }
             catch
             {
-                // TODO - Need to allow for GridSets with no FileMap.xml - it appears to be valid not to have one (see for example the Ancient Egypt one)
+                // It's OK to have a GridSet with no FileMap.xml - it appears to be valid (see for example "Ancient Egypt") - handle below
             }
-            if (fileMapFile == null) { debugInfo.Add("No FileMap.xml found"); return null; }
-            // Read XML
-            using (Stream fileMapStream = fileMapFile.Open())
+            if (fileMapFile == null)
             {
-                using (StreamReader fileMapReader = new StreamReader(fileMapStream))
+                debugInfo.Add("No FileMap.xml found - creating one from the directory structure");
+                // Create object
+                FileMap fileMap = new FileMap();
+                Entries fileMapEntries = fileMap.GetOrCreateImmediateChild<Entries>();
+
+                // Find all grids in Zip - this populates "Entries"
+                List<ZipArchiveEntry> gridEntries = (from ZipArchiveEntry zipEntry in gridsetZipFile.Entries where zipEntry.Name == "grid.xml" select zipEntry).ToList();
+                foreach (ZipArchiveEntry gridEntry in gridEntries)
                 {
-                    IXmlNode ixnFileMap;
-                    string fileMapXml = fileMapReader.ReadToEnd();
-                    try
+                    string gridEntryPath = Path.GetDirectoryName(gridEntry.FullName); // e.g. Grids\Test
+                    string gridsOnlyPath = Path.GetDirectoryName(gridEntryPath); // e.g. Grids
+                    string thisGridName = gridEntryPath.Substring(gridsOnlyPath.Length + 1); // e.g. Test
+                    Entry newEntry = fileMapEntries.AddChildOfType<Entry>();
+                    newEntry.SetAttributeValue("StaticFile", gridEntry.FullName);
+                    // Now check for any dependent files ("dynamic files")
+                    List<ZipArchiveEntry> dynamicEntries = (from ZipArchiveEntry zipEntry in gridsetZipFile.Entries where zipEntry.FullName.Substring(0, gridEntryPath.Length) == gridEntryPath select zipEntry).ToList();
+                    if (dynamicEntries.Count > 0)
                     {
-                        ixnFileMap = XmlNodeBasic.CreateFromXml(fileMapXml);
-                    }
-                    catch (Exception ex)
-                    {
-                        debugInfo.Add("Could not parse FileMap.xml: " + ex.Message);
-                        return null;
-                    }
-                    if (ixnFileMap != null && (ixnFileMap is XmlNodeTag.FileMap))
-                    {
-                        gridSet.Map = ixnFileMap as XmlNodeTag.FileMap;
-                    }
-                    else
-                    {
-                        debugInfo.Add("Parsing FileMap.xml did not result in a valid FileMap object");
-                        return null;
+                        DynamicFiles dynamicFileEntries = newEntry.GetOrCreateImmediateChild<DynamicFiles>();
+                        foreach (ZipArchiveEntry dynamicEntry in dynamicEntries)
+                        {
+                            File newFile = dynamicFileEntries.AddChildOfType<File>();
+                            newFile.InnerXml.Add(new RawXml(dynamicEntry.FullName, true));
+                        }
                     }
                 }
-                fileMapStream.Close();
+
+                // Assign to Gridset
+                gridSet.Map = fileMap;
+            }
+            else
+            {
+                // Read XML
+                using (Stream fileMapStream = fileMapFile.Open())
+                {
+                    using (StreamReader fileMapReader = new StreamReader(fileMapStream))
+                    {
+                        IXmlNode ixnFileMap;
+                        string fileMapXml = fileMapReader.ReadToEnd();
+                        try
+                        {
+                            ixnFileMap = XmlNodeBasic.CreateFromXml(fileMapXml);
+                        }
+                        catch (Exception ex)
+                        {
+                            debugInfo.Add("Could not parse FileMap.xml: " + ex.Message);
+                            return null;
+                        }
+                        if (ixnFileMap != null && (ixnFileMap is XmlNodeTag.FileMap))
+                        {
+                            gridSet.Map = ixnFileMap as XmlNodeTag.FileMap;
+                        }
+                        else
+                        {
+                            debugInfo.Add("Parsing FileMap.xml did not result in a valid FileMap object");
+                            return null;
+                        }
+                    }
+                    fileMapStream.Close();
+                }
             }
 
             if (gridSet.Map == null)

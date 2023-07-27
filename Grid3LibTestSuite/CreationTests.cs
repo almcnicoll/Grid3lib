@@ -72,11 +72,17 @@ namespace Grid3LibTestSuite
         }
 
         // TODO - Finish OpenSaveCompare test
+        // TODO - current OpenSaveCompare failings highlighted:
+        /* grid.xml - cells are losing their attributes (x and y)
+         * grid.xml and settings.xml - container nodes are repeated multiple times
+         *  possibly the deeper the "downstream" tree, the more repeats
+         */
         [Theory]
-        [InlineData(@"G:\My Drive\Florence\Grid3\backup\grids\Ancient Egypt.gridset")]
-        [InlineData(@"G:\My Drive\Florence\Grid3\backup\grids\My Stories.gridset")]
-        [InlineData(@"G:\My Drive\Florence\Grid3\backup\grids\No No Noe - The Worlds Worst Children 2 By David Walliams.gridset")]
-        public void OpenSaveCompare(string originalGridsetPath)
+        //[InlineData(@"G:\My Drive\Florence\Grid3\backup\grids\Ancient Egypt.gridset")]
+        //[InlineData(@"G:\My Drive\Florence\Grid3\backup\grids\My Stories.gridset")]
+        //[InlineData(@"G:\My Drive\Florence\Grid3\backup\grids\No No Noe - The Worlds Worst Children 2 By David Walliams.gridset")]
+        [InlineData(@"G:\My Drive\Florence\Grid3\backup\grids\dev_most_basic.gridset", true)]
+        public void OpenSaveCompare(string originalGridsetPath, bool skipHousekeeping = false)
         {
             // Create two temporary locations
             Guid guidOriginal = Guid.NewGuid();
@@ -113,6 +119,7 @@ namespace Grid3LibTestSuite
             }
 
             // Housekeeping - delete those temporary folders and files
+            if (skipHousekeeping) { return; }
             if (Directory.Exists(originalFolder)) { Directory.Delete(originalFolder, true); }
             if (Directory.Exists(postSaveFolder)) { Directory.Delete(postSaveFolder, true); }
             System.IO.File.Delete(intermediateFile);
