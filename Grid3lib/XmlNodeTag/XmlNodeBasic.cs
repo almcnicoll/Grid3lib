@@ -159,7 +159,7 @@ namespace XmlParsing
                     }
                     rawChild.Parsed = true;
                 }
-                __Children.Sort(XmlUtility.SortTagNameAscending());
+                // __Children.Sort(XmlUtility.SortTagNameAscending()); // No longer desirable
                 return __Children;
             }
         }

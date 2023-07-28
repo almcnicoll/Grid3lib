@@ -74,8 +74,7 @@ namespace Grid3LibTestSuite
         // TODO - Finish OpenSaveCompare test
         // TODO - current OpenSaveCompare failings highlighted:
         /* grid.xml - cells are losing their attributes (x and y)
-         * grid.xml and settings.xml - container nodes are repeated multiple times
-         *  possibly the deeper the "downstream" tree, the more repeats
+         * grid.xml - <ScanBlockAudioDescriptions /> lost altogether
          */
         [Theory]
         //[InlineData(@"G:\My Drive\Florence\Grid3\backup\grids\Ancient Egypt.gridset")]

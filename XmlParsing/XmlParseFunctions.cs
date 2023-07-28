@@ -139,10 +139,10 @@ namespace XmlParsing
                 foreach (Match m2 in mc)
                 {
                     BaseTagContents.Add(new RawXml(m2.Groups["WholeString"].Value));
-                    if (BaseTagContents.Count > 0)
-                    {
-                        result.BaseTagContents.AddRange(BaseTagContents);
-                    }
+                }
+                if (BaseTagContents.Count > 0)
+                {
+                    result.BaseTagContents.AddRange(BaseTagContents); // TODO TOP PRIORITY - this is the problem line - adding subsequent rows multiple times
                 }
                 if (BaseTagContents.Count == 0)
                 {
