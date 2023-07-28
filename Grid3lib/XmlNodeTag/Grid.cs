@@ -38,7 +38,6 @@ namespace Grid3lib.XmlNodeTag
         /// </summary>
         public Guid? GridId
         {
-            // TODO HIGH PRIORITY - this is being written twice, midway through the ColumnDefinitions tags on Save
             get
             {
                 List<GridGuid> idNodes = ChildrenOfType<GridGuid>();

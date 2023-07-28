@@ -21,7 +21,7 @@ namespace XmlParsing
             RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.Singleline);
         public static Regex rxCDATA = new Regex(@" ^<!\[CDATA\[(?<CharacterData>.*)]]>",
             RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.Singleline);
-        public static Regex rxAttributes = new Regex(@"\s*(?<Key>[\w_][\w\d_\-.:]+)=""(?<Value>[^""]*?)""\s*",
+        public static Regex rxAttributes = new Regex(@"\s*(?<Key>[\w_][\w\d_\-.:]*)=""(?<Value>[^""]*?)""\s*",
             RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.Singleline);
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace XmlParsing
                 }
                 if (BaseTagContents.Count > 0)
                 {
-                    result.BaseTagContents.AddRange(BaseTagContents); // TODO TOP PRIORITY - this is the problem line - adding subsequent rows multiple times
+                    result.BaseTagContents.AddRange(BaseTagContents);
                 }
                 if (BaseTagContents.Count == 0)
                 {

@@ -73,8 +73,7 @@ namespace Grid3LibTestSuite
 
         // TODO - Finish OpenSaveCompare test
         // TODO - current OpenSaveCompare failings highlighted:
-        /* grid.xml - cells are losing their attributes (x and y)
-         * grid.xml - <ScanBlockAudioDescriptions /> lost altogether
+        /* grid.xml - <ScanBlockAudioDescriptions /> and <AutoContentCommands /> lost altogether (perhaps to do with self-closing tags?)
          */
         [Theory]
         //[InlineData(@"G:\My Drive\Florence\Grid3\backup\grids\Ancient Egypt.gridset")]
