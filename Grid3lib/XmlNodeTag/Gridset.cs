@@ -281,7 +281,7 @@ namespace Grid3lib.XmlNodeTag
                 return null;
             }
 
-            // Use FileMap to populate GridSet
+            // Use FileMap to populate GridSet with grid "headers"
             foreach (Entry entry in gridSet.Map.ChildrenOfType<Entry>(1))
             {
                 debugInfo.Add(String.Format("File map entry: {0}", entry.StaticFile));

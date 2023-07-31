@@ -134,7 +134,7 @@ namespace XmlParsing
                 // Retrieve contained nodes / strings as list
                 string TagContents = m.Groups["TagContents"].Value;
                 List<RawXml> BaseTagContents = new List<RawXml>();
-
+                // TODO - TOP PRIORITY - Also handle self-closing tags here
                 MatchCollection mc = rxOpeningAndClosingTagsMultiple.Matches(TagContents.Trim());
                 foreach (Match m2 in mc)
                 {
