@@ -21,6 +21,8 @@ namespace XmlParsing
             RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.Singleline);
         public static Regex rxOpeningAndClosingTagsMultiple = new Regex(@"(?<WholeString><(?<TagName>[A-Za-z][\w\d]*)\s*[^>]*>(?<TagContents>.*?)</\k<TagName>>\s*)|(?<WholeString><!\[(?<TagName>CDATA)\[(?<CharacterData>.*)]]>\s*)",
             RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.Singleline);
+        public static Regex rxAllTagsMultiple = new Regex(@"(?<WholeString><(?<TagName>[A-Za-z][\w\d]*)\s*[^>]*>(?<TagContents>.*?)</\k<TagName>>\s*)|(?<WholeString><!\[(?<TagName>CDATA)\[(?<CharacterData>.*)]]>\s*)|(?<WholeString><(?<TagName>[A-Za-z][\w\d]*)\s*(?<TagAttributes>[^>]*)/>\s*)",
+            RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.Singleline); // Combines the two previous Regexs
         public static Regex rxCDATA = new Regex(@" ^<!\[CDATA\[(?<CharacterData>.*)]]>",
             RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.Singleline);
         public static Regex rxAttributes = new Regex(@"\s*(?<Key>[\w_][\w\d_\-.:]*)=""(?<Value>[^""]*?)""\s*",
@@ -136,20 +138,12 @@ namespace XmlParsing
                 // Retrieve contained nodes / strings as list
                 string TagContents = m.Groups["TagContents"].Value;
                 List<RawXml> BaseTagContents = new List<RawXml>();
-                string unmatchedXml = TagContents.Trim();
-                MatchCollection mc = rxOpeningAndClosingTagsMultiple.Matches(TagContents.Trim());
-                foreach (Match m2 in mc)
-                {
-                    BaseTagContents.Add(new RawXml(m2.Groups["WholeString"].Value));
-                    unmatchedXml = unmatchedXml.Replace(m2.Groups["WholeString"].Value, "");
-                }
-                // Handle self-closing tags not matched above
-                // TODO - only problem now is these are loaded and saved out of order, meaning the output file will appear not to match the input - not ideal
-                mc = rxSelfClosingTagsMultiple.Matches(unmatchedXml);
+                MatchCollection mc = rxAllTagsMultiple.Matches(TagContents.Trim());
                 foreach (Match m2 in mc)
                 {
                     BaseTagContents.Add(new RawXml(m2.Groups["WholeString"].Value));
                 }
+
                 if (BaseTagContents.Count > 0)
                 {
                     result.BaseTagContents.AddRange(BaseTagContents);
