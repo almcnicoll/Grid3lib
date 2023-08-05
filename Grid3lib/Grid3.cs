@@ -313,108 +313,163 @@ namespace Grid3lib
             /// Represents the Email.Speak action
             /// </summary>
             public const string Email_Speak = "Email.Speak";
-            /* TODO - Still to implement
-
-        <Command ID = "Interactive.Action" >
             /// <summary>
-        /// Represents the Interactive.Restart action
-        /// </summary>
-        public const string Interactive.Restart = "Interactive.Restart";
+            /// Represents the Interactive.Action action
+            /// </summary>
+            public const string Interactive_Action = "Interactive.Action";
+            /// Represents the Interactive.Restart action
+            /// </summary>
+            public const string Interactive_Restart = "Interactive.Restart";
+            /// <summary>
+            /// Represents the Jump.Back action
+            /// </summary>
+            public const string Jump_Back = "Jump.Back";
+            /// <summary>
+            /// Represents the Jump.Home action
+            /// </summary>
+            public const string Jump_Home = "Jump.Home";
+            /// <summary>
+            /// Represents the Jump.PreventSelfClosing action
+            /// </summary>
+            public const string Jump_PreventSelfClosing = "Jump.PreventSelfClosing";
+            /// <summary>
+            /// Represents the Photos.MorePhotos action
+            /// </summary>
+            public const string Photos_MorePhotos = "Photos.MorePhotos";
+            /// <summary>
+            /// Represents the Photos.OpenFile action
+            /// </summary>
+            public const string Photos_OpenFile = "Photos.OpenFile";
+            /// <summary>
+            /// Represents the Jump.SetBookmark action
+            /// </summary>
+            public const string Jump_SetBookmark = "Jump.SetBookmark";
+            /// <summary>
+            /// Represents the Jump.To action
+            /// </summary>
+            public const string Jump_To = "Jump.To";
+            /// <summary>
+            /// Represents the Jump.ToggleSelfClosing action
+            /// </summary>
+            public const string Jump_ToggleSelfClosing = "Jump.ToggleSelfClosing";
+            /// <summary>
+            /// Represents the MusicVideo.OpenVideoFile action
+            /// </summary>
+            public const string OpenVideoFile = "MusicVideo.OpenVideoFile";
+            /// <summary>
+            /// Represents the Photos.Snapshot action
+            /// </summary>
+            public const string Photos_Snapshot = "Photos.Snapshot";
+            /// <summary>
+            /// Represents the Photos.SnapshotsFolder action
+            /// </summary>
+            public const string Photos_SnapshotsFolder = "Photos.SnapshotsFolder";
+            /// <summary>
+            /// Represents the Prediction.MoreWords action
+            /// </summary>
+            public const string Prediction_MoreWords = "Prediction.MoreWords";
+            /// <summary>
+            /// Represents the Prediction.PredictThis action
+            /// </summary>
+            public const string Prediction_PredictThis = "Prediction.PredictThis";
+            /// <summary>
+            /// Represents the Settings.ChangeGridSet action
+            /// </summary>
+            public const string Settings_ChangeGridSet = "Settings.ChangeGridSet";
+            /// <summary>
+            /// Represents the Settings.GridExplorer action
+            /// </summary>
+            public const string Settings_GridExplorer = "Settings.GridExplorer";
+            /// <summary>
+            /// Represents the Settings.PointerDwellLonger action
+            /// </summary>
+            public const string Settings_PointerDwellLonger = "Settings.PointerDwellLonger";
+            /// <summary>
+            /// Represents the Settings.PointerDwellShorter action
+            /// </summary>
+            public const string Settings_PointerDwellShorter = "Settings.PointerDwellShorter";
 
-        /// <summary>
-        /// Represents the Jump.Back action
-        /// </summary>
-        public const string Jump.Back = "Jump.Back";
 
-        /// <summary>
-        /// Represents the Jump.Home action
-        /// </summary>
-        public const string Jump.Home = "Jump.Home";
+            /// <summary>
+            /// Represents the Settings.ScanspeedFaster action
+            /// </summary>
+            public const string Settings_ScanspeedFaster = "Settings.ScanspeedFaster";
 
-        /// <summary>
-        /// Represents the Jump.PreventSelfClosing action
-        /// </summary>
-        public const string Jump.PreventSelfClosing = "Jump.PreventSelfClosing";
+            /// <summary>
+            /// Represents the Settings.ScanspeedSlower action
+            /// </summary>
+            public const string Settings_ScanspeedSlower = "Settings.ScanspeedSlower";
 
-        <Command ID="Jump.SetBookmark">
-        <Command ID="Jump.To">
-        <Command ID="Jump.ToggleSelfClosing">
-        <Command ID="MusicVideo.OpenMusicFile">
-        <Command ID="MusicVideo.OpenVideoFile">
-        <Command ID="Photos.MorePhotos">
-        <Command ID="Photos.OpenFile">
-        /// <summary>
-        /// Represents the Photos.Snapshot action
-        /// </summary>
-        public const string Photos.Snapshot = "Photos.Snapshot";
+            /// <summary>
+            /// Represents the Settings.TouchDwellLonger action
+            /// </summary>
+            public const string Settings_TouchDwellLonger = "Settings.TouchDwellLonger";
 
-        /// <summary>
-        /// Represents the Photos.SnapshotsFolder action
-        /// </summary>
-        public const string Photos.SnapshotsFolder = "Photos.SnapshotsFolder";
+            /// <summary>
+            /// Represents the Settings.TouchDwellShorter action
+            /// </summary>
+            public const string Settings_TouchDwellShorter = "Settings.TouchDwellShorter";
 
-        <Command ID="Prediction.MoreWords">
-        <Command ID="Prediction.PredictThis">
-        <Command ID="Settings.ChangeGridSet">
-        /// <summary>
-        /// Represents the Settings.GridExplorer action
-        /// </summary>
-        public const string Settings.GridExplorer = "Settings.GridExplorer";
 
-        <Command ID="Settings.Notify">
-        /// <summary>
-        /// Represents the Settings.PointerDwellLonger action
-        /// </summary>
-        public const string Settings.PointerDwellLonger = "Settings.PointerDwellLonger";
+            /// <summary>
+            /// Represents the Speech.Stop action
+            /// </summary>
+            public const string Speech_Stop = "Speech.Stop";
 
-        /// <summary>
-        /// Represents the Settings.PointerDwellShorter action
-        /// </summary>
-        public const string Settings.PointerDwellShorter = "Settings.PointerDwellShorter";
 
-        <Command ID="Settings.RequiredFeature">
-        <Command ID="Settings.RestAll">
-        <Command ID="Settings.RestEyeGaze">
-        <Command ID="Settings.RestPointer">
-        <Command ID="Settings.RestSwitch">
-        /// <summary>
-        /// Represents the Settings.ScanspeedFaster action
-        /// </summary>
-        public const string Settings.ScanspeedFaster = "Settings.ScanspeedFaster";
+            /// <summary>
+            /// Represents the Verbs.SetVerbCellState action
+            /// </summary>
+            public const string Verbs_SetVerbCellState = "Verbs.SetVerbCellState";
 
-        /// <summary>
-        /// Represents the Settings.ScanspeedSlower action
-        /// </summary>
-        public const string Settings.ScanspeedSlower = "Settings.ScanspeedSlower";
-
-        /// <summary>
-        /// Represents the Settings.TouchDwellLonger action
-        /// </summary>
-        public const string Settings.TouchDwellLonger = "Settings.TouchDwellLonger";
-
-        /// <summary>
-        /// Represents the Settings.TouchDwellShorter action
-        /// </summary>
-        public const string Settings.TouchDwellShorter = "Settings.TouchDwellShorter";
-
-        <Command ID="Speech.ReadCell">
-        <Command ID="Speech.SpeakNow">
-        <Command ID="Speech.SpeechMute">
-        <Command ID="Speech.SpeechVolume">
-        /// <summary>
-        /// Represents the Speech.Stop action
-        /// </summary>
-        public const string Speech.Stop = "Speech.Stop";
-
-        <Command ID="SpeechPlaySound">
-        <Command ID="Verbs.Morphology">
-        /// <summary>
-        /// Represents the Verbs.SetVerbCellState action
-        /// </summary>
-        public const string Verbs.SetVerbCellState = "Verbs.SetVerbCellState";
-
-        <Command ID="Verbs.SetVerbCellState">
-                     */
+            /// <summary>
+            /// Represents the Settings.Notify action
+            /// </summary>
+            public const string Settings_Notify = "Settings.Notify";
+            /// <summary>
+            /// Represents the Settings.RequiredFeature action
+            /// </summary>
+            public const string Settings_RequiredFeature = "Settings.RequiredFeature";
+            /// <summary>
+            /// Represents the Settings.RestAll action
+            /// </summary>
+            public const string Settings_RestAll = "Settings.RestAll";
+            /// <summary>
+            /// Represents the Settings.RestEyeGaze action
+            /// </summary>
+            public const string Settings_RestEyeGaze = "Settings.RestEyeGaze";
+            /// <summary>
+            /// Represents the Settings.RestPointer action
+            /// </summary>
+            public const string Settings_RestPointer = "Settings.RestPointer";
+            /// <summary>
+            /// Represents the Settings.RestSwitch action
+            /// </summary>
+            public const string Settings_RestSwitch = "Settings.RestSwitch";
+            /// <summary>
+            /// Represents the Speech.ReadCell action
+            /// </summary>
+            public const string Speech_ReadCell = "Speech.ReadCell";
+            /// <summary>
+            /// Represents the Speech.SpeakNow action
+            /// </summary>
+            public const string Speech_SpeakNow = "Speech.SpeakNow";
+            /// <summary>
+            /// Represents the Speech.SpeechMute action
+            /// </summary>
+            public const string Speech_SpeechMute = "Speech.SpeechMute";
+            /// <summary>
+            /// Represents the Speech.SpeechVolume action
+            /// </summary>
+            public const string Speech_SpeechVolume = "Speech.SpeechVolume";
+            /// <summary>
+            /// Represents the SpeechPlaySound action
+            /// </summary>
+            public const string SpeechPlaySound = "SpeechPlaySound";
+            /// <summary>
+            /// Represents the Verbs.Morphology action
+            /// </summary>
+            public const string Verbs_Morphology = "Verbs.Morphology";
         }
 
         /// <summary>
