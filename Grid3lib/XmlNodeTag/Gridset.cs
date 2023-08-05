@@ -550,28 +550,69 @@ namespace Grid3lib.XmlNodeTag
             return null;
         }
 
-        // TODO - complete this function (e.g. for resizing / resampling images)
+        // TODO - complete this function (e.g. for resizing / resampling images) - it currently doesn't seem to write to output stream
         /// <summary>
         /// Applies a function to each matching file in the specified GridSet
         /// </summary>
         /// <param name="gridsetFile">The path of the .gridset file</param>
         /// <param name="filePattern">The pattern to match within the gridset</param>
-        /// <param name="processingFunction">The function to apply to each matching file</param>
-        /// <returns></returns>
-        public static FileInfo processFiles(string gridsetFile, Regex filePattern, Func<FileInfo, Stream, Stream> processingFunction)
+        /// <param name="processingFunction">The function to apply to each matching file - taking the full filename as a string, an input stream and returning an output stream</param>
+        public static void processFiles(string gridsetFile, Regex filePattern, Func<string, Stream, Stream> processingFunction)
         {
-            FileInfo returnedFile;
+            if (gridsetFile == null) { throw new ArgumentNullException(nameof(gridsetFile)); }
+            if (filePattern == null) { throw new ArgumentNullException(nameof(filePattern)); }
+            if (processingFunction == null) { throw new ArgumentNullException(nameof(processingFunction)); }
+
             // Get files in gridset
+            //ZipFile.ExtractToDirectory(gridsetFile, tempFolderPath, true);
+            ZipArchive zipArchive = ZipFile.Open(gridsetFile, ZipArchiveMode.Update);
 
             // Filter them by pattern
+            List<ZipArchiveEntry> entries = (from ZipArchiveEntry entry in zipArchive.Entries
+                                             where filePattern.IsMatch(entry.FullName)
+                                             select entry).ToList();
 
             // For each file, read, process, write
-
-            // Repackage and save
-
-            // Return the FileInfo of the output file
-
-            return returnedFile;
+            foreach (ZipArchiveEntry entry in entries)
+            {
+                // Get the contents of the file
+                using (Stream zipSource = entry.Open())
+                {
+                    using (MemoryStream original = new MemoryStream())
+                    {
+                        // Copy zip archive entry to MemoryStream
+                        zipSource.CopyTo(original);
+                        // Process the file using the supplied functions
+                        Stream output = processingFunction(entry.FullName, original);
+                        // So long as output isn't null, write it to the ZipArchiveEntry
+                        if (output != null)
+                        {
+                            /*contents.Position = 0;
+                            contents.SetLength(0);
+                            using (StreamWriter writer = new StreamWriter(contents))
+                            {
+                                writer.Write(output);
+                            }*/
+                            zipSource.Seek( 0,SeekOrigin.Begin);
+                            output.Seek(0,SeekOrigin.Begin);
+                            zipSource.SetLength(0);
+                            output.CopyTo(zipSource);
+                        }
+                    }
+                }
+            }
+            return;
+        }
+        /// <summary>
+        /// Applies a function to each matching file in the specified GridSet
+        /// </summary>
+        /// <param name="gridsetFile">The path of the .gridset file</param>
+        /// <param name="wildcard">The filename wildcard to match within the gridset</param>
+        /// <param name="processingFunction">The function to apply to each matching file - taking the full filename as a string, an input stream and returning an output stream</param>
+        public static void processFiles(string gridsetFile, string wildcard, Func<string, Stream, Stream> processingFunction)
+        {
+            GridSet.processFiles(gridsetFile, Utility.RegexFromWildcard(wildcard), processingFunction);
+            return;
         }
     }
 }
