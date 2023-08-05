@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Grid3lib
 {
@@ -162,5 +163,6 @@ namespace Grid3lib
             if (value == null) { return ""; }
             return value;
         }
+
     }
 }

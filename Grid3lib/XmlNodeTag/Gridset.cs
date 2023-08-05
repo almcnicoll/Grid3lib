@@ -10,6 +10,7 @@ using System.Xml.Serialization;
 using Grid3lib.ImportClasses;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Grid3lib.XmlNodeTag
 {
@@ -547,6 +548,30 @@ namespace Grid3lib.XmlNodeTag
             List<Grid> matches = (from Grid g in Grids where g.GridId.Equals(id) select g).ToList();
             if (matches.Count > 0) { return matches[1]; }
             return null;
+        }
+
+        // TODO - complete this function (e.g. for resizing / resampling images)
+        /// <summary>
+        /// Applies a function to each matching file in the specified GridSet
+        /// </summary>
+        /// <param name="gridsetFile">The path of the .gridset file</param>
+        /// <param name="filePattern">The pattern to match within the gridset</param>
+        /// <param name="processingFunction">The function to apply to each matching file</param>
+        /// <returns></returns>
+        public static FileInfo processFiles(string gridsetFile, Regex filePattern, Func<FileInfo, Stream, Stream> processingFunction)
+        {
+            FileInfo returnedFile;
+            // Get files in gridset
+
+            // Filter them by pattern
+
+            // For each file, read, process, write
+
+            // Repackage and save
+
+            // Return the FileInfo of the output file
+
+            return returnedFile;
         }
     }
 }
