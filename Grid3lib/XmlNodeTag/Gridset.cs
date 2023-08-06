@@ -565,38 +565,53 @@ namespace Grid3lib.XmlNodeTag
 
             // Get files in gridset
             //ZipFile.ExtractToDirectory(gridsetFile, tempFolderPath, true);
-            ZipArchive zipArchive = ZipFile.Open(gridsetFile, ZipArchiveMode.Update);
-
-            // Filter them by pattern
-            List<ZipArchiveEntry> entries = (from ZipArchiveEntry entry in zipArchive.Entries
-                                             where filePattern.IsMatch(entry.FullName)
-                                             select entry).ToList();
-
-            // For each file, read, process, write
-            foreach (ZipArchiveEntry entry in entries)
+            using (ZipArchive zipArchive = ZipFile.Open(gridsetFile, ZipArchiveMode.Update))
             {
-                // Get the contents of the file
-                using (Stream zipSource = entry.Open())
+
+                // Filter them by pattern
+                List<ZipArchiveEntry> entries = (from ZipArchiveEntry entry in zipArchive.Entries
+                                                 where filePattern.IsMatch(entry.FullName)
+                                                 select entry).ToList();
+
+                // For each file, read, process, write
+                foreach (ZipArchiveEntry entry in entries)
                 {
-                    using (MemoryStream original = new MemoryStream())
+                    // Get the contents of the file
+                    using (Stream zipSource = entry.Open())
                     {
-                        // Copy zip archive entry to MemoryStream
-                        zipSource.CopyTo(original);
-                        // Process the file using the supplied functions
-                        Stream output = processingFunction(entry.FullName, original);
-                        // So long as output isn't null, write it to the ZipArchiveEntry
-                        if (output != null)
+                        using (MemoryStream original = new MemoryStream())
                         {
-                            /*contents.Position = 0;
-                            contents.SetLength(0);
-                            using (StreamWriter writer = new StreamWriter(contents))
+                            // Copy zip archive entry to MemoryStream
+                            zipSource.CopyTo(original);
+                            zipSource.Seek(0, SeekOrigin.Begin);
+                            original.Seek(0, SeekOrigin.Begin);
+                            // Process the file using the supplied functions
+                            Stream output = processingFunction(entry.FullName, original);
+                            // So long as output isn't null, write it to the ZipArchiveEntry
+                            if (output != null)
                             {
-                                writer.Write(output);
-                            }*/
-                            zipSource.Seek( 0,SeekOrigin.Begin);
-                            output.Seek(0,SeekOrigin.Begin);
-                            zipSource.SetLength(0);
-                            output.CopyTo(zipSource);
+                                /*contents.Position = 0;
+                                contents.SetLength(0);
+                                using (StreamWriter writer = new StreamWriter(contents))
+                                {
+                                    writer.Write(output);
+                                }*/
+                                zipSource.Seek(0, SeekOrigin.Begin);
+                                output.Seek(0, SeekOrigin.Begin);
+                                zipSource.SetLength(0);
+
+                                string fullPath = entry.FullName;
+                                output.CopyTo(zipSource);
+                                zipSource.Dispose();
+                                /*
+                                entry.Delete();
+                                ZipArchiveEntry newEntry = zipArchive.CreateEntry(fullPath);
+                                Stream zipDestination = newEntry.Open();
+                                output.CopyTo(zipDestination);
+                                zipDestination.Dispose();
+                                */
+                                //zipDestination.Seek(0, SeekOrigin.Begin);                            
+                            }
                         }
                     }
                 }
