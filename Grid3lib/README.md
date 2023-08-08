@@ -17,7 +17,16 @@ This library attempts to make reading and writing these zipped files significant
 
 ## Current functionality ##
 
+* Process files within a .gridset (without loading the XML) by selecting target files by wildcard and applying a custom function
 * Reads .gridset files into memory
 * Stores the whole gridset as a tree of IXmlNodes
 * Uses lazy-loading by default to keep code as responsive as possible
 * Allows for writing gridset back to file _currently minus any media files_ (although that's currently in progress)
+
+## Quick start ##
+
+1. Reference the binary or the .csproj project
+2. Process files within a .gridset using the static `processFiles` method of the `Grid3lib` class - these changes are applied in situ, saving as they go
+3. Load a .gridset file into a `Gridset` object using `Gridset.Load()`, then iterate its contents
+4. If you want to add custom functionality to particular nodes, create a class for them in the `XmlNodeTag` namespace - the class name should match the XML tag exactly, and should inherit `XmlNodeBasic`
+5. Experiment with writing if you dare (work on a backup copy) - changes to a `Gridset` object and its children are only applied when `SaveAs` is called
