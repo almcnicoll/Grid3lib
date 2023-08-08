@@ -8,13 +8,37 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Grid.cs" />
-    <Compile Remove="GridSet.cs" />
-    <Compile Remove="ImportClasses\Importdummy.cs" />
+    <Compile Remove="ImportClasses\**" />
+    <EmbeddedResource Remove="ImportClasses\**" />
+    <None Remove="ImportClasses\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="ImportClasses\Importdummy.cs" />
+    <Compile Remove="Command.cs" />
+    <Compile Remove="CommandParameter.cs" />
+    <Compile Remove="Grid.cs" />
+    <Compile Remove="GridSet.cs" />
+    <Compile Remove="RichText.cs" />
+    <Compile Remove="ScanBlockAudioDescription.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Grid3lib.deps.json" />
+    <None Remove="Grid3lib.dll" />
+    <None Remove="Grid3lib.pdb" />
+    <None Remove="Grid3lib.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Release\netstandard2.1\Grid3lib.deps.json" />
+    <None Include="bin\Release\netstandard2.1\Grid3lib.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Release\netstandard2.1\Grid3lib.dll" />
+    <None Include="bin\Release\netstandard2.1\Grid3lib.pdb" />
+    <None Include="bin\Release\netstandard2.1\XmlParsing.dll" />
+    <None Include="bin\Release\netstandard2.1\XmlParsing.pdb" />
   </ItemGroup>
 
   <ItemGroup>
