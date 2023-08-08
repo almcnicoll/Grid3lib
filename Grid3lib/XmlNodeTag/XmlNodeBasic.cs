@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using Grid3lib;
 using System.Runtime.InteropServices;
 using Grid3lib.XmlNodeTag;
+using SixLabors.ImageSharp.Formats.Png;
 
 namespace XmlParsing
 {
@@ -325,6 +326,90 @@ namespace XmlParsing
             }
 
             return thisLevelAndBelow;
+        }
+
+        /// <summary>
+        /// Returns the first parent node of type <typeparamref name="T"/>
+        /// </summary>
+        /// <typeparam name="T">The type of node to look for</typeparam>
+        /// <param name="Levels">The number of levels above the immediate parent in which to search. If value is negative, all levels will be evaluated.</param>
+        /// <returns>An ancestor node of type <typeparamref name="T"/>, or null if no such ancestor can be found</returns>
+        public T AncestorOfType<T>(int Levels = 0) where T : IXmlNode?
+        {
+            if (Parent is T)
+            {
+                return (T)Parent;
+            }
+            else
+            {
+                if (Levels != 0 && Parent != null)
+                {
+                    return Parent.AncestorOfType<T>(Levels - 1);
+                }
+                else
+                {
+                    return default(T);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns the root node for the specified node
+        /// </summary>
+        /// <returns>The ultimate parent node, working up the tree - or null if there is no parent
+        public IXmlNode? RootNode()
+        {
+            // If there's no parent, return null
+            if (Parent == null)
+            {
+                return null;
+            }
+            else
+            {
+                // If there is a parent, check that it can be cast to XmlNodeBasic (which I'm sure it can)
+                IXmlNode p = this.Parent;
+                if (p is XmlNodeBasic || p.GetType().IsSubclassOf(typeof(XmlNodeBasic)))
+                {
+                    XmlNodeBasic? px = (p as XmlNodeBasic);
+                    // Check that the cast worked
+                    if (px == null)
+                    {
+                        // It didn't - which is odd, given the pre-flight checks above
+                        throw new InvalidCastException(String.Format("Unable to cast {0} to {1}, even though it should be possible", p.GetType().ToString(), typeof(XmlNodeBasic).ToString()));
+                    }
+                    else
+                    {
+                        // Now see if parent node can return a root for us
+                        IXmlNode? parentRoot = px.RootNode();
+                        if (parentRoot == null)
+                        {
+                            // Nope - so parent is highest level: return that
+                            return p;
+                        }
+                        else
+                        {
+                            // Yes - so return what the parent gave us
+                            return parentRoot;
+                        }
+                    }
+                }
+                else
+                {
+                    // Our parent is not of type XmlNodeBasic
+                    if (p.GetType().IsAssignableFrom(typeof(IXmlNode)))
+                    {
+                        // It's still an IXmlNode, just not a descendant of XmlNodeBasic.
+                        // This is highly irregular, but technically possible I guess
+                        // Return parent
+                        return p;
+                    }
+                    else
+                    {
+                        // This seems even less likely: throw an exception
+                        throw new InvalidCastException(String.Format("Unable to cast {0} to {1}", p.GetType().ToString(), typeof(IXmlNode).ToString()));
+                    }
+                }
+            }
         }
 
         /// <summary>

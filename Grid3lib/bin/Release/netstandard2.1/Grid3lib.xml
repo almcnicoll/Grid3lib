@@ -12423,10 +12423,47 @@
             Contains the thumbnail of a <see cref="T:Grid3lib.XmlNodeTag.GridSet"/>
             </summary>
         </member>
+        <member name="T:Grid3lib.XmlNodeTag.Thumbnail.SourceType">
+            <summary>
+            Represents the possible sources of a thumbnail
+            </summary>
+        </member>
+        <member name="F:Grid3lib.XmlNodeTag.Thumbnail.SourceType.Unknown">
+            <summary>
+            We don't know where the thumbnail is stored (not ideal!)
+            </summary>
+        </member>
+        <member name="F:Grid3lib.XmlNodeTag.Thumbnail.SourceType.Archive">
+            <summary>
+            The thumbnail is stored in a <see cref="T:System.IO.Compression.ZipArchiveEntry"/> (default)
+            </summary>
+        </member>
+        <member name="F:Grid3lib.XmlNodeTag.Thumbnail.SourceType.File">
+            <summary>
+            The thumbnail is currently stored in a local file
+            </summary>
+        </member>
+        <member name="F:Grid3lib.XmlNodeTag.Thumbnail.SourceType.Memory">
+            <summary>
+            The thumbnail data is stored in the <see cref="T:SixLabors.ImageSharp.Image"/> property of the <see cref="T:Grid3lib.XmlNodeTag.Thumbnail"/> object
+            </summary>
+        </member>
         <member name="P:Grid3lib.XmlNodeTag.Thumbnail.image">
             <summary>
             Sets or returns an <see cref="T:SixLabors.ImageSharp.Image"/> object if thumbnail is not based on a file or archive entry
             </summary>
+        </member>
+        <member name="P:Grid3lib.XmlNodeTag.Thumbnail.sourceType">
+            <summary>
+            Defines where the data for the thumbnail is currently stored
+            </summary>
+        </member>
+        <member name="M:Grid3lib.XmlNodeTag.Thumbnail.loadIntoMemory(System.Nullable{Grid3lib.XmlNodeTag.Thumbnail.SourceType})">
+            <summary>
+            Loads the thumbnail data into memory (the <see cref="P:Grid3lib.XmlNodeTag.Thumbnail.image"/> property)
+            </summary>
+            <param name="NewSourceType">If specified, sets the <see cref="P:Grid3lib.XmlNodeTag.Thumbnail.sourceType"/> property on successful completion</param>
+            <exception cref="T:System.Exception">Thrown if current sourceType is <see cref="F:Grid3lib.XmlNodeTag.Thumbnail.SourceType.Unknown"/></exception>
         </member>
         <member name="T:XmlParsing.XmlNodeBasic">
             <summary>
@@ -12536,6 +12573,15 @@
             <param name="Depth">The number of levels below the immediate children in which to search. If Depth is negative, all levels will be evaluated.</param>
             <returns>A list of <see cref="T:XmlParsing.IXmlNode"/> child nodes of type <typeparamref name="T"/></returns>
         </member>
+        <member name="M:XmlParsing.XmlNodeBasic.AncestorOfType``1(System.Int32)">
+            <summary>
+            Returns the first parent node of type <typeparamref name="T"/>
+            </summary>
+            <typeparam name="T">The type of node to look for</typeparam>
+            <param name="Levels">The number of levels above the immediate parent in which to search. If value is negative, all levels will be evaluated.</param>
+            <returns>An ancestor node of type <typeparamref name="T"/>, or null if no such ancestor can be found</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:XmlParsing.XmlNodeBasic.RootNode" -->
         <member name="M:XmlParsing.XmlNodeBasic.ToString">
             <summary>
             Returns the node's XML markup, including the markup of any child nodes

@@ -9,7 +9,6 @@ namespace Grid3lib
     /// </summary>
     public static class Grid3
     {
-        // TODO - enums or constants for common actions, icons, ...
         /// <summary>
         /// Contains commonly-used regular expressions
         /// </summary>

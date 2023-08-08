@@ -84,7 +84,7 @@ namespace Grid3lib.XmlNodeTag
                             if (df.filePath == null) { continue; }
                             if (Grid3.RegularExpressions.ThumbnailFile.IsMatch(df.filePath.ToPathParts().Last()))
                             {
-                                // TODO - what if this is an in-memory thumbnail rather than a file reference? What if it's a local file rather than an archive reference.
+                                // TODO TOP PRIORITY - what if this is an in-memory thumbnail rather than a file reference? What if it's a local file rather than an archive reference.
                                 if (value == null) { df.Parent?.Children.Remove(df); return; }
                                 df.filePath = value.filePath; return;
                             }

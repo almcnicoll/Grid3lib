@@ -59,6 +59,14 @@ namespace XmlParsing
         public List<T> ChildrenOfType<T>(int Depth) where T : IXmlNode;
 
         /// <summary>
+        /// Returns the first parent node of type <typeparamref name="T"/>
+        /// </summary>
+        /// <typeparam name="T">The type of node to look for</typeparam>
+        /// <param name="Levels">The number of levels above the immediate parent in which to search. If value is negative, all levels will be evaluated.</param>
+        /// <returns>A parent node of type <typeparamref name="T"/></returns>
+        public T AncestorOfType<T>(int Levels = 0) where T : IXmlNode?;
+
+        /// <summary>
         /// Parses the specified XML and returns the node object
         /// </summary>
         /// <param name="Xml">The XML from which to populate the object</param>
