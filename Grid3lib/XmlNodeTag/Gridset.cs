@@ -550,7 +550,6 @@ namespace Grid3lib.XmlNodeTag
             return null;
         }
 
-        // TODO - complete this function (e.g. for resizing / resampling images) - it currently doesn't seem to write to output stream
         /// <summary>
         /// Applies a function to each matching file in the specified GridSet
         /// </summary>
