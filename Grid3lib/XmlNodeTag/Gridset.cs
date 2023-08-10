@@ -10,6 +10,7 @@ using System.Xml.Serialization;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.Net;
 
 namespace Grid3lib.XmlNodeTag
 {
@@ -562,7 +563,6 @@ namespace Grid3lib.XmlNodeTag
             if (processingFunction == null) { throw new ArgumentNullException(nameof(processingFunction)); }
 
             // Get files in gridset
-            //ZipFile.ExtractToDirectory(gridsetFile, tempFolderPath, true);
             using (ZipArchive zipArchive = ZipFile.Open(gridsetFile, ZipArchiveMode.Update))
             {
 
@@ -626,6 +626,38 @@ namespace Grid3lib.XmlNodeTag
         {
             GridSet.processFiles(gridsetFile, Utility.RegexFromWildcard(wildcard), processingFunction);
             return;
+        }
+
+        /// <summary>
+        /// Returns all files in the specified Gridset which match the given pattern and are larger than the specified size
+        /// </summary>
+        /// <param name="gridsetFile">The full file path of the .gridset file</param>
+        /// <param name="largerThan">The minimum size in bytes of the files to return</param>
+        /// <param name="filePattern">A <see cref="Regex"/> to filter the results, or null to leave unfiltered</param>
+        /// <returns>A dictionary of relative paths and (uncompressed) sizes</returns>
+        public static Dictionary<string, long> listFiles(string gridsetFile, long largerThan = 0, Regex? filePattern = null)
+        {
+            List<ZipArchiveEntry> entries;
+            // Get files in gridset
+            using (ZipArchive zipArchive = ZipFile.Open(gridsetFile, ZipArchiveMode.Read))
+            {
+                if (filePattern == null)
+                {
+                    entries = (from ZipArchiveEntry entry in zipArchive.Entries
+                               where entry.Length > largerThan
+                               select entry).ToList();
+                }
+                else
+                {
+                    // Filter them by pattern
+                    entries = (from ZipArchiveEntry entry in zipArchive.Entries
+                               where filePattern.IsMatch(entry.FullName)
+                                && entry.Length > largerThan
+                               select entry).ToList();
+                }
+            }
+            return (from ZipArchiveEntry entry in entries
+                    select new KeyValuePair<string, long>(entry.FullName, entry.Length)).ToDictionary(t => t.Key, t => t.Value);
         }
     }
 }
