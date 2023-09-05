@@ -75,14 +75,26 @@ namespace Grid3LibTestSuite
             }
         }
 
+
+        [Theory]
+        [InlineData(@"C:\Users\Public\Documents\Smartbox\Grid 3\Remote Editors\florence@almcnicoll.co.uk\Grid Sets\SuperduperCore.gridset", @"G:\My Drive\Florence\Grid3\backup\grids\SuperDuperCore.comp.gridset")]
+        public void CompressAllGridsetMedia(string originalFile, string testFile)
+        {
+            // Create test file by copying from source
+            System.IO.File.Copy(originalFile, testFile, true);
+            // Run MP3 process on test file
+            GridSet.processFiles(testFile, wildcard: @"*.mp*", ProcessingTests.RecompressMP3);
+            GridSet.processFiles(testFile, wildcard: @"*.jp*", ProcessingTests.RecompressJPEG);
+        }
+
         [Fact]
         public void CompressGridsetJPEGs()
         {
             // Create test file by copying from source
-            string testFilename = @"G:\My Drive\Florence\Grid3\backup\grids\My Stories - JPEG Test.gridset.zip";
-            System.IO.File.Copy(@"G:\My Drive\Florence\Grid3\backup\grids\My Stories.gridset", testFilename, true);
+            string testFile = @"G:\My Drive\Florence\Grid3\backup\grids\My Stories - JPEG Test.gridset.zip";
+            System.IO.File.Copy(@"G:\My Drive\Florence\Grid3\backup\grids\My Stories.gridset", testFile, true);
             // Run JPEG process on test file
-            GridSet.processFiles(testFilename, wildcard: @"*.jp*", ProcessingTests.RecompressJPEG);
+            GridSet.processFiles(testFile, wildcard: @"*.jp*", ProcessingTests.RecompressJPEG);
         }
 
         [Theory]
