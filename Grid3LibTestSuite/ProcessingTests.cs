@@ -13,6 +13,8 @@ using Xunit.Sdk;
 using System.Text.RegularExpressions;
 using System.IO.Pipes;
 using System;
+using System.Runtime.CompilerServices;
+using System.Collections;
 
 namespace Grid3LibTestSuite
 {
@@ -77,6 +79,18 @@ namespace Grid3LibTestSuite
 
 
         [Theory]
+        [InlineData(@"C:\Users\Public\Documents\Smartbox\Grid 3\Remote Editors\florence@almcnicoll.co.uk\Grid Sets\SuperduperCore.gridset", @"G:\My Drive\Florence\Grid3\backup\grids\SuperduperCore.largefiles.log")]
+        public void ListLargeGridsetMedia(string originalFile, string logFile)
+        {
+            // List media larger than 1Mb
+            Dictionary<string, long> largeFiles = GridSet.listFiles(gridsetFile: originalFile, largerThan: (long)(0.25 * 1024 * 1024));
+            List<string> output = (from KeyValuePair<string, long> entry in largeFiles
+                                   orderby entry.Value descending
+                                   select String.Format("{0,16} - {1}", entry.Value, entry.Key)).ToList();
+            System.IO.File.WriteAllLines(logFile, output);
+        }
+
+        [Theory]
         [InlineData(@"C:\Users\Public\Documents\Smartbox\Grid 3\Remote Editors\florence@almcnicoll.co.uk\Grid Sets\SuperduperCore.gridset", @"G:\My Drive\Florence\Grid3\backup\grids\SuperDuperCore.comp.gridset")]
         public void CompressAllGridsetMedia(string originalFile, string testFile)
         {
@@ -84,6 +98,7 @@ namespace Grid3LibTestSuite
             System.IO.File.Copy(originalFile, testFile, true);
             // Run MP3 process on test file
             GridSet.processFiles(testFile, wildcard: @"*.mp*", ProcessingTests.RecompressMP3);
+            // Run JPEG process on test file
             GridSet.processFiles(testFile, wildcard: @"*.jp*", ProcessingTests.RecompressJPEG);
         }
 
