@@ -12380,6 +12380,15 @@
             <param name="wildcard">The filename wildcard to match within the gridset</param>
             <param name="processingFunction">The function to apply to each matching file - taking the full filename as a string, an input stream and returning an output stream</param>
         </member>
+        <member name="M:Grid3lib.XmlNodeTag.GridSet.listFiles(System.String,System.Int64,System.Text.RegularExpressions.Regex)">
+            <summary>
+            Returns all files in the specified Gridset which match the given pattern and are larger than the specified size
+            </summary>
+            <param name="gridsetFile">The full file path of the .gridset file</param>
+            <param name="largerThan">The minimum size in bytes of the files to return</param>
+            <param name="filePattern">A <see cref="T:System.Text.RegularExpressions.Regex"/> to filter the results, or null to leave unfiltered</param>
+            <returns>A dictionary of relative paths and (uncompressed) sizes</returns>
+        </member>
         <member name="T:Grid3lib.XmlNodeTag.GridSetSettings">
             <remarks/>
         </member>

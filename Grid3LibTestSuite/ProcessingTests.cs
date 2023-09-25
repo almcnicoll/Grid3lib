@@ -4,9 +4,6 @@ using System.IO.Compression;
 using System.IO;
 using System.Drawing.Imaging;
 using SixLabors.ImageSharp;
-using MediaToolkit;
-using MediaToolkit.Model;
-using MediaToolkit.Options;
 //using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.Resources;
 using System.Diagnostics;
 using Xunit.Sdk;
@@ -15,6 +12,7 @@ using System.IO.Pipes;
 using System;
 using System.Runtime.CompilerServices;
 using System.Collections;
+using System.Reflection;
 
 namespace Grid3LibTestSuite
 {
@@ -177,6 +175,30 @@ namespace Grid3LibTestSuite
 
             // Return output stream
             return output;
+        }
+
+        [Theory]
+        [InlineData("AnimDev", @"G:\My Drive\Florence\Grid3\dev\AnimDev", @"G:\My Drive\Florence\Grid3\dev\AnimDev.gridset")]
+        public void MakeFromFolder(string gridsetName, string sourceFolder, string destinationFile)
+        {
+            Assembly? entryAssembly = System.Reflection.Assembly.GetEntryAssembly();
+            AssemblyName? entryAssemblyName = null;
+            if (entryAssembly != null) { entryAssemblyName = entryAssembly.GetName(); }
+
+            string tempFolder = "";
+            if (entryAssemblyName == null || entryAssemblyName.Name == null)
+            {
+                tempFolder = Path.Combine(Path.GetTempPath(), "Grid3lib");
+            }
+            else
+            {
+                tempFolder = Path.Combine(Path.GetTempPath(), entryAssemblyName.Name);
+            }
+
+            Directory.CreateDirectory(tempFolder);
+            string tempOutputFileName = Path.Combine(tempFolder, (gridsetName == null ? "temp" : gridsetName) + ".gridset");
+            ZipFile.CreateFromDirectory(sourceFolder, tempOutputFileName, CompressionLevel.Optimal, false);
+            System.IO.File.Copy(tempOutputFileName, destinationFile, overwrite: true);
         }
     }
 }

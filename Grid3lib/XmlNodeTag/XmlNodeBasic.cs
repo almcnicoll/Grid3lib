@@ -356,7 +356,7 @@ namespace XmlParsing
         /// <summary>
         /// Returns the root node for the specified node
         /// </summary>
-        /// <returns>The ultimate parent node, working up the tree - or null if there is no parent
+        /// <returns>The ultimate parent node, working up the tree - or null if there is no parent</returns>
         public IXmlNode? RootNode()
         {
             // If there's no parent, return null
