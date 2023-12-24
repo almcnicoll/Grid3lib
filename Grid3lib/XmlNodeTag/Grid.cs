@@ -201,5 +201,16 @@ namespace Grid3lib.XmlNodeTag
 
             return cell;
         }
+
+        //public 
+
+        /// <summary>
+        /// Splits the specified grid and any linked grids into a new GridSet
+        /// </summary>
+        /// <param name="UpdateHomeLinks">Whether to update Home buttons to point them back to the originating GridSet</param>
+        /// <returns>The new GridSet</returns>
+        public GridSet moveToNewGridset(bool UpdateHomeLinks=true) {
+            return null;
+        }
     }
 }

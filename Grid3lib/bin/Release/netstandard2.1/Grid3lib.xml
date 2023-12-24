@@ -12590,7 +12590,12 @@
             <param name="Levels">The number of levels above the immediate parent in which to search. If value is negative, all levels will be evaluated.</param>
             <returns>An ancestor node of type <typeparamref name="T"/>, or null if no such ancestor can be found</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:XmlParsing.XmlNodeBasic.RootNode" -->
+        <member name="M:XmlParsing.XmlNodeBasic.RootNode">
+            <summary>
+            Returns the root node for the specified node
+            </summary>
+            <returns>The ultimate parent node, working up the tree - or null if there is no parent</returns>
+        </member>
         <member name="M:XmlParsing.XmlNodeBasic.ToString">
             <summary>
             Returns the node's XML markup, including the markup of any child nodes
