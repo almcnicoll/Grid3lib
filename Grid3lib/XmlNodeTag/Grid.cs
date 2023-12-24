@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using XmlParsing;
+using TreeCollections;
 
 namespace Grid3lib.XmlNodeTag
 {
@@ -202,14 +203,55 @@ namespace Grid3lib.XmlNodeTag
             return cell;
         }
 
-        //public 
+        /// <summary>
+        /// Returns a tree of grids linked to from (and including) the current grid
+        /// </summary>
+        /// <param name="maxDepth">How many levels deep to look for the links</param>
+        /// <param name="ids">Grid ids already searched</param>
+        /// <returns>A tree of grids</returns>
+        public GridTreeNode getGridTree(int maxDepth = 10, HashSet<Guid>? ids = null)
+        {
+            if (this.ParentGridSet == null) { return new GridTreeNode(this); } // If there's no parent GridSet (shouldn't happen) then we can't follow links
+            if (maxDepth == 0) { return new GridTreeNode(this); } // If we've looked deep enough
+            if (ids == null) { ids = new HashSet<Guid>(); }
+
+            Guid guid;
+            if (this.GridId.HasValue) { guid = this.GridId.Value; } else { guid = Guid.NewGuid(); }
+            ids.Add(guid);
+            GridTreeNode root = new GridTreeNode(this);
+
+            // TODO - Get ref for each Grid that we link to
+            List<XmlNodeTag.Command> links = (from Command c in this.ChildrenOfType<XmlNodeTag.Command>() where (c.ID == "Jump.To") select c).ToList();
+            foreach (XmlNodeTag.Command link in links)
+            {
+                string linkTarget = (from Parameter p in link.ChildrenOfType<Parameter>() where p.Key == "grid" select p.Value).FirstOrDefault();
+                Grid subGrid = (from Grid g in this.ParentGridSet.Grids where g.Name == linkTarget select g).FirstOrDefault();
+                if ((subGrid != null) && (!ids.Contains(guid)))
+                {
+                    root.AttachChild(subGrid.getGridTree(maxDepth - 1, ids));
+                }
+            }
+
+            return root;
+        }
 
         /// <summary>
         /// Splits the specified grid and any linked grids into a new GridSet
         /// </summary>
         /// <param name="UpdateHomeLinks">Whether to update Home buttons to point them back to the originating GridSet</param>
         /// <returns>The new GridSet</returns>
-        public GridSet moveToNewGridset(bool UpdateHomeLinks=true) {
+        public GridSet moveToNewGridset(string Name, bool UpdateHomeLinks = true)
+        {
+            GridTreeNode allPages = getGridTree();
+            GridSet newGridset = new GridSet();
+
+            newGridset.Name = Name;
+
+            foreach (GridTreeNode gridTreeNode in allPages.SelectDescendants())
+            {
+
+            }
+
             return null;
         }
     }
