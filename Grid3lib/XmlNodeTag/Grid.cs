@@ -247,9 +247,13 @@ namespace Grid3lib.XmlNodeTag
 
             newGridset.Name = Name;
 
+            // TODO - process allPages (top node) and make it the home grid
+
             foreach (GridTreeNode gridTreeNode in allPages.SelectDescendants())
             {
-
+                // TODO - Add those grids to the new gridset
+                // TODO - Remove those grids from the old gridset
+                // TODO - Find all references to the old grids and change them to point to the new GridSet
             }
 
             return null;
