@@ -202,7 +202,7 @@ namespace Grid3LibTestSuite
         }
 
         [Theory]
-        [InlineData(@"G:\My Drive\Florence\Grid3\backup\grids\SuperDuperCore.gridset", @"G:\My Drive\Florence\Grid3\backup\grids\SuperDuperCore.reduced.gridset", @"G:\My Drive\Florence\Grid3\backup\grids\LifeLessons.gridset")]
+        [InlineData(@"G:\My Drive\Florence\Grid3\backup\grids\SuperduperCore.gridset", @"G:\My Drive\Florence\Grid3\backup\grids\SuperduperCore.reduced.gridset", @"G:\My Drive\Florence\Grid3\backup\grids\LifeLessons.gridset")]
         public void SplitOutGrids(string originalFile, string testFile1, string testFile2)
         {
             // Load GridSet
@@ -220,6 +220,5 @@ namespace Grid3LibTestSuite
             gridSetOriginal.SaveAs(testFile1);
             lifeLessonsGridSet.SaveAs(testFile2);
         }
-
     }
 }

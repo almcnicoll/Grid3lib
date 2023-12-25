@@ -222,10 +222,10 @@ namespace Grid3lib.XmlNodeTag
             GridTreeNode root = new GridTreeNode(this);
 
             // TODO - Get ref for each Grid that we link to
-            List<XmlNodeTag.Command> links = (from Command c in this.ChildrenOfType<XmlNodeTag.Command>() where (c.ID == "Jump.To") select c).ToList();
+            List<XmlNodeTag.Command> links = (from Command c in this.ChildrenOfType<XmlNodeTag.Command>(-1) where (c.ID == "Jump.To") select c).ToList();
             foreach (XmlNodeTag.Command link in links)
             {
-                string linkTarget = (from Parameter p in link.ChildrenOfType<Parameter>() where p.Key == "grid" select p.Value).FirstOrDefault();
+                string linkTarget = (from Parameter p in link.ChildrenOfType<Parameter>(-1) where p.Key == "grid" select p.Value).FirstOrDefault();
                 Grid subGrid = (from Grid g in this.ParentGridSet.Grids where g.Name == linkTarget select g).FirstOrDefault();
                 if ((subGrid != null) && (!ids.Contains(guid)))
                 {
@@ -245,6 +245,7 @@ namespace Grid3lib.XmlNodeTag
         /// <returns>The new GridSet</returns>
         public GridSet moveToNewGridSet(string GridSetName, bool UpdateHomeLinks = true, bool Copy = false)
         {
+            // TODO MEDIUM PRIORITY - make use of Copy parameter
             GridTreeNode allPages = getGridTree();
             GridSet newGridSet = new GridSet();
 
@@ -270,7 +271,7 @@ namespace Grid3lib.XmlNodeTag
                 // If we're redirecting home links, do so now
                 if (UpdateHomeLinks)
                 {
-                    List<Command> homeLinks = (from Command cmd in this.ChildrenOfType<Command>() where (cmd.ID == "Jump.Home") select cmd).ToList();
+                    List<Command> homeLinks = (from Command cmd in this.ChildrenOfType<Command>(-1) where (cmd.ID == "Jump.Home") select cmd).ToList();
                     foreach (Command cmd in homeLinks)
                     {
                         cmd.ID = "Settings.ChangeGridSet";
@@ -298,7 +299,7 @@ namespace Grid3lib.XmlNodeTag
                     // If we're redirecting home links, do so now
                     if (UpdateHomeLinks)
                     {
-                        List<Command> homeLinks = (from Command cmd in this.ChildrenOfType<Command>() where (cmd.ID == "Jump.Home") select cmd).ToList();
+                        List<Command> homeLinks = (from Command cmd in this.ChildrenOfType<Command>(-1) where (cmd.ID == "Jump.Home") select cmd).ToList();
                         foreach (Command cmd in homeLinks)
                         {
                             cmd.ID = "Settings.ChangeGridSet";
@@ -310,10 +311,10 @@ namespace Grid3lib.XmlNodeTag
 
             // Find all references to the old grids and change them to point to the new GridSet
             // Need to do it here so that we don't redirect links from moved grids
-            foreach (Command cmd in (from Command cmd in originalGridSet.ChildrenOfType<Command>()
+            foreach (Command cmd in (from Command cmd in originalGridSet.ChildrenOfType<Command>(-1)
                                      where (cmd.ID == "Jump.To"
                                      && (
-                                          from Parameter p in cmd.ChildrenOfType<Parameter>()
+                                          from Parameter p in cmd.ChildrenOfType<Parameter>(-1)
                                           where (
                                           needingRedirection.Contains(p.Value)
                                           && (p.Key == "grid")
@@ -324,7 +325,7 @@ namespace Grid3lib.XmlNodeTag
                                      select cmd))
             {
                 cmd.ID = "Settings.ChangeGridSet";
-                foreach (Parameter p in cmd.ChildrenOfType<Parameter>())
+                foreach (Parameter p in cmd.ChildrenOfType<Parameter>(-1))
                 {
                     if (p.Key == "grid") { p.Key = "gridsetname"; p.Value = GridSetName; }
                 }

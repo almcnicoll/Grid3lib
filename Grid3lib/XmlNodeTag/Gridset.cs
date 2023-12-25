@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Net;
+using Grid3lib.ToConvert;
 
 namespace Grid3lib.XmlNodeTag
 {
@@ -212,6 +213,7 @@ namespace Grid3lib.XmlNodeTag
             {
                 // It's OK to have a GridSet with no FileMap.xml - it appears to be valid (see for example "Ancient Egypt") - handle below
             }
+            // TODO HIGH PRIORITY - Add other grids that aren't in the FileMap - FileMap seems to mainly contain grids with media files
             if (fileMapFile == null)
             {
                 debugInfo.Add("No FileMap.xml found - creating one from the directory structure");
@@ -273,6 +275,33 @@ namespace Grid3lib.XmlNodeTag
                         }
                     }
                     fileMapStream.Close();
+                }
+
+                // Now add any other grids that aren't in the FileMap
+                if (gridSet.Map == null) { throw new Exception("Map not created successfully"); }
+                Entries fileMapEntries = gridSet.Map.ChildrenOfType<Entries>(-1).FirstOrDefault();
+                // Find all grids in Zip - this populates "Entries"
+                List<ZipArchiveEntry> gridEntries = (from ZipArchiveEntry zipEntry in gridsetZipFile.Entries where zipEntry.Name == "grid.xml" select zipEntry).ToList();
+                foreach (ZipArchiveEntry gridEntry in gridEntries)
+                {
+                    string gridEntryPath = Path.GetDirectoryName(gridEntry.FullName); // e.g. Grids\Test
+                    string gridsOnlyPath = Path.GetDirectoryName(gridEntryPath); // e.g. Grids
+                    string thisGridName = gridEntryPath.Substring(gridsOnlyPath.Length + 1); // e.g. Test
+                    // Don't add if already added
+                    if ((from Entry e in gridSet.Map.ChildrenOfType<Entry>(-1) where (e.StaticFile == gridEntry.FullName + @"\grid.xml") select e).Count() > 0) { continue; }
+                    Entry newEntry = fileMapEntries.AddChildOfType<Entry>();
+                    newEntry.SetAttributeValue("StaticFile", gridEntry.FullName);
+                    // Now check for any dependent files ("dynamic files")
+                    List<ZipArchiveEntry> dynamicEntries = (from ZipArchiveEntry zipEntry in gridsetZipFile.Entries where (zipEntry.FullName.Length >= gridEntryPath.Length && zipEntry.FullName.Substring(0, gridEntryPath.Length) == gridEntryPath) select zipEntry).ToList();
+                    if (dynamicEntries.Count > 0)
+                    {
+                        DynamicFiles dynamicFileEntries = newEntry.GetOrCreateImmediateChild<DynamicFiles>();
+                        foreach (ZipArchiveEntry dynamicEntry in dynamicEntries)
+                        {
+                            File newFile = dynamicFileEntries.AddChildOfType<File>();
+                            newFile.InnerXml.Add(new RawXml(dynamicEntry.FullName, true));
+                        }
+                    }
                 }
             }
 
@@ -345,7 +374,7 @@ namespace Grid3lib.XmlNodeTag
             foreach (string gridFileName in gridSet.__fileNames)
             {
                 ZipArchiveEntry? gridXmlFile = (from ZipArchiveEntry e in gridsetZipFile.Entries
-                                                where e.FullName == gridFileName.Replace("\\", "/")
+                                                where e.FullName == WebUtility.HtmlDecode(gridFileName.Replace("\\", "/"))
                                                 select e).First();
                 using (Stream fsGridFile = gridXmlFile.Open())
                 {
@@ -407,6 +436,14 @@ namespace Grid3lib.XmlNodeTag
         /// <returns>A <see cref="GridSet"/> object loaded from the file, or null on failure</returns>
         public void SaveAs(String filePath, out List<string> debugInfo)
         {
+            // TODO HIGH PRIORITY - FileMap.xml not saving at the moment
+            // TODO HIGH PRIORITY - styles.xml not saving at the moment
+            // TODO HIGH PRIORITY - media files not saving
+            // TODO HIGH PRIORITY - At least one <Command> not saving (standard Command tag, following self-closing Command tag) - <Command ID="Prediction.PredictThis">, <Command ID="ComputerControl.Shift">
+            // TODO HIGH PRIORITY - folders saving with html entities encoded
+            // TODO MED PRIORITY - thumbnail not saving
+            // TODO MED PRIORITY - webbrowserextensions.xml not saving (in Settings0 folder)
+            // TODO MED PRIORITY - autoreplacements.xml not saving (in Settings0 folder)
             // TODO LOW PRIORITY - if some grids aren't loaded due to lazy-loading, could they be copied over rather than loaded and then serialized?
             debugInfo = new List<string>();
             // Create temporary storage area
@@ -534,7 +571,7 @@ namespace Grid3lib.XmlNodeTag
         public Grid? getGrid(string gridName)
         {
             List<Grid> matches = (from Grid g in Grids where g.Name == gridName select g).ToList();
-            if (matches.Count > 0) { return matches[1]; }
+            if (matches.Count > 0) { return matches[0]; }
             return null;
         }
 

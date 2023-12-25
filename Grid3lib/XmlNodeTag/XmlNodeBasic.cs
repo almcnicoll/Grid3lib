@@ -315,7 +315,15 @@ namespace XmlParsing
         /// <returns>A list of <see cref="IXmlNode"/> child nodes of type <typeparamref name="T"/></returns>
         public List<T> ChildrenOfType<T>(int Depth = 0) where T : IXmlNode
         {
-            List<T> thisLevelAndBelow = Children.OfType<T>().ToList();
+            Type t = typeof(T);
+            if (t.GetConstructor(Type.EmptyTypes) == null)
+            {
+                // No parameter-less constructor for <T> means the standard method won't work
+                throw new Exception(String.Format("Nodes will not be found, as {0} has no parameterless constructor and so will not produce strongly-typed node objects.",t.Name)); 
+                //List<T> unevaluated = (from IXmlNode n in Children where n.TagName == typeof(T).Name select (T)n).ToList();
+            }
+
+            List <T> thisLevelAndBelow = Children.OfType<T>().ToList();
             // If Depth is positive, recurse another level; if Depth is negative, recurse until there are no more child nodes
             if (Depth != 0 && Children.Count > 0)
             {

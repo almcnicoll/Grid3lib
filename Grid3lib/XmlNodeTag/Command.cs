@@ -37,6 +37,14 @@ namespace Grid3lib.XmlNodeTag
         }
 
         /// <summary>
+        /// Creates a new Command
+        /// </summary>
+        public Command()
+        {
+
+        }
+
+        /// <summary>
         /// Creates a new <see cref="Command"/> with the specified ID
         /// </summary>
         /// <param name="ID">The ID (action) of the <see cref="Command"/></param>
