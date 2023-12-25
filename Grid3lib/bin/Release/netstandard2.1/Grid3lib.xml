@@ -12259,6 +12259,23 @@
             </summary>
             <returns>A reference to the created <see cref="T:Grid3lib.XmlNodeTag.Cell"/></returns>
         </member>
+        <member name="M:Grid3lib.XmlNodeTag.Grid.getGridTree(System.Int32,System.Collections.Generic.HashSet{System.Guid})">
+            <summary>
+            Returns a tree of grids linked to from (and including) the current grid
+            </summary>
+            <param name="maxDepth">How many levels deep to look for the links</param>
+            <param name="ids">Grid ids already searched</param>
+            <returns>A tree of grids</returns>
+        </member>
+        <member name="M:Grid3lib.XmlNodeTag.Grid.moveToNewGridSet(System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Splits the specified grid and any linked grids into a new <see cref="T:Grid3lib.XmlNodeTag.GridSet"/>
+            </summary>
+            <param name="GridSetName">The name of the new <see cref="T:Grid3lib.XmlNodeTag.GridSet"/></param>
+            <param name="UpdateHomeLinks">Whether to update Home buttons to point them back to the originating GridSet</param>
+            <param name="Copy">Whether to copy the grid(s) across instead of moving</param>
+            <returns>The new GridSet</returns>
+        </member>
         <member name="T:Grid3lib.XmlNodeTag.GridSet">
             <summary>
             Represents a GridSet
@@ -12364,6 +12381,18 @@
             <param name="id">The ID of the grid to search for</param>
             <returns>A <see cref="T:Grid3lib.XmlNodeTag.Grid"/> object, or null if the name cannot be found</returns>
         </member>
+        <member name="M:Grid3lib.XmlNodeTag.GridSet.removeGrid(Grid3lib.XmlNodeTag.Grid)">
+            <summary>
+            Removes the specified grid from the GridSet
+            </summary>
+            <param name="grid">The grid to remove</param>
+        </member>
+        <member name="M:Grid3lib.XmlNodeTag.GridSet.removeGrid(System.Guid)">
+            <summary>
+            Removes the grid with the specified id from the GridSet
+            </summary>
+            <param name="id">The id of the grid to remove</param>
+        </member>
         <member name="M:Grid3lib.XmlNodeTag.GridSet.processFiles(System.String,System.Text.RegularExpressions.Regex,System.Func{System.String,System.IO.Stream,System.IO.Stream})">
             <summary>
             Applies a function to each matching file in the specified GridSet
@@ -12396,6 +12425,48 @@
             <summary>
             Returns the name of the starting <see cref="T:Grid3lib.XmlNodeTag.Grid"/> for the current <see cref="T:Grid3lib.XmlNodeTag.GridSet"/>.
             </summary>
+        </member>
+        <member name="T:Grid3lib.XmlNodeTag.GridTreeNode">
+            <summary>
+            Used for representing a Grid in a tree structure
+            </summary>
+        </member>
+        <member name="P:Grid3lib.XmlNodeTag.GridTreeNode.Id">
+            <summary>
+            The id of the grid
+            </summary>
+        </member>
+        <member name="P:Grid3lib.XmlNodeTag.GridTreeNode.GridItem">
+            <summary>
+            A reference to the <see cref="T:Grid3lib.XmlNodeTag.Grid"/> item itself
+            </summary>
+        </member>
+        <member name="M:Grid3lib.XmlNodeTag.GridTreeNode.#ctor(Grid3lib.XmlNodeTag.Grid)">
+            <summary>
+            Creates a node from the specified <see cref="T:Grid3lib.XmlNodeTag.Grid"/>
+            </summary>
+            <param name="item"></param>
+        </member>
+        <member name="M:Grid3lib.XmlNodeTag.GridTreeNode.#ctor(Grid3lib.XmlNodeTag.Grid,Grid3lib.XmlNodeTag.GridTreeNode)">
+            <summary>
+            Creates a node from the specified <see cref="T:Grid3lib.XmlNodeTag.Grid"/> under the specified parent node
+            </summary>
+            <param name="item">The Grid object</param>
+            <param name="parent">The parent node</param>
+        </member>
+        <member name="M:Grid3lib.XmlNodeTag.GridTreeNode.Create(Grid3lib.XmlNodeTag.Grid,Grid3lib.XmlNodeTag.GridTreeNode)">
+            <summary>
+            Creates a new node from the specified <see cref="T:Grid3lib.XmlNodeTag.Grid"/> under the specified parent node
+            </summary>
+            <param name="value">The Grid object</param>
+            <param name="parent">The parent node</param>
+            <returns></returns>
+        </member>
+        <member name="M:Grid3lib.XmlNodeTag.GridTreeNode.SetItemName(System.String)">
+            <summary>
+            Sets the name of the specified item
+            </summary>
+            <param name="name">The new name</param>
         </member>
         <member name="T:Grid3lib.XmlNodeTag.Parameter">
             <summary>

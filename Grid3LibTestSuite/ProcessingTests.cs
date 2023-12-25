@@ -200,5 +200,26 @@ namespace Grid3LibTestSuite
             ZipFile.CreateFromDirectory(sourceFolder, tempOutputFileName, CompressionLevel.Optimal, false);
             System.IO.File.Copy(tempOutputFileName, destinationFile, overwrite: true);
         }
+
+        [Theory]
+        [InlineData(@"G:\My Drive\Florence\Grid3\backup\grids\SuperDuperCore.gridset", @"G:\My Drive\Florence\Grid3\backup\grids\SuperDuperCore.reduced.gridset", @"G:\My Drive\Florence\Grid3\backup\grids\LifeLessons.gridset")]
+        public void SplitOutGrids(string originalFile, string testFile1, string testFile2)
+        {
+            // Load GridSet
+            GridSet? gridSetOriginal = GridSet.Load(originalFile);
+            if (gridSetOriginal == null) { return; }
+
+            // Find the Life Lessons grid
+            Grid? lifeLessonsGrid = gridSetOriginal.getGrid("Life Lesson homepage");
+            if (lifeLessonsGrid == null) { return; }
+
+            // Split it into its own GridSet
+            GridSet lifeLessonsGridSet = lifeLessonsGrid.moveToNewGridSet("Life Lessons");
+
+            // Save GridSets
+            gridSetOriginal.SaveAs(testFile1);
+            lifeLessonsGridSet.SaveAs(testFile2);
+        }
+
     }
 }
