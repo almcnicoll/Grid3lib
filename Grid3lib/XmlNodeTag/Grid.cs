@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using XmlParsing;
 using TreeCollections;
+using System.Security.Cryptography;
 
 namespace Grid3lib.XmlNodeTag
 {
@@ -247,6 +248,8 @@ namespace Grid3lib.XmlNodeTag
             GridTreeNode allPages = getGridTree();
             GridSet newGridSet = new GridSet();
 
+            GridSet? originalGridSet = this.ParentGridSet;
+
             newGridSet.Name = GridSetName;
 
             List<string> needingRedirection = new List<string>();
@@ -256,9 +259,9 @@ namespace Grid3lib.XmlNodeTag
             newGridSet.Homepage = this;
 
             // remove from old GridSet
-            if (this.ParentGridSet != null)
+            if (originalGridSet != null)
             {
-                this.ParentGridSet.removeGrid(this);
+                originalGridSet.removeGrid(this);
                 if (this.Name != null)
                 {
                     // Add to list of grids needing redirection
@@ -270,8 +273,8 @@ namespace Grid3lib.XmlNodeTag
                     List<Command> homeLinks = (from Command cmd in this.ChildrenOfType<Command>() where (cmd.ID == "Jump.Home") select cmd).ToList();
                     foreach (Command cmd in homeLinks)
                     {
-                        cmd.ID = "Jump.To";
-                        cmd.AddChildFromXml("<>",0);
+                        cmd.ID = "Settings.ChangeGridSet";
+                        cmd.AddChildFromXml("<Parameter Key='gridsetname'>" + originalGridSet.Name + "</Parameter>", 0);
                     }
                 }
             }
@@ -284,20 +287,50 @@ namespace Grid3lib.XmlNodeTag
                 newGridSet.Children.Add(gridTreeNode.GridItem);
 
                 // Remove from old GridSet
-                if (this.ParentGridSet != null)
+                if (originalGridSet != null)
                 {
-                    this.ParentGridSet.removeGrid(gridTreeNode.GridItem);
+                    originalGridSet.removeGrid(gridTreeNode.GridItem);
                     if (gridTreeNode.GridItem.Name != null)
                     {
                         // Add the grid to a list of those needing redirection
                         needingRedirection.Add(gridTreeNode.GridItem.Name);
                     }
+                    // If we're redirecting home links, do so now
+                    if (UpdateHomeLinks)
+                    {
+                        List<Command> homeLinks = (from Command cmd in this.ChildrenOfType<Command>() where (cmd.ID == "Jump.Home") select cmd).ToList();
+                        foreach (Command cmd in homeLinks)
+                        {
+                            cmd.ID = "Settings.ChangeGridSet";
+                            cmd.AddChildFromXml("<Parameter Key='gridsetname'>" + originalGridSet.Name + "</Parameter>", 0);
+                        }
+                    }
                 }
             }
-            // TODO - Find all references to the old grids and change them to point to the new GridSet
-            // Need to do it here so that we don't redirect links from moved grids
 
-            return null;
+            // Find all references to the old grids and change them to point to the new GridSet
+            // Need to do it here so that we don't redirect links from moved grids
+            foreach (Command cmd in (from Command cmd in originalGridSet.ChildrenOfType<Command>()
+                                     where (cmd.ID == "Jump.To"
+                                     && (
+                                          from Parameter p in cmd.ChildrenOfType<Parameter>()
+                                          where (
+                                          needingRedirection.Contains(p.Value)
+                                          && (p.Key == "grid")
+                                          )
+                                          select p
+                                      ).Count() > 0
+                                     )
+                                     select cmd))
+            {
+                cmd.ID = "Settings.ChangeGridSet";
+                foreach (Parameter p in cmd.ChildrenOfType<Parameter>())
+                {
+                    if (p.Key == "grid") { p.Key = "gridsetname"; p.Value = GridSetName; }
+                }
+            }
+
+            return newGridSet;
         }
     }
 }
