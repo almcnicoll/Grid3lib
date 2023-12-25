@@ -551,6 +551,29 @@ namespace Grid3lib.XmlNodeTag
         }
 
         /// <summary>
+        /// Removes the specified grid from the GridSet
+        /// </summary>
+        /// <param name="grid">The grid to remove</param>
+        public void removeGrid(Grid grid)
+        {
+            Grids.Remove(grid);
+        }
+
+        /// <summary>
+        /// Removes the grid with the specified id from the GridSet
+        /// </summary>
+        /// <param name="id">The id of the grid to remove</param>
+        public void removeGrid(Guid id)
+        {
+            Grid? gridLookup = getGrid(id);
+            if (gridLookup == null)
+            {
+                throw new Exception(String.Format("Cannot find grid with id {0}", id));
+            }
+            Grids.Remove(gridLookup);
+        }
+
+        /// <summary>
         /// Applies a function to each matching file in the specified GridSet
         /// </summary>
         /// <param name="gridsetFile">The path of the .gridset file</param>

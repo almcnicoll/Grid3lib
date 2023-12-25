@@ -236,25 +236,66 @@ namespace Grid3lib.XmlNodeTag
         }
 
         /// <summary>
-        /// Splits the specified grid and any linked grids into a new GridSet
+        /// Splits the specified grid and any linked grids into a new <see cref="GridSet"/>
         /// </summary>
+        /// <param name="GridSetName">The name of the new <see cref="GridSet"/></param>
         /// <param name="UpdateHomeLinks">Whether to update Home buttons to point them back to the originating GridSet</param>
+        /// <param name="Copy">Whether to copy the grid(s) across instead of moving</param>
         /// <returns>The new GridSet</returns>
-        public GridSet moveToNewGridset(string Name, bool UpdateHomeLinks = true)
+        public GridSet moveToNewGridSet(string GridSetName, bool UpdateHomeLinks = true, bool Copy = false)
         {
             GridTreeNode allPages = getGridTree();
-            GridSet newGridset = new GridSet();
+            GridSet newGridSet = new GridSet();
 
-            newGridset.Name = Name;
+            newGridSet.Name = GridSetName;
 
-            // TODO - process allPages (top node) and make it the home grid
+            List<string> needingRedirection = new List<string>();
+
+            // Process current grid and make it the home grid
+            newGridSet.Children.Add(this);
+            newGridSet.Homepage = this;
+
+            // remove from old GridSet
+            if (this.ParentGridSet != null)
+            {
+                this.ParentGridSet.removeGrid(this);
+                if (this.Name != null)
+                {
+                    // Add to list of grids needing redirection
+                    needingRedirection.Add(this.Name);
+                }
+                // If we're redirecting home links, do so now
+                if (UpdateHomeLinks)
+                {
+                    List<Command> homeLinks = (from Command cmd in this.ChildrenOfType<Command>() where (cmd.ID == "Jump.Home") select cmd).ToList();
+                    foreach (Command cmd in homeLinks)
+                    {
+                        cmd.ID = "Jump.To";
+                        cmd.AddChildFromXml("<>",0);
+                    }
+                }
+            }
 
             foreach (GridTreeNode gridTreeNode in allPages.SelectDescendants())
             {
-                // TODO - Add those grids to the new gridset
-                // TODO - Remove those grids from the old gridset
-                // TODO - Find all references to the old grids and change them to point to the new GridSet
+                if (gridTreeNode.GridItem == null) { continue; }
+
+                // Add grid to new GridSet
+                newGridSet.Children.Add(gridTreeNode.GridItem);
+
+                // Remove from old GridSet
+                if (this.ParentGridSet != null)
+                {
+                    this.ParentGridSet.removeGrid(gridTreeNode.GridItem);
+                    if (gridTreeNode.GridItem.Name != null)
+                    {
+                        // Add the grid to a list of those needing redirection
+                        needingRedirection.Add(gridTreeNode.GridItem.Name);
+                    }
+                }
             }
+            // TODO - Find all references to the old grids and change them to point to the new GridSet
+            // Need to do it here so that we don't redirect links from moved grids
 
             return null;
         }
