@@ -227,7 +227,7 @@ namespace Grid3lib.XmlNodeTag
             {
                 string linkTarget = (from Parameter p in link.ChildrenOfType<Parameter>(-1) where p.Key == "grid" select p.Value).FirstOrDefault();
                 Grid subGrid = (from Grid g in this.ParentGridSet.Grids where g.Name == linkTarget select g).FirstOrDefault();
-                if ((subGrid != null) && (!ids.Contains(guid)))
+                if ((subGrid != null) && (!ids.Contains(subGrid.GridId.GetValueOrDefault())))
                 {
                     root.AttachChild(subGrid.getGridTree(maxDepth - 1, ids));
                 }
@@ -253,7 +253,7 @@ namespace Grid3lib.XmlNodeTag
 
             newGridSet.Name = GridSetName;
 
-            List<string> needingRedirection = new List<string>();
+            List<string> needingRedirection = new List<string>(); // TODO HIGH PRIORITY - Convert this to a HashSet
 
             // Process current grid and make it the home grid
             newGridSet.Children.Add(this);

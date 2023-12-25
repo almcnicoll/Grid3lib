@@ -214,6 +214,7 @@ namespace Grid3LibTestSuite
             if (lifeLessonsGrid == null) { return; }
 
             // Split it into its own GridSet
+            // TODO - check how many grids being split out - it seems huge! 388 in current test data run
             GridSet lifeLessonsGridSet = lifeLessonsGrid.moveToNewGridSet("Life Lessons");
 
             // Save GridSets
