@@ -11,5 +11,11 @@ namespace Grid3lib.XmlNodeTag
     public class FileMap : XmlNodeBasic
     {
 
+        public void Write(string filename)
+        {
+            if (filename == null) { throw new Exception("No filename specified"); }
+            String filemapContents = this.ToString();
+            System.IO.File.WriteAllText(filemapContents, filename);
+        }
     }
 }

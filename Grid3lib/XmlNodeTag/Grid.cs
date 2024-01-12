@@ -253,7 +253,7 @@ namespace Grid3lib.XmlNodeTag
 
             newGridSet.Name = GridSetName;
 
-            List<string> needingRedirection = new List<string>(); // TODO HIGH PRIORITY - Convert this to a HashSet
+            HashSet<string> needingRedirection = new HashSet<string>();
 
             // Process current grid and make it the home grid
             newGridSet.Children.Add(this);
