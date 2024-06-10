@@ -15,7 +15,7 @@ namespace Grid3lib.XmlNodeTag
         {
             if (filename == null) { throw new Exception("No filename specified"); }
             String filemapContents = this.ToString();
-            System.IO.File.WriteAllText(filemapContents, filename);
+            System.IO.File.WriteAllText(filename, filemapContents);
         }
     }
 }

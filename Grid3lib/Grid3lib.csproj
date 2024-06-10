@@ -1,18 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Title>Grid3 Management Library</Title>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="ImportClasses\**" />
     <EmbeddedResource Remove="ImportClasses\**" />
     <None Remove="ImportClasses\**" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Remove="Command.cs" />
     <Compile Remove="CommandParameter.cs" />
@@ -21,35 +18,27 @@
     <Compile Remove="RichText.cs" />
     <Compile Remove="ScanBlockAudioDescription.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <None Remove="Grid3lib.deps.json" />
     <None Remove="Grid3lib.dll" />
     <None Remove="Grid3lib.pdb" />
     <None Remove="Grid3lib.xml" />
   </ItemGroup>
-
   <ItemGroup>
     <None Include="bin\Release\netstandard2.1\Grid3lib.deps.json" />
     <None Include="bin\Release\netstandard2.1\Grid3lib.xml" />
   </ItemGroup>
-
   <ItemGroup>
     <None Include="bin\Release\netstandard2.1\Grid3lib.dll" />
     <None Include="bin\Release\netstandard2.1\Grid3lib.pdb" />
     <None Include="bin\Release\netstandard2.1\XmlParsing.dll" />
     <None Include="bin\Release\netstandard2.1\XmlParsing.pdb" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.4" />
-    <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.8" />
     <PackageReference Include="TreeCollections" Version="1.0.4" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\XmlParsing\XmlParsing.csproj" />
   </ItemGroup>
-
 </Project>

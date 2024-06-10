@@ -12127,6 +12127,11 @@
             Returns the ID of this command (usually indicating the resulting action)
             </summary>
         </member>
+        <member name="M:Grid3lib.XmlNodeTag.Command.#ctor">
+            <summary>
+            Creates a new Command
+            </summary>
+        </member>
         <member name="M:Grid3lib.XmlNodeTag.Command.#ctor(System.String)">
             <summary>
             Creates a new <see cref="T:Grid3lib.XmlNodeTag.Command"/> with the specified ID

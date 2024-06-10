@@ -9,7 +9,7 @@
     ".NETStandard,Version=v2.1/": {
       "Grid3lib/1.0.0": {
         "dependencies": {
-          "SixLabors.ImageSharp": "2.1.4",
+          "SixLabors.ImageSharp": "2.1.8",
           "System.Net.Http": "4.3.4",
           "System.Text.RegularExpressions": "4.3.1",
           "TreeCollections": "1.0.4",
@@ -124,7 +124,7 @@
       "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {},
       "runtime.ubuntu.16.04-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {},
       "runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {},
-      "SixLabors.ImageSharp/2.1.4": {
+      "SixLabors.ImageSharp/2.1.8": {
         "dependencies": {
           "System.Buffers": "4.5.1",
           "System.Memory": "4.5.4",
@@ -135,7 +135,7 @@
         "runtime": {
           "lib/netstandard2.1/SixLabors.ImageSharp.dll": {
             "assemblyVersion": "2.0.0.0",
-            "fileVersion": "2.1.4.0"
+            "fileVersion": "2.1.8.0"
           }
         }
       },
@@ -1034,12 +1034,12 @@
       "path": "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl/4.3.2",
       "hashPath": "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512"
     },
-    "SixLabors.ImageSharp/2.1.4": {
+    "SixLabors.ImageSharp/2.1.8": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-K6F39YCm/MaOYT0iw9lMa8tBcz2eF8JaNMneo0EnRrml6k+8EQNSKXqb8yJTq2HHkWLlRHZl6UKMn02YmR/G3g==",
-      "path": "sixlabors.imagesharp/2.1.4",
-      "hashPath": "sixlabors.imagesharp.2.1.4.nupkg.sha512"
+      "sha512": "sha512-ML1++vactR5xMW36wHA2nAX3vc6VpR62qYnpopQdLNGbP8BAJ/ckv1IrGIIFRUEQ0JS9EgWr1y1gEa/81f+HaA==",
+      "path": "sixlabors.imagesharp/2.1.8",
+      "hashPath": "sixlabors.imagesharp.2.1.8.nupkg.sha512"
     },
     "System.AppContext/4.3.0": {
       "type": "package",

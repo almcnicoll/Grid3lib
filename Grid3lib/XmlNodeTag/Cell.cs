@@ -175,6 +175,19 @@ namespace Grid3lib.XmlNodeTag
             return command;
         }
 
+        /// <summary>
+        /// Ensure that the Cell has its positional attributes set before serializing to string
+        /// </summary>
+        public override void UpdateAttributesAndChildren()
+        {
+            __Attributes.AddOrEdit("X", Left.ToString());
+            __Attributes.AddOrEdit("Y", Top.ToString());
+            __Attributes.AddOrEdit("ColumnSpan", ColumnSpan.ToString());
+            __Attributes.AddOrEdit("RowSpan", RowSpan.ToString());
+            // TODO - look at use of Label and whether it need to look through child nodes for a label entry
+            base.UpdateAttributesAndChildren();
+        }
+
         /*
         public CellImage? Image { get; set; } = null;
 

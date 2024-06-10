@@ -199,7 +199,15 @@ namespace Grid3lib.XmlNodeTag
             cell.Parent = this;
             if (label != null) { cell.Label = label; }
 
-            __Children.Add(cell);
+            // Check we have a <Cells> node and add the new cell there only
+            XmlNodeBasic? cells = (XmlNodeBasic?)(from IXmlNode n in __Children where n.TagName == "Cells" select n).FirstOrDefault();
+            if (cells == null)
+            {
+                cells = (XmlNodeBasic)this.AddChildFromXml("<Cells></Cells>", 0);
+            }
+
+            cells.Children.Add(cell);
+            //__Children.Add(cell);
 
             return cell;
         }

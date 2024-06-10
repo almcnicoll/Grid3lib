@@ -319,11 +319,11 @@ namespace XmlParsing
             if (t.GetConstructor(Type.EmptyTypes) == null)
             {
                 // No parameter-less constructor for <T> means the standard method won't work
-                throw new Exception(String.Format("Nodes will not be found, as {0} has no parameterless constructor and so will not produce strongly-typed node objects.",t.Name)); 
+                throw new Exception(String.Format("Nodes will not be found, as {0} has no parameterless constructor and so will not produce strongly-typed node objects.", t.Name));
                 //List<T> unevaluated = (from IXmlNode n in Children where n.TagName == typeof(T).Name select (T)n).ToList();
             }
 
-            List <T> thisLevelAndBelow = Children.OfType<T>().ToList();
+            List<T> thisLevelAndBelow = Children.OfType<T>().ToList();
             // If Depth is positive, recurse another level; if Depth is negative, recurse until there are no more child nodes
             if (Depth != 0 && Children.Count > 0)
             {
@@ -426,6 +426,7 @@ namespace XmlParsing
         /// <returns></returns>
         public override string ToString()
         {
+            UpdateAttributesAndChildren();
             string AttributesString = String.Join(" ",
                     from KeyValuePair<string, string> kvp in Attributes select String.Format(" {0}=\"{1}\" ", kvp.Key, kvp.Value.Replace("\"", "\\" + "\""))
                 ).Trim();
@@ -541,6 +542,15 @@ namespace XmlParsing
             newNode.Parent = this;
             this.__Children.Add(newNode);
             return newNode;
+        }
+
+        /// <summary>
+        /// Updates the __attributes collection and any child nodes with any properties which do not update these directly.
+        /// This method should be empty here, but inheriting classes may need to populate it.
+        /// </summary>
+        public virtual void UpdateAttributesAndChildren()
+        {
+            
         }
     }
 }
