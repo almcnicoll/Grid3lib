@@ -556,11 +556,13 @@ namespace Grid3lib.XmlNodeTag
             // Write the filemap
             fileMap.Write(Path.Combine(tempFolder,"FileMap.xml"));
             // Zip up folder into a .gridset file
+            // NB paths must be relative/forward-slash NOT absolute\backslash - wrong slashes will cause Grid3 to crash
+            // at time of writing, ZipFile.CreateFromDirectory creates relative paths
             string tempOutputFileName = Path.Combine(tempFolder, (this.Name == null ? "temp" : this.Name) + ".gridset");
             if (System.IO.File.Exists(tempOutputFileName)) { System.IO.File.Delete(tempOutputFileName); }
             ZipFile.CreateFromDirectory(workingFolder, tempOutputFileName, CompressionLevel.Optimal, false);
+            // And now save to final destination
             System.IO.File.Copy(tempOutputFileName, filePath, overwrite: true);
-            // TODO HIGH PRIORITY - check whether paths use absolute\backslash or relative/forward-slash - wrong slashes will apparently cause Grid3 to crash
 
         }
 
