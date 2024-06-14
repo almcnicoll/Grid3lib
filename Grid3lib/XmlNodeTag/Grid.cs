@@ -341,5 +341,14 @@ namespace Grid3lib.XmlNodeTag
 
             return newGridSet;
         }
+
+        /// <summary>
+        /// Ensure we have xmlns:xsi specified
+        /// </summary>
+        public override void UpdateAttributesAndChildren()
+        {
+            if (!__Attributes.ContainsKey("xmlns:xsi")) { __Attributes.Add("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance"); }
+            base.UpdateAttributesAndChildren();
+        }
     }
 }
