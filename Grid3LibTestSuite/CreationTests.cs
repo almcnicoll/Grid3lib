@@ -41,8 +41,8 @@ namespace Grid3LibTestSuite
         }
 
         [Theory]
-        [InlineData("BasicCreateTest", "MainPage", "SubPage")]
-        public void BasicObjectCreate(string gridSetName, string gridNameMain, string gridNameSub)
+        [InlineData("BasicCreateTest", "MainPage", "SubPage", "BasicCreateTest.gridset.zip")]
+        public void BasicObjectCreate(string gridSetName, string gridNameMain, string gridNameSub, string outputFile)
         {
             // Create gridset
             GridSet gridSet = new GridSet(gridSetName);
@@ -66,6 +66,9 @@ namespace Grid3LibTestSuite
             // Add grids to gridset
             gridSet.Grids.Add(gridMain);
             gridSet.Grids.Add(gridSub);
+
+            // Save to file
+            gridSet.SaveAs(outputFile);
 
             // All went OK
             Assert.True(true);
