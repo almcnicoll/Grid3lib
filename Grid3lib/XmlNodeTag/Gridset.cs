@@ -558,6 +558,7 @@ namespace Grid3lib.XmlNodeTag
             // Zip up folder into a .gridset file
             // NB paths must be relative/forward-slash NOT absolute\backslash - wrong slashes will cause Grid3 to crash
             // at time of writing, ZipFile.CreateFromDirectory creates relative paths
+            // TODO - replace this code - ZipFile seems to include something which crashes Grid3 - perhaps desktop.ini files?
             string tempOutputFileName = Path.Combine(tempFolder, (this.Name == null ? "temp" : this.Name) + ".gridset");
             if (System.IO.File.Exists(tempOutputFileName)) { System.IO.File.Delete(tempOutputFileName); }
             ZipFile.CreateFromDirectory(workingFolder, tempOutputFileName, CompressionLevel.Optimal, false);
