@@ -452,6 +452,8 @@ namespace Grid3lib.XmlNodeTag
             string workingFolder = Path.Combine(tempFolder, tempID.ToString("D"));
             Directory.CreateDirectory(workingFolder);
 
+            List<string> files = new List<string>(); // Use to log all files that need to be saved to archive (as we're not using Zip-whole-folder functionality)
+
             // Create primary folder structure
             Utility.CreateSubFolder(workingFolder, Grid3.Paths.GridsFolder);
             Utility.CreateSubFolder(workingFolder, Grid3.Paths.SettingsFolder);
@@ -467,6 +469,7 @@ namespace Grid3lib.XmlNodeTag
                 string SettingsXml = Settings.ToString();
                 string destinationFile = Path.Combine(workingFolder, Grid3.Paths.SettingsXml);
                 System.IO.File.WriteAllText(destinationFile, SettingsXml);
+                files.Add(Utility.makeRelativePath(Grid3.Paths.SettingsXml));
             }
 
             // Write thumbnail
@@ -489,6 +492,7 @@ namespace Grid3lib.XmlNodeTag
                 {
                     System.IO.File.Copy(sourceFile, destinationFile, true);
                 }
+                files.Add(Utility.makeRelativePath(sourceFile));
             }
 
             // Write Styles/styles.xml
@@ -511,6 +515,7 @@ namespace Grid3lib.XmlNodeTag
                 {
                     System.IO.File.Copy(sourceFile, destinationFile, true);
                 }
+                files.Add(Utility.makeRelativePath(sourceFile));
             }
 
             // Create folder structure of grids, also writing out grid.xml files and any associated media files
@@ -554,7 +559,7 @@ namespace Grid3lib.XmlNodeTag
             }
 
             // Write the filemap
-            fileMap.Write(Path.Combine(tempFolder,"FileMap.xml"));
+            fileMap.Write(Path.Combine(tempFolder, "FileMap.xml"));
             // Zip up folder into a .gridset file
             // NB paths must be relative/forward-slash NOT absolute\backslash - wrong slashes will cause Grid3 to crash
             // at time of writing, ZipFile.CreateFromDirectory creates relative paths

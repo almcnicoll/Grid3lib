@@ -98,5 +98,20 @@ namespace Grid3lib
             Regex fromWildcard = new Regex("^" + pattern + "$");
             return fromWildcard;
         }
+
+        /// <summary>
+        /// Changes the direction of backslashes in the specified file path, and optionally strips out a root folder if specified
+        /// </summary>
+        /// <param name="path">The path to make relative</param>
+        /// <param name="rootFolder">A root folder to strip from the start of the path before making it relative</param>
+        public static string makeRelativePath(string path, string? rootFolder = null)
+        {
+            if (rootFolder != null)
+            {
+                if (path.StartsWith(rootFolder)) { path = path.Substring(rootFolder.Length); }
+            }
+            Regex slashChanger = new Regex(@"\\");
+
+            return slashChanger.Replace(path, "/");
+        }
     }
-}
