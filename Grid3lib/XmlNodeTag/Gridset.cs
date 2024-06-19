@@ -452,7 +452,7 @@ namespace Grid3lib.XmlNodeTag
             string workingFolder = Path.Combine(tempFolder, tempID.ToString("D"));
             Directory.CreateDirectory(workingFolder);
 
-            List<string> files = new List<string>(); // Use to log all files that need to be saved to archive (as we're not using Zip-whole-folder functionality)
+            Dictionary<string, string> files = new Dictionary<string, string>(); // Use to log all files that need to be saved to archive (as we're not using Zip-whole-folder functionality)
 
             // Create primary folder structure
             Utility.CreateSubFolder(workingFolder, Grid3.Paths.GridsFolder);
@@ -469,7 +469,7 @@ namespace Grid3lib.XmlNodeTag
                 string SettingsXml = Settings.ToString();
                 string destinationFile = Path.Combine(workingFolder, Grid3.Paths.SettingsXml);
                 System.IO.File.WriteAllText(destinationFile, SettingsXml);
-                files.Add(Utility.makeRelativePath(Grid3.Paths.SettingsXml));
+                files.Add(destinationFile, Utility.makeRelativePath(Grid3.Paths.SettingsXml));
             }
 
             // Write thumbnail
@@ -492,7 +492,7 @@ namespace Grid3lib.XmlNodeTag
                 {
                     System.IO.File.Copy(sourceFile, destinationFile, true);
                 }
-                files.Add(Utility.makeRelativePath(sourceFile));
+                files.Add(destinationFile, Utility.makeRelativePath(sourceFile));
             }
 
             // Write Styles/styles.xml
@@ -515,7 +515,7 @@ namespace Grid3lib.XmlNodeTag
                 {
                     System.IO.File.Copy(sourceFile, destinationFile, true);
                 }
-                files.Add(Utility.makeRelativePath(sourceFile));
+                files.Add(destinationFile, Utility.makeRelativePath(sourceFile));
             }
 
             // Create folder structure of grids, also writing out grid.xml files and any associated media files
@@ -529,7 +529,9 @@ namespace Grid3lib.XmlNodeTag
                 // Generate and write grid.xml
                 string gridXml = grid.ToString();
                 debugInfo.Add(String.Format("Grid {0} has grid.xml of length {1} characters", grid.Name, gridXml.Length));
-                System.IO.File.WriteAllText(Path.Combine(workingFolder, gridFolder, "grid.xml"), gridXml);
+                string gridFileName = Path.Combine(workingFolder, gridFolder, "grid.xml");
+                System.IO.File.WriteAllText(gridFileName, gridXml);
+                files.Add(gridFileName, Utility.makeRelativePath(gridFileName, workingFolder));
 
                 if (grid.FileMapEntry != null)
                 {
@@ -554,6 +556,7 @@ namespace Grid3lib.XmlNodeTag
                         {
                             System.IO.File.Copy(sourceFile, destinationFile, true);
                         }
+                        files.Add(destinationFile, Utility.makeRelativePath(destinationFile, workingFolder));
                     }
                 }
             }
@@ -566,7 +569,15 @@ namespace Grid3lib.XmlNodeTag
             // TODO - replace this code - ZipFile seems to include something which crashes Grid3 - perhaps desktop.ini files?
             string tempOutputFileName = Path.Combine(tempFolder, (this.Name == null ? "temp" : this.Name) + ".gridset");
             if (System.IO.File.Exists(tempOutputFileName)) { System.IO.File.Delete(tempOutputFileName); }
-            ZipFile.CreateFromDirectory(workingFolder, tempOutputFileName, CompressionLevel.Optimal, false);
+            // ZipFile.CreateFromDirectory(workingFolder, tempOutputFileName, CompressionLevel.Optimal, false);
+            // Method 2
+            Stream tempOutputStream = new FileStream(Path.Combine(workingFolder, tempOutputFileName), FileMode.Create, FileAccess.Write);
+            ZipArchive tempOutputArchive = new ZipArchive(tempOutputStream, ZipArchiveMode.Create);
+            foreach (KeyValuePair<string, string> file in files)
+            {
+                ZipArchiveEntry tempArchiveEntry = tempOutputArchive.CreateEntryFromFile(file.Key, file.Value);
+            }
+            tempOutputArchive.Dispose();
             // And now save to final destination
             System.IO.File.Copy(tempOutputFileName, filePath, overwrite: true);
 
