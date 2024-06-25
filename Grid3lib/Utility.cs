@@ -109,9 +109,11 @@ namespace Grid3lib
             if (rootFolder != null)
             {
                 if (path.StartsWith(rootFolder)) { path = path.Substring(rootFolder.Length); }
+                if (path.StartsWith(@"\")) { path = path.Substring(1); }
             }
             Regex slashChanger = new Regex(@"\\");
 
             return slashChanger.Replace(path, "/");
         }
     }
+}
