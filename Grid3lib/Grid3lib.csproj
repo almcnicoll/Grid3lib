@@ -35,7 +35,8 @@
     <None Include="bin\Release\netstandard2.1\XmlParsing.pdb" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.8" />
+    <PackageReference Include="7-Zip.CommandLine" Version="18.1.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.9" />
     <PackageReference Include="TreeCollections" Version="1.0.4" />
   </ItemGroup>
   <ItemGroup>
