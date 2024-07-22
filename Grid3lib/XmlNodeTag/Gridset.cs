@@ -578,6 +578,14 @@ namespace Grid3lib.XmlNodeTag
                 ZipArchiveEntry tempArchiveEntry = tempOutputArchive.CreateEntryFromFile(file.Key, file.Value);
             }
             tempOutputArchive.Dispose();
+            // Method 3
+            Stream tempOutputStream = new FileStream(Path.Combine(workingFolder, tempOutputFileName), FileMode.Create, FileAccess.Write);
+            
+			foreach (KeyValuePair<string, string> file in files)
+            {
+                
+            }
+            
             // And now save to final destination
             System.IO.File.Copy(tempOutputFileName, filePath, overwrite: true);
 
