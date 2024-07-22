@@ -579,16 +579,15 @@ namespace Grid3lib.XmlNodeTag
             }
             tempOutputArchive.Dispose();
             // Method 3
-            Stream tempOutputStream = new FileStream(Path.Combine(workingFolder, tempOutputFileName), FileMode.Create, FileAccess.Write);
-            
-			foreach (KeyValuePair<string, string> file in files)
+            Ionic.Zip.ZipFile tempArchive = new Ionic.Zip.ZipFile(tempOutputFileName);
+            tempArchive.CompressionMethod = Ionic.Zip.CompressionMethod.Deflate;
+            foreach (KeyValuePair<string, string> file in files)
             {
-                
+                tempArchive.AddFile(file.Key, file.Value);
             }
-            
+            tempArchive.Dispose();
             // And now save to final destination
             System.IO.File.Copy(tempOutputFileName, filePath, overwrite: true);
-
         }
 
         /// <summary>
