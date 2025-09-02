@@ -36,7 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DotNetZip.Original" Version="2025.2.15" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.10" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.11" />
     <PackageReference Include="TreeCollections" Version="1.0.4" />
   </ItemGroup>
   <ItemGroup>
