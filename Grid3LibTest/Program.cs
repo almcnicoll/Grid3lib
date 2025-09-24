@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-//using Grid3lib;
+using G3L = Grid3lib;
 using XmlParsing;
 using System.IO;
 using Grid3lib.XmlNodeTag;
@@ -67,10 +67,8 @@ namespace Grid3LibTest
             if (gs.Map == null) { System.IO.File.WriteAllText(tempXmlFileMap, ""); } else { System.IO.File.WriteAllText(tempXmlFileMap, gs.Map.ToString()); }
         }
 
-        static void Main(string[] args)
+        static void TryDearZooCopy()
         {
-            // TestXmlParsing();
-
             GridSet gs = TestLoadGridset(@"G:\My Drive\Florence\Grid3\backup\grids\Dear Zoo.gridset");
             Grid? g = null;
 
@@ -120,6 +118,60 @@ namespace Grid3LibTest
 
                 gs.SaveAs(@"G:\My Drive\Florence\Grid3\backup\grids\Dear Zoo grid3lib.gridset");
             }
+        }
+
+        static void TrySchoolNewsMake()
+        {
+            // Create gridset
+            GridSet gs = new GridSet("G3L School News");
+            // Create and populate grid
+            Grid g = new Grid();
+            g.Name = "Start";
+            for (int i = 0; i < 5; i++) { g.AddChildOfType<ColumnDefinition>(true); }
+            for (int i = 0; i < 5; i++) { g.AddChildOfType<RowDefinition>(true); }
+            Cell cGE = g.AddCell(0, 0, 1, 1, "Home");
+            Content content = cGE.GetOrCreateImmediateChild<Content>(); //.AddChildOfType<Content>();
+            Commands cmds = content.AddChildOfType<Commands>();
+            Command cmd = cmds.AddChildOfType<Command>();
+            cmd.ID = G3L.Grid3.Actions.Settings_ChangeGridSet;
+            Parameter param = cmd.AddChildOfType<Parameter>();
+            param.Key = "gridsetname"; param.Value = "SuperDuperCore";
+
+            string[] dayNames = new string[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" };
+
+            for (int day = 0; day < 5; day++)
+            {
+                Cell dayCell = g.AddCell(day, 3, 1, 1, dayNames[day]);
+                Content dayContent = dayCell.GetOrCreateImmediateChild<Content>(); //.AddChildOfType<Content>();
+                Commands dayCmds = dayContent.AddChildOfType<Commands>();
+                Command dayCmd = dayCmds.AddChildOfType<Command>();
+                dayCmd.ID = G3L.Grid3.Actions.SpeakNow;
+                Parameter dayParamTxt = dayCmd.AddChildOfType<Parameter>();
+                dayParamTxt.Key = "text"; dayParamTxt.Value = $"News from {dayNames[day]}.";
+                Parameter dayParamWait = dayCmd.AddChildOfType<Parameter>();
+                dayParamWait.Key = "wait"; dayParamWait.Value = "2";
+                Parameter dayParamVoice = dayCmd.AddChildOfType<Parameter>();
+                dayParamVoice.Key = "useauditoryvoice"; dayParamVoice.Value = "0";
+            }
+
+            // Create settings
+            GridSetSettings s = new GridSetSettings();
+            s.StartGrid = "Start";
+            //s.ThumbnailBackground = "#EB6B56FF";
+            gs.Settings = s;
+
+            // Add grid to gridset
+            gs.Grids.Add(g);
+            // Save
+            gs.SaveAs(@"C:\Users\Public\Documents\Smartbox\Grid 3\Remote Editors\florence@almcnicoll.co.uk\Grid Sets\G3L-school-news.gridset");
+        }
+
+        static void Main(string[] args)
+        {
+            // TestXmlParsing();
+            //TryDearZooCopy();
+
+            TrySchoolNewsMake();
         }
     }
 }

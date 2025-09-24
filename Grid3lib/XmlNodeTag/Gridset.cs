@@ -529,9 +529,16 @@ namespace Grid3lib.XmlNodeTag
                 // Generate and write grid.xml
                 string gridXml = grid.ToString();
                 debugInfo.Add(String.Format("Grid {0} has grid.xml of length {1} characters", grid.Name, gridXml.Length));
-                string gridFileName = Path.Combine(workingFolder, gridFolder, "grid.xml");
+                string gridFileName = Path.Combine(workingFolder, gridFolder, "grid.xml").StandardisePathSeparators(true);
                 System.IO.File.WriteAllText(gridFileName, gridXml);
-                files.Add(gridFileName, Utility.makeRelativePath(gridFileName, workingFolder));
+                try
+                {
+                    files.Add(gridFileName, Utility.makeRelativePath(gridFileName, workingFolder));
+                } catch (Exception ex)
+                {
+                    //Console.WriteLine(ex.ToString());
+                    debugInfo.Add($"Failed to write XML file for grid {grid.Name} - perhaps it's a duplicate? {ex.ToString().Trim()}");
+                }
 
                 if (grid.FileMapEntry != null)
                 {

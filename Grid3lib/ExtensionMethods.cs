@@ -164,5 +164,22 @@ namespace Grid3lib
             return value;
         }
 
+        /// <summary>
+        /// Normalises all path separators to the forward-slash preferred in the ZIP spec
+        /// </summary>
+        /// <param name="path">The input path</param>
+        /// <param name="useBackslash">Whether to reverse and use backslashes instead</param>
+        /// <returns>A path with backslashes replaced by forward slashes</returns>
+        public static string StandardisePathSeparators(this string path, bool useBackslash = false)
+        {
+            if (useBackslash)
+            {
+                return path.Replace('/', '\\');
+            }
+            else
+            {
+                return path.Replace('\\', '/');
+            }
+        }
     }
 }
