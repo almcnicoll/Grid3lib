@@ -142,7 +142,16 @@ namespace Grid3LibTest
             for (int day = 0; day < 5; day++)
             {
                 Cell dayCell = g.AddCell(day, 3, 1, 1, dayNames[day]);
-                Content dayContent = dayCell.GetOrCreateImmediateChild<Content>(); //.AddChildOfType<Content>();
+                dayCell.AddCommand(
+                    new Command(G3L.Grid3.Actions.SpeakNow)
+                    , new Parameter[]
+                    {
+                        new("text",$"News from {dayNames[day]}"),
+                        new("wait","2"),
+                        new("useauditoryvoice","0"),
+                    }
+                );
+                /*Content dayContent = dayCell.GetOrCreateImmediateChild<Content>(); //.AddChildOfType<Content>();
                 Commands dayCmds = dayContent.AddChildOfType<Commands>();
                 Command dayCmd = dayCmds.AddChildOfType<Command>();
                 dayCmd.ID = G3L.Grid3.Actions.SpeakNow;
@@ -151,7 +160,7 @@ namespace Grid3LibTest
                 Parameter dayParamWait = dayCmd.AddChildOfType<Parameter>();
                 dayParamWait.Key = "wait"; dayParamWait.Value = "2";
                 Parameter dayParamVoice = dayCmd.AddChildOfType<Parameter>();
-                dayParamVoice.Key = "useauditoryvoice"; dayParamVoice.Value = "0";
+                dayParamVoice.Key = "useauditoryvoice"; dayParamVoice.Value = "0";*/
             }
 
             // Create settings

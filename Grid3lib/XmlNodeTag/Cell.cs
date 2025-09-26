@@ -176,6 +176,24 @@ namespace Grid3lib.XmlNodeTag
         }
 
         /// <summary>
+        /// Adds a <see cref="Command"/> to the <see cref="Cell"/>
+        /// </summary>
+        /// <param name="command">The <see cref="Command"/> object to add</param>
+        /// <param name="parameters">A set of parameters to add</param>
+        /// <returns>The same <see cref="Command"/> object (for chaining)</returns>
+        public Command AddCommand(Command command, IEnumerable<Parameter> parameters)
+        {
+            Commands commands = Content.GetOrCreateImmediateChild<Commands>();
+            Command cmd = (Command)commands.AddChildFromXml(command.ToString(), 0);
+            foreach (Parameter param in parameters)
+            {
+                cmd.AddChildFromXml(param.ToString(), 0);
+            }
+            return cmd;
+        }
+
+
+        /// <summary>
         /// Ensure that the Cell has its positional attributes set before serializing to string
         /// </summary>
         public override void UpdateAttributesAndChildren()

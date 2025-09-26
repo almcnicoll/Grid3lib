@@ -10,6 +10,25 @@ namespace Grid3lib.XmlNodeTag
     /// </summary>
     public class Parameter : XmlNodeBasic
     {
+        /// <summary>
+        /// Creates a new empty Parameter
+        /// </summary>
+        public Parameter() { }
+
+        /// <summary>
+        /// Creates a Parameter from the given specifications
+        /// </summary>
+        /// <param name="key">A string of the parameter's key</param>
+        /// <param name="value">A string of the parameter's value</param>
+        public Parameter(string? key, string? value)
+        {
+            Key = key;
+            Value = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the key of the Parameter
+        /// </summary>
         public string? Key
         {
             get
