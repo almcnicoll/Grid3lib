@@ -28,6 +28,29 @@ namespace Grid3lib.XmlNodeTag
             }
         }
 
+        /// <summary>
+        /// Returns the file format version
+        /// </summary>
+        public int? GridSetFileFormatVersion
+        {
+            get
+            {
+                int i;
+                if (int.TryParse(base.GetAttributeValueOrNull("FileFormatVersion"), out i))
+                {
+                    return i;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                Attributes.AddOrEdit("FileFormatVersion", value.ToString() ?? "");
+            }
+        }
+
         /*
         private GridSetSettingsPictureSearch pictureSearchField;
 
@@ -107,16 +130,6 @@ namespace Grid3lib.XmlNodeTag
         }
 
         /// <remarks/>
-        public byte GridSetFileFormatVersion
-        {
-            get
-            {
-                return this.gridSetFileFormatVersionField;
-            }
-            set
-            {
-                this.gridSetFileFormatVersionField = value;
-            }
-        }*/
+        */
     }
 }

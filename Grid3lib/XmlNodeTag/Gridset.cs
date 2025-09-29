@@ -436,6 +436,10 @@ namespace Grid3lib.XmlNodeTag
         /// <returns>A <see cref="GridSet"/> object loaded from the file, or null on failure</returns>
         public void SaveAs(String filePath, out List<string> debugInfo)
         {
+            if (this.Settings == null)
+            {
+                throw new Exception("Cannot save gridset without populating Settings (it will fail to load)");
+            }
             // TODO HIGH PRIORITY - FileMap.xml not saving at the moment
             // TODO HIGH PRIORITY - styles.xml not saving at the moment
             // TODO HIGH PRIORITY - media files not saving
@@ -534,7 +538,8 @@ namespace Grid3lib.XmlNodeTag
                 try
                 {
                     files.Add(gridFileName, Utility.makeRelativePath(gridFileName, workingFolder));
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     //Console.WriteLine(ex.ToString());
                     debugInfo.Add($"Failed to write XML file for grid {grid.Name} - perhaps it's a duplicate? {ex.ToString().Trim()}");
